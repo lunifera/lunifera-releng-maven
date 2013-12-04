@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--#======================================================================= -->
+<!--# Copyright (c) 2012, 2013 C4biz Software ME, Loetz KG. -->
+<!--# All rights reserved. This program and the accompanying materials -->
+<!--# are made available under the terms of the Eclipse Public License v1.0 -->
+<!--# which accompanies this distribution, and is available at -->
+<!--# http://www.eclipse.org/legal/epl-v10.html -->
+<!--# -->
+<!--# Contributors: -->
+<!--# Cristiano Gavião (C4biz)- initial API and implementation -->
+<!--#======================================================================= -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.lunifera.releng.maven</groupId>
+		<artifactId>org.lunifera.releng.maven.parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>org.lunifera.releng.maven.parent.tycho</artifactId>
+	<packaging>pom</packaging>
+
+	<properties>
+		<tycho-version>0.19.0</tycho-version>
+		<tychoExtrasVersion>0.19.0</tychoExtrasVersion>
+
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/S20131024145017/repository/</orbit-site>
+
+		<!-- these will be set by profiles (defaults to Luna) -->
+		<lunifera.build.eclipse.platform.name>none</lunifera.build.eclipse.platform.name>
+		<lunifera.build.eclipse.platform.p2.url>none</lunifera.build.eclipse.platform.p2.url>
+
+		<!-- these will be set by profiles that deals with the local federated 
+			repository -->
+		<lunifera.build.local.federated.p2.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}</lunifera.build.local.federated.p2.dir>
+		<lunifera.build.local.federated.p2.url>file://${lunifera.build.local.federated.p2.dir}</lunifera.build.local.federated.p2.url>
+		<lunifera.build.remote.composite.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.composite.p2.url>
+
+		<!-- this property is calculated based on the aggregator pom's version -->
+		<lunifera.deployment.artifact.version>none</lunifera.deployment.artifact.version>
+
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>platform.default</id>
+			<activation>
+				<property>
+					<name>!lunifera.build.eclipse.platform.name</name>
+					<!-- <value>luna</value> -->
+				</property>
+			</activation>
+			<properties>
+				<lunifera.build.eclipse.platform.name>luna</lunifera.build.eclipse.platform.name>
+				<lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna</lunifera.build.eclipse.platform.p2.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>platform.kepler</id>
+			<activation>
+				<property>
+					<name>lunifera.build.eclipse.platform.name</name>
+					<value>kepler</value>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.build.eclipse.platform.name>kepler</lunifera.build.eclipse.platform.name>
+				<lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/kepler</lunifera.build.eclipse.platform.p2.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>platform.luna</id>
+			<activation>
+				<property>
+					<name>lunifera.build.eclipse.platform.name</name>
+					<value>luna</value>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.build.eclipse.platform.name>luna</lunifera.build.eclipse.platform.name>
+				<lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna</lunifera.build.eclipse.platform.p2.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>lunifera.build.uses.local.composite.p2</id>
+			<activation>
+				<property>
+					<name>lunifera.build.uses.local.composite.p2</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>lunifera.local.composite.p2</id>
+					<url>${lunifera.build.local.federated.p2.url}</url>
+					<layout>p2</layout>
+				</repository>
+			</repositories>
+		</profile>
+		<profile>
+			<id>lunifera.build.uses.remote.composite.p2</id>
+			<activation>
+				<property>
+					<name>lunifera.build.uses.remote.composite.p2</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>lunifera.remote.composite.p2</id>
+					<url>${lunifera.build.remote.composite.p2.url}</url>
+					<layout>p2</layout>
+				</repository>
+			</repositories>
+		</profile>
+
+		<profile>
+			<id>prepare-for-next-release</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<defaultGoal>org.eclipse.tycho:tycho-versions-plugin:set-version</defaultGoal>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-versions-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<executions>
+							<execution>
+								<id>change-next-release</id>
+								<goals>
+									<goal>set-version</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<newVersion>${next-release}</newVersion>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- this profile must be activated when there isn't lunifera.build.branch 
+				defined. -->
+			<id>latest</id>
+			<activation>
+				<property>
+					<name>!lunifera.build.branch</name>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.build.branch>latest</lunifera.build.branch>
+				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</lunifera.deployment.artifact.version>
+				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
+			</properties>
+			<build>
+				<plugins>
+					<!-- used to debug... -->
+					<!-- <plugin> -->
+					<!-- <artifactId>maven-antrun-plugin</artifactId> -->
+					<!-- <executions> -->
+					<!-- <execution> -->
+					<!-- <phase>initialize</phase> -->
+					<!-- <configuration> -->
+					<!-- <quiet>true</quiet> -->
+					<!-- <target> -->
+					<!-- <echo message="Started a Latest Build..." /> -->
+					<!-- </target> -->
+					<!-- </configuration> -->
+					<!-- <goals> -->
+					<!-- <goal>run</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- </executions> -->
+					<!-- </plugin> -->
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>milestone</id>
+			<activation>
+				<property>
+					<name>lunifera.build.branch</name>
+					<value>milestone</value>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.deployment.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</lunifera.deployment.artifact.version>
+				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
+			</properties>
+			<build>
+				<plugins>
+					<!-- used to debug... -->
+					<!-- <plugin> -->
+					<!-- <artifactId>maven-antrun-plugin</artifactId> -->
+					<!-- <executions> -->
+					<!-- <execution> -->
+					<!-- <phase>initialize</phase> -->
+					<!-- <configuration> -->
+					<!-- <quiet>true</quiet> -->
+					<!-- <target> -->
+					<!-- <echo message="Started a Milestone Build..." /> -->
+					<!-- </target> -->
+					<!-- </configuration> -->
+					<!-- <goals> -->
+					<!-- <goal>run</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- </executions> -->
+					<!-- </plugin> -->
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>lunifera.build.branch</name>
+					<value>release</value>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</lunifera.deployment.artifact.version>
+				<lunifera.deployment.p2.keep.old>true</lunifera.deployment.p2.keep.old>
+			</properties>
+			<build>
+				<plugins>
+					<!-- <plugin> -->
+					<!-- <artifactId>maven-antrun-plugin</artifactId> -->
+					<!-- <executions> -->
+					<!-- <execution> -->
+					<!-- <phase>validate</phase> -->
+					<!-- <configuration> -->
+					<!-- <quiet>true</quiet> -->
+					<!-- <target> -->
+					<!-- <echo message="Started a Release Build..." /> -->
+					<!-- <fail message="Release should not use SNAPSHOT version !"> -->
+					<!-- <condition> -->
+					<!-- <contains string="${project.version}" substring="SNAPSHOT" /> -->
+					<!-- </condition> -->
+					<!-- </fail> -->
+					<!-- </target> -->
+					<!-- </configuration> -->
+					<!-- <goals> -->
+					<!-- <goal>run</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- </executions> -->
+					<!-- </plugin> -->
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>eclipse.p2</id>
+			<url>${lunifera.build.eclipse.platform.p2.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>orbit</id>
+			<url>${orbit-site}</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!-- enable tycho build -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-maven-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<extensions>true</extensions>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<compilerVersion>1.6</compilerVersion>
+						<encoding>UTF-8</encoding>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>target-platform-configuration</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<resolver>p2</resolver>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<executions>
+						<execution>
+							<id>plugin-source</id>
+							<goals>
+								<goal>plugin-source</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<includes>
+							<include>**/*Tests.java</include>
+						</includes>
+						<showEclipseLog>true</showEclipseLog>
+						<useUIHarness>false</useUIHarness>
+						<useUIThread>false</useUIThread>
+						<failIfNoTests>false</failIfNoTests>
+						<!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
+						<argLine>-Dfile.encoding=UTF-8</argLine>
+						<!-- Kill test JVM if tests take more than 10 minutes (600 seconds) 
+							to finish -->
+						<forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
