@@ -294,13 +294,6 @@
 										<dirset id="dirs" dir="${lunifera.build.local.federated.p2.dir}"
 											includes="*/*" />
 										
-										<resourcecount property="count.foo">
-  											<dirset id="dirs" dir="/Users/cvgaviao/Development/C4Biz_Projects/LuniferaDev/repositories/lunifera/luna/latest/"
-											includes="*" />
-										</resourcecount>
-										
-										<echo message="count: ${count.foo}"/>
-										
 										<fail message="There is no repositories to process !">
 											<condition>
 												<resourcecount when="equal" count="0" refid="dirs" />
