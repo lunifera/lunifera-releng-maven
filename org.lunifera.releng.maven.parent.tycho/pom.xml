@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2013 C4biz Software ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2013 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -37,7 +37,7 @@
 			repository -->
 		<lunifera.build.local.federated.p2.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}</lunifera.build.local.federated.p2.dir>
 		<lunifera.build.local.federated.p2.url>file://${lunifera.build.local.federated.p2.dir}</lunifera.build.local.federated.p2.url>
-		<lunifera.build.remote.composite.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.composite.p2.url>
+		<lunifera.build.remote.federated.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.federated.p2.url>
 
 		<!-- this property is calculated based on the aggregator pom's version -->
 		<lunifera.deployment.artifact.version>none</lunifera.deployment.artifact.version>
@@ -85,31 +85,31 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>lunifera.build.uses.local.composite.p2</id>
+			<id>lunifera.build.uses.local.federated.p2</id>
 			<activation>
 				<property>
-					<name>lunifera.build.uses.local.composite.p2</name>
+					<name>lunifera.build.uses.local.federated.p2</name>
 				</property>
 			</activation>
 			<repositories>
 				<repository>
-					<id>lunifera.local.composite.p2</id>
+					<id>lunifera.local.federated.p2</id>
 					<url>${lunifera.build.local.federated.p2.url}</url>
 					<layout>p2</layout>
 				</repository>
 			</repositories>
 		</profile>
 		<profile>
-			<id>lunifera.build.uses.remote.composite.p2</id>
+			<id>lunifera.build.uses.remote.federated.p2</id>
 			<activation>
 				<property>
-					<name>lunifera.build.uses.remote.composite.p2</name>
+					<name>lunifera.build.uses.remote.federated.p2</name>
 				</property>
 			</activation>
 			<repositories>
 				<repository>
-					<id>lunifera.remote.composite.p2</id>
-					<url>${lunifera.build.remote.composite.p2.url}</url>
+					<id>lunifera.remote.federated.p2</id>
+					<url>${lunifera.build.remote.federated.p2.url}</url>
 					<layout>p2</layout>
 				</repository>
 			</repositories>

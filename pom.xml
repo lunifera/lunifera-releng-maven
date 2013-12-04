@@ -1,0 +1,44 @@
+<!--#======================================================================= -->
+<!--# Copyright (c) 2012, 2013 C4biz Softwares ME, Loetz KG. -->
+<!--# All rights reserved. This program and the accompanying materials -->
+<!--# are made available under the terms of the Eclipse Public License v1.0 -->
+<!--# which accompanies this distribution, and is available at -->
+<!--# http://www.eclipse.org/legal/epl-v10.html -->
+<!--# -->
+<!--# Contributors: -->
+<!--# Cristiano Gavião (C4biz)- initial API and implementation -->
+<!--#======================================================================= -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.lunifera.releng.maven</groupId>
+	<artifactId>org.lunifera.releng.maven.aggregator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<description>Lunifera - Maven based Release Engineering POM files.</description>
+
+	<prerequisites>
+		<!-- Maven 3.1.0 is the earliest version using Eclipse Aether, Maven 3.0.x 
+			uses the predecessor Sonatype Aether -->
+		<maven>3.1</maven>
+	</prerequisites>
+
+	<modules>
+		<module>org.lunifera.releng.maven.licenses</module>
+		<module>org.lunifera.releng.maven.parent</module>
+		<module>org.lunifera.releng.maven.parent.mbp</module>
+		<module>org.lunifera.releng.maven.parent.mbp.aggregator</module>
+		<module>org.lunifera.releng.maven.parent.mbp.repository.obr</module>
+		<module>org.lunifera.releng.maven.parent.tycho</module>
+		<module>org.lunifera.releng.maven.parent.tycho.aggregator</module>
+		<module>org.lunifera.releng.maven.parent.tycho.product</module>
+		<module>org.lunifera.releng.maven.parent.tycho.repository.p2</module>
+	</modules>
+
+	<scm>
+		<connection>scm:git:git://github.com/lunifera/lunifera-releng.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:lunifera/lunifera-releng.git</developerConnection>
+		<url>https://github.com/lunifera/lunifera-releng</url>
+	</scm>
+</project>
