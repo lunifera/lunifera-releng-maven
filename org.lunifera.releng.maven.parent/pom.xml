@@ -95,7 +95,6 @@
 		<mbp.version>2.4.0</mbp.version>
 		<ecf.version>3.7.1</ecf.version>
 
-		<sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
 		<copyright.years>${project.inceptionYear}, 2013</copyright.years>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 
@@ -115,12 +114,12 @@
 		<repository>
 			<id>sonatype-nexus-staging</id>
 			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
-			<url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+			<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
