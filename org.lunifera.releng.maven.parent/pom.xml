@@ -113,12 +113,12 @@
 	<distributionManagement>
 		<repository>
 			<id>lunifera-nexus-staging</id>
-			<name>Nexus Release Repository</name>
+			<name>Lunifera Nexus Release Repository</name>
 			<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>lunifera-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
+			<name>Lunifera Nexus Snapshots Repository</name>
 			<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>

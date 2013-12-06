@@ -122,5 +122,41 @@
 			</repositories>
 
 		</profile>
+		<profile>
+			<!-- Required for dependencies of Lunifera -->
+			<id>lunifera</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>lunifera-nexus-snapshots</id>
+					<name>Lunifera Nexus Snapshots</name>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
+					</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>lunifera-deps-releases</id>
+					<name>Dependencies required by lunifera that are not contained in a
+						repo
+					</name>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
+					</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+
+		</profile>
 	</profiles>
 </settings>
