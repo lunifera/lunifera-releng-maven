@@ -94,6 +94,7 @@
 		<assert.utils.version>1.2.2</assert.utils.version>
 		<mbp.version>2.4.0</mbp.version>
 		<ecf.version>3.7.1</ecf.version>
+		<stanbol.version>0.11.0</stanbol.version>
 
 		<copyright.years>${project.inceptionYear}, 2013</copyright.years>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
