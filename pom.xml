@@ -92,6 +92,7 @@
 			should be determined by the builder.brach being used. -->
 		<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 
+        <stanbol.version>0.11.0</stanbol.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<paxexam.version>3.3.0</paxexam.version>
@@ -337,6 +338,22 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>2.2.1</version>
+					<configuration>
+						<excludeResources>true</excludeResources>
+						<excludes>
+							<exclude>**/jars/**</exclude>
+						</excludes>
+						<archive>
+							<manifestEntries>
+								<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+								<Bundle-Name>${project.name}</Bundle-Name>
+								<Bundle-SymbolicName>${project.artifactId}.source</Bundle-SymbolicName>
+								<Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+								<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${build.timestamp}</Bundle-Version>
+								<Eclipse-SourceBundle>${project.artifactId};version="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${build.timestamp}";roots:="."</Eclipse-SourceBundle>
+							</manifestEntries>
+						</archive>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

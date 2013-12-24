@@ -50,6 +50,37 @@
 			<build>
 				<plugins>
 					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<configuration>
+							<resolver>p2</resolver>
+							<pomDependencies>consider</pomDependencies>
+							<environments>
+								<environment>
+									<os>win32</os>
+									<ws>win32</ws>
+									<arch>x86_64</arch>
+								</environment>
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86</arch>
+								</environment>
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86_64</arch>
+								</environment>
+								<environment>
+									<os>macosx</os>
+									<ws>cocoa</ws>
+									<arch>x86_64</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+
+					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
 							<execution>
@@ -73,9 +104,12 @@
 										<echo message="Repo Name: ${lunifera.deployment.p2.label}" />
 										<echo message="Repo Keep Old: ${lunifera.deployment.p2.keep.old}" />
 										<echo message="Repo Version: ${lunifera.deployment.artifact.version}" />
-										<echo message="Log File (lunifera.deployment.p2.log.file.path): ${lunifera.deployment.p2.log.file.path}" />
-										<echo message="P2 Source Dir (lunifera.deployment.p2.origin.dir): ${lunifera.deployment.p2.origin.dir}" />
-										<echo message="P2 Target Dir (lunifera.deployment.p2.target.dir): ${lunifera.deployment.p2.target.dir}" />
+										<echo
+											message="Log File (lunifera.deployment.p2.log.file.path): ${lunifera.deployment.p2.log.file.path}" />
+										<echo
+											message="P2 Source Dir (lunifera.deployment.p2.origin.dir): ${lunifera.deployment.p2.origin.dir}" />
+										<echo
+											message="P2 Target Dir (lunifera.deployment.p2.target.dir): ${lunifera.deployment.p2.target.dir}" />
 
 										<!-- "init" -->
 										<fail
@@ -91,8 +125,7 @@
 										</fail>
 										<if>
 											<not>
-												<available file="${lunifera.developer.home}"
-													type="dir" />
+												<available file="${lunifera.developer.home}" type="dir" />
 											</not>
 											<then>
 												<mkdir dir="${lunifera.developer.home}" />
@@ -119,7 +152,8 @@
 										<groovy>
 											ant.echo "Extracted building templates..."
 
-											def separator =
+											def
+											separator =
 											"${properties['file.separator']}"
 											def directory =
 											"${properties['project.build.directory']}" + separator +
@@ -128,7 +162,8 @@
 											new
 											File(directory).mkdir()
 
-											def encodedP2index =
+											def
+											encodedP2index =
 											"${properties['encoded.p2index']}"
 											def
 											encodedCompositeArtifacts =
@@ -153,15 +188,12 @@
 										</groovy>
 										<echo
 											message="** Lunifera User Developer Home: ${lunifera.developer.home}" />
-										<echo
-											message=" -  index source: ${p2indexFile}" />
-										<echo
-											message=" -  contentFile source: ${compositeContentFile}" />
-										<echo
-											message=" -  artifactsFile source: ${compositeArtifactsFile}" />
+										<echo message=" -  index source: ${p2indexFile}" />
+										<echo message=" -  contentFile source: ${compositeContentFile}" />
+										<echo message=" -  artifactsFile source: ${compositeArtifactsFile}" />
 
 										<!-- generate.composite.p2.init -->
-											
+
 										<fail message="Could not find p2.index template at ${p2indexFile} !">
 											<condition>
 												<not>
@@ -174,9 +206,7 @@
 											message="Could not find compositeContent.xml template at ${compositeContentFile} !">
 											<condition>
 												<not>
-													<available
-														file="${compositeContentFile}"
-														type="file" />
+													<available file="${compositeContentFile}" type="file" />
 												</not>
 											</condition>
 										</fail>
@@ -185,13 +215,11 @@
 											message="Could not find compositeArtifacts.xml template at ${compositeArtifactsFile} !">
 											<condition>
 												<not>
-													<available
-														file="${compositeArtifactsFile}"
-														type="file" />
+													<available file="${compositeArtifactsFile}" type="file" />
 												</not>
 											</condition>
 										</fail>
-										
+
 										<!-- "deploy.generated.p2.to.composite.dir.init" -->
 										<echo message="Copying repo to Federated Repository !!!" />
 										<if>
@@ -284,16 +312,16 @@
 													message="The P2 repository was not generated in '${lunifera.deployment.p2.origin.dir}' !" />
 											</else>
 										</if>
-										
-										
+
+
 										<!-- start rebuilding... -->
 										<echo message="Rebuilding Federated Repository !!!" />
 										<echo
 											message=" (lunifera.build.local.federated.p2.dir): ${lunifera.build.local.federated.p2.dir}" />
-								
+
 										<dirset id="dirs" dir="${lunifera.build.local.federated.p2.dir}"
 											includes="*/*" />
-										
+
 										<fail message="There is no repositories to process !">
 											<condition>
 												<resourcecount when="equal" count="0" refid="dirs" />
@@ -322,8 +350,8 @@
 										</if>
 
 										<!-- generate.composite.p2.add.compositeContentFile -->
-										<xmltask source="${compositeContentFile}"
-											destbuffer="bufferCompositeContent" report="true" />
+										<xmltask source="${compositeContentFile}" destbuffer="bufferCompositeContent"
+											report="true" />
 										<var name="counterContent" value="0" />
 										<for param="child" list="${toString:dirs}" delimiter=";">
 											<sequential>
@@ -344,8 +372,7 @@
 										</xmltask>
 
 										<!-- generate.composite.p2.add.compositeArtifactsFile -->
-										<xmltask
-											source="${compositeArtifactsFile}"
+										<xmltask source="${compositeArtifactsFile}"
 											destbuffer="bufferCompositeArtifacts" report="true" />
 										<var name="counterArtifacts" value="0" />
 										<for param="child" list="${toString:dirs}" delimiter=";">
@@ -369,12 +396,12 @@
 										<!-- generate.composite.p2.add.p2.index.file -->
 										<if>
 											<not>
-												<available file="${lunifera.build.local.federated.p2.dir}p2.index"
+												<available
+													file="${lunifera.build.local.federated.p2.dir}p2.index"
 													type="file" />
 											</not>
 											<then>
-												<copy file="${p2indexFile}"
-													todir="${lunifera.build.local.federated.p2.dir}" />
+												<copy file="${p2indexFile}" todir="${lunifera.build.local.federated.p2.dir}" />
 											</then>
 										</if>
 
@@ -388,7 +415,7 @@
 											dest="${lunifera.build.local.federated.p2.dir}compositeContent.xml" />
 
 										<!-- end generation -->
-										
+
 									</target>
 								</configuration>
 								<goals>
