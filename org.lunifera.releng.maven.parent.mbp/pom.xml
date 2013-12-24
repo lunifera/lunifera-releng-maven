@@ -24,11 +24,6 @@
 	<properties>
 	</properties>
 
-
-	<!-- <scm> <url></url> <connection></connection> <developerConnection></developerConnection> 
-		</scm> <developers> <developer> <id></id> <name></name> <email></email> </developer> 
-		</developers> -->
-
 	<profiles>
 		<profile>
 			<id>sign</id>
@@ -219,18 +214,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>ecf</id>
-			<url>http://build.ecf-project.org/maven/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 </project>
