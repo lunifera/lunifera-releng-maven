@@ -15,7 +15,7 @@
 	<artifactId>org.lunifera.releng.maven.parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
+
 	<description>Lunifera - Maven based Release Engineering POM files.</description>
 
 	<prerequisites>
@@ -34,35 +34,35 @@
 		<module>org.lunifera.releng.maven.parent.tycho.repository.p2</module>
 	</modules>
 
-    <organization>
-        <name>Lunifera.org</name>
-        <url>www.lunifera.org</url>
-    </organization>
+	<organization>
+		<name>Lunifera.org</name>
+		<url>www.lunifera.org</url>
+	</organization>
 
-    <issueManagement>
-        <system>Jira</system>
-        <url>https://lunifera.atlassian.net</url>
-    </issueManagement>
+	<issueManagement>
+		<system>Jira</system>
+		<url>https://lunifera.atlassian.net</url>
+	</issueManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>lunifera-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>lunifera-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>lunifera-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>lunifera-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<scm>
 		<connection>scm:git:git://github.com/lunifera/lunifera-releng.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:lunifera/lunifera-releng.git</developerConnection>
 		<url>https://github.com/lunifera/lunifera-releng</url>
 	</scm>
-	
+
 	<licenses>
 		<license>
 			<name>Eclipse Public License v1.0</name>
@@ -92,7 +92,7 @@
 			should be determined by the builder.brach being used. -->
 		<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 
-        <stanbol.version>0.11.0</stanbol.version>
+		<stanbol.version>0.11.0</stanbol.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<paxexam.version>3.3.0</paxexam.version>
@@ -338,6 +338,15 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>2.2.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
 					<configuration>
 						<excludeResources>true</excludeResources>
 						<excludes>
@@ -662,5 +671,5 @@
 				<version>${mbp.version}</version>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>	
+	</dependencyManagement>
 </project>
