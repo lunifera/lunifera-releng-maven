@@ -95,14 +95,14 @@
 		<stanbol.version>0.11.0</stanbol.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
-		<paxexam.version>3.3.0</paxexam.version>
+		<paxexam.version>3.4.0</paxexam.version>
 		<url.version>1.6.0</url.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
 		<paxexam.felix.version>4.2.1</paxexam.felix.version>
-		<paxexam.equinox.version>3.9.1.v20130814-1242</paxexam.equinox.version>
+		<paxexam.equinox.version>3.10.0.v20131210-2136</paxexam.equinox.version>
 		<guava.version>15.0</guava.version>
 		<osgi.version>5.0.0</osgi.version>
-		<jacoco.version>0.6.3.201306030806</jacoco.version>
+		<jacoco.version>0.6.4.201312101107</jacoco.version>
 		<shiro.version>1.2.2</shiro.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -614,9 +614,41 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.eclipse.tycho</groupId>
+				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.eclipse.osgi</artifactId>
 				<version>${paxexam.equinox.version}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<!-- pax exam -->
+			<dependency>
+				<groupId>org.ops4j.pax.exam</groupId>
+				<artifactId>pax-exam-container-native</artifactId>
+				<version>${paxexam.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.exam</groupId>
+				<artifactId>pax-exam-junit4</artifactId>
+				<version>${paxexam.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.exam</groupId>
+				<artifactId>pax-exam-link-mvn</artifactId>
+				<version>${paxexam.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.url</groupId>
+				<artifactId>pax-url-aether</artifactId>
+				<version>${url.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.url</groupId>
+				<artifactId>pax-url-wrap</artifactId>
+				<version>${url.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
