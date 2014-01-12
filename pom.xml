@@ -48,12 +48,12 @@
 		<repository>
 			<id>lunifera-nexus-staging</id>
 			<name>Nexus Release Repository</name>
-			<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</url>
+			<url>${distribution.repository.release.url}</url>
 		</repository>
 		<snapshotRepository>
 			<id>lunifera-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
-			<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</url>
+			<url>${distribution.repository.snapshot.url}</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -135,6 +135,9 @@
 
 		<copyright.years>${project.inceptionYear}, 2013</copyright.years>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
+
+		<distribution.repository.release.url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</distribution.repository.release.url>
+		<distribution.repository.snapshot.url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</distribution.repository.snapshot.url>
 
 	</properties>
 
@@ -619,7 +622,7 @@
 				<version>${paxexam.equinox.version}</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<!-- pax exam -->
 			<dependency>
 				<groupId>org.ops4j.pax.exam</groupId>
