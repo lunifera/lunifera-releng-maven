@@ -21,9 +21,6 @@
 	<artifactId>org.lunifera.releng.maven.parent.mbp</artifactId>
 	<packaging>pom</packaging>
 
-	<properties>
-	</properties>
-
 	<profiles>
 		<profile>
 			<id>sign</id>
