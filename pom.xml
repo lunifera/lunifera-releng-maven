@@ -439,23 +439,6 @@
 					<version>4.0</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>maven-scr-plugin</artifactId>
-					<version>1.15.0</version>
-					<executions>
-						<execution>
-							<id>generate-scr-scrdescriptor</id>
-							<goals>
-								<goal>scr</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-								<specVersion>1.2</specVersion>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.version}</version>
@@ -472,36 +455,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.2.1</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>package</phase>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<excludeResources>true</excludeResources>
-						<excludes>
-							<exclude>**/jars/**</exclude>
-						</excludes>
-						<archive>
-							<manifestEntries>
-								<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-								<Bundle-Name>${project.name}</Bundle-Name>
-								<Bundle-SymbolicName>${project.artifactId}.source</Bundle-SymbolicName>
-								<Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
-								<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</Bundle-Version>
-								<Eclipse-SourceBundle>${project.artifactId};version="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}";roots:="."</Eclipse-SourceBundle>
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>2.9.1</version>
 				</plugin>
@@ -509,20 +462,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.4.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>maven-bundle-plugin</artifactId>
-					<version>${mbp.version}</version>
-					<extensions>true</extensions>
-					<configuration>
-						<instructions>
-							<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-							<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-							<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</Bundle-Version>
-							<_snapshot>${lunifera.build.timestamp}</_snapshot>
-						</instructions>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>com.mycila.maven-license-plugin</groupId>
@@ -733,50 +672,6 @@
 				<version>${hamcrest.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.framework</artifactId>
-				<version>${paxexam.felix.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.lunifera.osgi</groupId>
-				<artifactId>org.eclipse.osgi</artifactId>
-				<version>${paxexam.equinox.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<!-- pax exam -->
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-container-native</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-junit4</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-link-mvn</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.url</groupId>
-				<artifactId>pax-url-aether</artifactId>
-				<version>${url.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.url</groupId>
-				<artifactId>pax-url-wrap</artifactId>
-				<version>${url.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.compendium</artifactId>
 				<version>5.0.0</version>
@@ -823,22 +718,6 @@
 						<artifactId>org.osgi.compendium</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.gogo.runtime</artifactId>
-				<version>0.10.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-				<version>1.2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${mbp.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
