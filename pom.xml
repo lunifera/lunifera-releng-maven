@@ -92,7 +92,6 @@
 			should be determined by the builder.brach being used. -->
 		<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 
-		<stanbol.version>0.11.0</stanbol.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<paxexam.version>3.4.0</paxexam.version>
@@ -132,7 +131,7 @@
 		<assert.utils.version>1.2.2</assert.utils.version>
 		<mbp.version>2.4.0</mbp.version>
 		<ecf.version>3.7.1</ecf.version>
-
+		<stanbol.version>0.11.0</stanbol.version>
 		<copyright.years>${project.inceptionYear}, 2013</copyright.years>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 
@@ -143,6 +142,8 @@
 
 	<profiles>
 		<profile>
+			<id>in-eclipse</id>
+			<!-- activated only when running in m2e (eclipse) -->
 			<activation>
 				<property>
 					<name>m2e.version</name>

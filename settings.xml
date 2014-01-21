@@ -123,7 +123,7 @@
 		</profile>
 		<profile>
 			<!-- Required for dependencies of Lunifera -->
-			<id>lunifera</id>
+			<id>lunifera-dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -132,6 +132,16 @@
 					<id>ecf</id>
 					<url>http://download.eclipse.org/rt/ecf/3.7.1/site.p2</url>
 					<layout>p2</layout>
+				</repository>
+				<repository>
+					<id>ecf</id>
+					<url>http://build.ecf-project.org/maven/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
 				</repository>
 				<repository>
 					<id>ecf-jms</id>
