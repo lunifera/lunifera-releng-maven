@@ -23,6 +23,105 @@
 
 	<profiles>
 		<profile>
+			<id>in-eclipse</id>
+			<!-- activated only when running in m2e (eclipse) -->
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.build.timestamp>qualifier</lunifera.build.timestamp>
+			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-dependency-plugin</artifactId>
+												<versionRange>[2.0,)</versionRange>
+												<goals>
+													<goal>copy-dependencies</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute />
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-antrun-plugin</artifactId>
+												<versionRange>[1.0,)</versionRange>
+												<goals>
+													<goal>run</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-bundle-plugin</artifactId>
+							<configuration>
+								<manifestLocation>${basedir}/META-INF</manifestLocation>
+							</configuration>
+						</plugin>
+						<plugin>
+							<artifactId>maven-dependency-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>copy-dependencies</id>
+									<phase>verify</phase>
+									<goals>
+										<goal>copy-dependencies</goal>
+									</goals>
+									<configuration>
+										<outputDirectory>${basedir}</outputDirectory>
+										<includeScope>runtime</includeScope>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<plugins>
+				</plugins>
+				<resources>
+					<resource>
+						<!-- pde (project root) -->
+						<directory>src/main/resources</directory>
+						<targetPath>
+							${basedir}
+						</targetPath>
+						<includes>
+							<include>plugin.xml</include>
+						</includes>
+					</resource>
+					<resource>
+						<!-- normal (output dir , /target/classes) -->
+						<directory>src/main/resources</directory>
+						<targetPath>
+							${project.build.outputDirectory}
+						</targetPath>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
 			<id>sign</id>
 			<activation>
 				<property>
@@ -340,6 +439,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}</directory>
+							<includes>
+								<include>*.jar</include>
+								<include>META-INF/</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
