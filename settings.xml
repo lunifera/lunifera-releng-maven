@@ -144,6 +144,11 @@
 					</snapshots>
 				</repository>
 				<repository>
+					<id>ecf-maven</id>
+					<url>http://build.ecf-project.org/maven</url>
+					<releases><enabled>true</enabled></releases>
+				</repository>
+				<repository>
 					<id>ecf-jms</id>
 					<url>http://download.ecf-project.org/repo/C-HEAD-jms.feature/lastSuccessful/archive/site.p2/
 					</url>

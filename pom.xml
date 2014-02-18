@@ -132,7 +132,9 @@
 		<mbp.version>2.4.0</mbp.version>
 		<ecf.version>3.7.1</ecf.version>
 		<stanbol.version>0.11.0</stanbol.version>
-		<copyright.years>${project.inceptionYear}, 2013</copyright.years>
+		<zookeeper.version>3.4.5</zookeeper.version>
+		<hazelcast.version>3.1.5</hazelcast.version>
+		<copyright.years>${project.inceptionYear}, 2014</copyright.years>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 
 		<distribution.repository.release.url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</distribution.repository.release.url>
