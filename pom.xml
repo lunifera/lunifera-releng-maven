@@ -1,5 +1,5 @@
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2013 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -75,7 +75,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-		<lunifera.build.timestamp>${maven.build.timestamp}</lunifera.build.timestamp>
+		<osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
 
 		<!-- this properties must be set in settings.xml or using -Dlunifera.developer.home 
 			in command line -->
@@ -94,14 +94,15 @@
 
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
-		<paxexam.version>3.4.0</paxexam.version>
-		<url.version>1.6.0</url.version>
+		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
+		<url.version>2.0.0-SNAPSHOT</url.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
 		<paxexam.felix.version>4.2.1</paxexam.felix.version>
 		<paxexam.equinox.version>3.10.0.v20131210-2136</paxexam.equinox.version>
-		<guava.version>15.0</guava.version>
+		<guava.version>16.0.1</guava.version>
 		<osgi.version>5.0.0</osgi.version>
-		<jacoco.version>0.6.4.201312101107</jacoco.version>
+		<jacoco.version>0.7.0.201403182114</jacoco.version>
+		<sonar-jacoco-listeners.version>2.1</sonar-jacoco-listeners.version>
 		<shiro.version>1.2.2</shiro.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -144,19 +145,7 @@
 
 	<profiles>
 		<profile>
-			<id>in-eclipse</id>
-			<!-- activated only when running in m2e (eclipse) -->
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-			</activation>
-			<properties>
-				<lunifera.build.timestamp>qualifier</lunifera.build.timestamp>
-			</properties>
-		</profile>
-
-		<profile>
+			<!-- Just in case the developer have forgotten to set it in settings.xml -->
 			<id>set.deployment.location</id>
 			<activation>
 				<property>
@@ -217,8 +206,8 @@
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 				<!-- The system property jacoco.outputDir needs to be override on the 
 					command line with an absolute path if you want to merge results from all 
-					modules. Example in a Jenkisn build where ${WORKSPACE} is defined and your 
-					project in the root directory of the workspace : mvn clean install -Prun-its,coverage 
+					modules. Example in a Jenkins build where ${WORKSPACE} is defined and your 
+					project is in the root directory of the workspace : mvn clean install -Prun-its,coverage 
 					-Djacoco.outputDir=${WORKSPACE}/target Note that unfortunately using the 
 					following does not work because of http://jira.codehaus.org/browse/SONAR-3427: 
 					<jacoco.outputDir>${session.executionRootDirectory}/target/</jacoco.outputDir> -->
@@ -673,6 +662,15 @@
 				<groupId>org.hamcrest</groupId>
 				<artifactId>hamcrest-library</artifactId>
 				<version>${hamcrest.version}</version>
+			</dependency>
+
+			<!-- included in order to work with 6.0 new stuffs. must be removed after 
+				official osgi.core release. -->
+			<dependency>
+				<groupId>org.lunifera.osgi</groupId>
+				<artifactId>org.eclipse.osgi</artifactId>
+				<version>3.10.0.v20131210-2136</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.osgi</groupId>
