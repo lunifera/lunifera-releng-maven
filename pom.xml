@@ -92,6 +92,13 @@
 			should be determined by the builder.brach being used. -->
 		<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 
+		<!-- Sonar -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<sonar.language>java</sonar.language>
+
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
