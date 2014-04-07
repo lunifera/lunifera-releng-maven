@@ -92,30 +92,20 @@
 			should be determined by the builder.brach being used. -->
 		<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 
-		<!-- Sonar -->
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<sonar.language>java</sonar.language>
-
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
 		<url.version>2.0.0-SNAPSHOT</url.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
-		<paxexam.felix.version>4.2.1</paxexam.felix.version>
+		<paxexam.felix.version>4.4.0</paxexam.felix.version>
 		<paxexam.equinox.version>3.10.0.v20131210-2136</paxexam.equinox.version>
 		<guava.version>16.0.1</guava.version>
 		<osgi.version>5.0.0</osgi.version>
-		<jacoco.version>0.7.0.201403182114</jacoco.version>
-		<sonar-jacoco-listeners.version>2.1</sonar-jacoco-listeners.version>
 		<shiro.version>1.2.2</shiro.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<apache.aries.subsystem.version>1.0.0</apache.aries.subsystem.version>
 		<vaadin.addon.icepush.version>0.5.5</vaadin.addon.icepush.version>
-		<next-release>0.0.1-RC1</next-release>
 		<jetty-site>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.11.v20130520</jetty-site>
 		<ecf-site>http://download.eclipse.org/rt/ecf/3.6.1/site.p2</ecf-site>
 		<atmosphere.version>1.0.14-SNAPSHOT</atmosphere.version>
@@ -208,7 +198,7 @@
 				<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 				<!-- The Sonar Jacoco Listener for JUnit to extract coverage details 
 					per test -->
-				<sonar-jacoco-listeners.version>2.0</sonar-jacoco-listeners.version>
+				<sonar-jacoco-listeners.version>2.1</sonar-jacoco-listeners.version>
 				<!-- Don't let Sonar execute tests. We will ask it to Maven -->
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 				<!-- The system property jacoco.outputDir needs to be override on the 
@@ -230,6 +220,7 @@
 					Integration Tests -->
 				<sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
 				<sonar.language>java</sonar.language>
+				<jacoco.version>0.7.0.201403182114</jacoco.version>
 			</properties>
 			<build>
 				<plugins>
