@@ -23,8 +23,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>0.19.0</tycho-version>
-		<tychoExtrasVersion>0.19.0</tychoExtrasVersion>
+		<tycho-version>0.20.0</tycho-version>
+		<tychoExtrasVersion>0.20.0</tychoExtrasVersion>
 
 		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/S20131024145017/repository/</orbit-site>
 

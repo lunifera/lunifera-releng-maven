@@ -25,6 +25,7 @@
 	</prerequisites>
 
 	<modules>
+		<module>org.lunifera.releng.maven.parent.itests</module>
 		<module>org.lunifera.releng.maven.parent.mbp</module>
 		<module>org.lunifera.releng.maven.parent.mbp.aggregator</module>
 		<module>org.lunifera.releng.maven.parent.mbp.repository.obr</module>
@@ -94,8 +95,8 @@
 
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
-		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
-		<url.version>2.0.0-SNAPSHOT</url.version>
+		<paxexam.version>3.4.0</paxexam.version>
+		<url.version>1.6.0</url.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
 		<paxexam.felix.version>4.4.0</paxexam.felix.version>
 		<paxexam.equinox.version>3.10.0.v20131210-2136</paxexam.equinox.version>
@@ -680,6 +681,18 @@
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.core</artifactId>
 				<version>5.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.runtime</artifactId>
+				<version>0.10.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.shell</artifactId>
+				<version>0.10.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
