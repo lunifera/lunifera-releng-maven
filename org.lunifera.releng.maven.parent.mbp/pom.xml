@@ -456,18 +456,6 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.framework</artifactId>
-				<version>${paxexam.felix.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.lunifera.osgi</groupId>
-				<artifactId>org.eclipse.osgi</artifactId>
-				<version>${paxexam.equinox.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
 				<scope>provided</scope>
 				<version>1.2.4</version>
@@ -483,39 +471,6 @@
 				<version>0.10.0</version>
 				<scope>provided</scope>
 			</dependency>
-
-			<!-- pax exam -->
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-container-native</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-junit4</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.exam</groupId>
-				<artifactId>pax-exam-link-mvn</artifactId>
-				<version>${paxexam.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.url</groupId>
-				<artifactId>pax-url-aether</artifactId>
-				<version>${url.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.ops4j.pax.url</groupId>
-				<artifactId>pax-url-wrap</artifactId>
-				<version>${url.version}</version>
-				<scope>test</scope>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
