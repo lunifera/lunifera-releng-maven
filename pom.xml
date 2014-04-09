@@ -95,11 +95,13 @@
 
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
-		<paxexam.version>3.4.0</paxexam.version>
-		<url.version>1.6.0</url.version>
+		<!-- used in order to use with maven 3.2.1. must be changed after its GA release -->
+		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
+		<url.version>2.0.0-SNAPSHOT</url.version>
+		<!-- end -->
+		
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
 		<paxexam.felix.version>4.4.0</paxexam.felix.version>
-		<paxexam.equinox.version>3.10.0.v20131210-2136</paxexam.equinox.version>
 		<guava.version>16.0.1</guava.version>
 		<osgi.version>5.0.0</osgi.version>
 		<shiro.version>1.2.2</shiro.version>
@@ -666,15 +668,6 @@
 				<groupId>org.hamcrest</groupId>
 				<artifactId>hamcrest-library</artifactId>
 				<version>${hamcrest.version}</version>
-			</dependency>
-
-			<!-- included in order to work with 6.0 new stuffs. must be removed after 
-				official osgi.core release. -->
-			<dependency>
-				<groupId>org.lunifera.osgi</groupId>
-				<artifactId>org.eclipse.osgi</artifactId>
-				<version>3.10.0.v20131210-2136</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.osgi</groupId>

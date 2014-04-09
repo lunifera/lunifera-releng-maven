@@ -91,9 +91,273 @@
 						</plugin>
 					</plugins>
 				</pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+					</plugin>
+				</plugins>
 			</build>
 		</profile>
-
+		<profile>
+			<id>in-eclipse</id>
+			<!-- activated only when running in m2e (eclipse) -->
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<properties>
+				<osgi-version-qualifier>qualifier</osgi-version-qualifier>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+					</plugin>
+				</plugins>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-dependency-plugin</artifactId>
+												<versionRange>[2.0,)</versionRange>
+												<goals>
+													<goal>copy-dependencies</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute />
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-antrun-plugin</artifactId>
+												<versionRange>[1.0,)</versionRange>
+												<goals>
+													<goal>run</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute>
+													<runOnIncremental>false</runOnIncremental>
+												</execute>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.jacoco</groupId>
+												<artifactId>jacoco-maven-plugin</artifactId>
+												<versionRange>[0.6,)
+												</versionRange>
+												<goals>
+													<goal>prepare-agent</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<!-- m2e doesn't know what to do with jacoco, let's ignore it 
+													or annoying error markers appear see http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-bundle-plugin</artifactId>
+							<version>${mbp.version}</version>
+							<extensions>true</extensions>
+							<configuration>
+								<manifestLocation>${basedir}/META-INF</manifestLocation>
+								<instructions>
+									<Bundle-Name>${project.name}</Bundle-Name>
+									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
+									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+									<_snapshot>${osgi-version-qualifier}</_snapshot>
+									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+								</instructions>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-scr-plugin</artifactId>
+							<version>1.16.0</version>
+							<executions>
+								<execution>
+									<id>generate-scr-scrdescriptor</id>
+									<phase>generate-resources</phase>
+									<goals>
+										<goal>scr</goal>
+									</goals>
+									<configuration>
+										<supportedProjectTypes>
+											<supportedProjectType>bundle</supportedProjectType>
+										</supportedProjectTypes>
+										<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+										<specVersion>1.2</specVersion>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-antrun-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>copy-manifest</id>
+									<phase>package</phase>
+									<goals>
+										<goal>run</goal>
+									</goals>
+									<configuration>
+										<target>
+											<taskdef resource="net/sf/antcontrib/antlib.xml" />
+											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+											<if>
+												<available file="${basedir}/META-INF/MANIFEST.MF"
+													type="file" />
+												<then>
+													<delete dir="${project.build.outputDirectory}/META-INF"
+														quiet="true" />
+													<mkdir dir="${project.build.outputDirectory}/META-INF" />
+													<copy file="${basedir}/META-INF/MANIFEST.MF"
+														tofile="${project.build.outputDirectory}/META-INF/MANIFEST.MF" />
+												</then>
+											</if>
+										</target>
+									</configuration>
+								</execution>
+								<execution>
+									<id>copy-osgi-inf</id>
+									<phase>prepare-package</phase>
+									<goals>
+										<goal>run</goal>
+									</goals>
+									<configuration>
+										<target>
+											<taskdef resource="net/sf/antcontrib/antlib.xml" />
+											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+											<if>
+												<available file="${project.build.outputDirectory}/OSGI-INF"
+													type="dir" />
+												<then>
+													<echo message="Copying OSGI-INF..." level="info" />
+													<delete dir="${basedir}/OSGI-INF" quiet="true" />
+													<mkdir dir="${basedir}/OSGI-INF" />
+													<copy todir="${basedir}/OSGI-INF">
+														<fileset dir="${project.build.outputDirectory}/OSGI-INF" />
+													</copy>
+												</then>
+											</if>
+										</target>
+									</configuration>
+								</execution>
+							</executions>
+							<dependencies>
+								<dependency>
+									<groupId>org.apache.ant</groupId>
+									<artifactId>ant</artifactId>
+									<version>1.8.4</version>
+								</dependency>
+								<dependency>
+									<groupId>ant-contrib</groupId>
+									<artifactId>ant-contrib</artifactId>
+									<version>1.0b3</version>
+									<exclusions>
+										<exclusion>
+											<groupId>ant</groupId>
+											<artifactId>ant</artifactId>
+										</exclusion>
+									</exclusions>
+								</dependency>
+							</dependencies>
+						</plugin>
+						<plugin>
+							<artifactId>maven-clean-plugin</artifactId>
+						</plugin>
+						<plugin>
+							<artifactId>maven-dependency-plugin</artifactId>
+							<executions>
+								<execution>
+									<id>copy-dependencies</id>
+									<phase>prepare-package</phase>
+									<goals>
+										<goal>copy-dependencies</goal>
+									</goals>
+									<configuration>
+										<outputDirectory>${basedir}</outputDirectory>
+										<includeScope>runtime</includeScope>
+										<overWriteReleases>false</overWriteReleases>
+										<overWriteSnapshots>true</overWriteSnapshots>
+										<overWriteIfNewer>true</overWriteIfNewer>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<resources>
+					<resource>
+						<!-- pde (project root) -->
+						<directory>src/main/resources</directory>
+						<targetPath>
+							${basedir}
+						</targetPath>
+						<includes>
+							<include>plugin.xml</include>
+						</includes>
+					</resource>
+					<resource>
+						<!-- normal (output dir , /target/classes) -->
+						<directory>src/main/resources</directory>
+						<targetPath>
+							${project.build.outputDirectory}
+						</targetPath>
+					</resource>
+				</resources>
+			</build>
+		</profile>
 		<profile>
 			<id>sign</id>
 			<activation>
@@ -263,194 +527,7 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>in-eclipse</id>
-			<!-- activated only when running in m2e (eclipse) -->
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-			</activation>
-			<properties>
-				<osgi-version-qualifier>qualifier</osgi-version-qualifier>
-			</properties>
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.eclipse.m2e</groupId>
-							<artifactId>lifecycle-mapping</artifactId>
-							<version>1.0.0</version>
-							<configuration>
-								<lifecycleMappingMetadata>
-									<pluginExecutions>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.apache.maven.plugins</groupId>
-												<artifactId>maven-dependency-plugin</artifactId>
-												<versionRange>[2.0,)</versionRange>
-												<goals>
-													<goal>copy-dependencies</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<execute />
-											</action>
-										</pluginExecution>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.apache.maven.plugins</groupId>
-												<artifactId>maven-antrun-plugin</artifactId>
-												<versionRange>[1.0,)</versionRange>
-												<goals>
-													<goal>run</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<execute />
-											</action>
-										</pluginExecution>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.jacoco</groupId>
-												<artifactId>jacoco-maven-plugin</artifactId>
-												<versionRange>[0.6,)
-												</versionRange>
-												<goals>
-													<goal>prepare-agent</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<!-- m2e doesn't know what to do with jacoco, let's ignore it 
-													or annoying error markers appear see http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
-												<ignore></ignore>
-											</action>
-										</pluginExecution>
-									</pluginExecutions>
-								</lifecycleMappingMetadata>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.felix</groupId>
-							<artifactId>maven-bundle-plugin</artifactId>
-							<version>${mbp.version}</version>
-							<extensions>true</extensions>
-							<configuration>
-								<manifestLocation>${basedir}/META-INF</manifestLocation>
-								<instructions>
-									<Bundle-Name>${project.name}</Bundle-Name>
-									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
-									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-									<_snapshot>${osgi-version-qualifier}</_snapshot>
-									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-								</instructions>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.felix</groupId>
-							<artifactId>maven-scr-plugin</artifactId>
-							<version>1.16.0</version>
-							<executions>
-								<execution>
-									<id>generate-scr-scrdescriptor</id>
-									<phase>generate-resources</phase>
-									<goals>
-										<goal>scr</goal>
-									</goals>
-									<configuration>
-										<supportedProjectTypes>
-											<supportedProjectType>bundle</supportedProjectType>
-										</supportedProjectTypes>
-										<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-										<specVersion>1.2</specVersion>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-antrun-plugin</artifactId>
-							<executions>
-								<execution>
-									<id>copy-manifest</id>
-									<phase>generate-resources</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<tasks>
-											<delete dir="${project.build.outputDirectory}/META-INF"
-												quiet="true" />
-											<mkdir dir="${project.build.outputDirectory}/META-INF" />
-											<copy file="${basedir}/META-INF/MANIFEST.MF"
-												tofile="${project.build.outputDirectory}/META-INF/MANIFEST.MF" />
-										</tasks>
-									</configuration>
-								</execution>
-								<execution>
-									<id>copy-osgi-inf</id>
-									<phase>generate-resources</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<tasks>
-											<delete dir="${basedir}/OSGI-INF" quiet="true" />
-											<mkdir dir="${basedir}/OSGI-INF" />
-											<copy todir="${basedir}/OSGI-INF">
-												<fileset dir="${project.build.outputDirectory}/OSGI-INF" />
-											</copy>
-										</tasks>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
-						<plugin>
-							<artifactId>maven-clean-plugin</artifactId>
-						</plugin>
-						<plugin>
-							<artifactId>maven-dependency-plugin</artifactId>
-							<executions>
-								<execution>
-									<id>copy-dependencies</id>
-									<phase>prepare-package</phase>
-									<goals>
-										<goal>copy-dependencies</goal>
-									</goals>
-									<configuration>
-										<outputDirectory>${basedir}</outputDirectory>
-										<includeScope>runtime</includeScope>
-										<overWriteReleases>false</overWriteReleases>
-										<overWriteSnapshots>true</overWriteSnapshots>
-										<overWriteIfNewer>true</overWriteIfNewer>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-				<resources>
-					<resource>
-						<!-- pde (project root) -->
-						<directory>src/main/resources</directory>
-						<targetPath>
-							${basedir}
-						</targetPath>
-						<includes>
-							<include>plugin.xml</include>
-						</includes>
-					</resource>
-					<resource>
-						<!-- normal (output dir , /target/classes) -->
-						<directory>src/main/resources</directory>
-						<targetPath>
-							${project.build.outputDirectory}
-						</targetPath>
-					</resource>
-				</resources>
-			</build>
-		</profile>
+
 	</profiles>
 	<dependencyManagement>
 		<dependencies>
@@ -516,38 +593,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-manifest</id>
-					</execution>
-					<execution>
-						<phase>none</phase>
-						<id>copy-osgi-inf</id>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

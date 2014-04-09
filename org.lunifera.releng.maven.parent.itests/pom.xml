@@ -21,12 +21,6 @@
 	<artifactId>org.lunifera.releng.maven.parent.itests</artifactId>
 	<packaging>pom</packaging>
 
-	<!-- used in order to use with maven 3.2.1. must be removed after release -->
-	<properties>
-		<paxexam.version>3.5.0-SNAPSHOT</paxexam.version>
-		<url.version>2.0.0-SNAPSHOT</url.version>
-	</properties>
-
 	<repositories>
 		<repository>
 			<id>ops4j</id>
@@ -53,53 +47,97 @@
 					<value>felix</value>
 				</property>
 			</activation>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.framework</artifactId>
+						<version>4.4.0</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.eventadmin</artifactId>
+						<version>1.3.2</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>
+						org.apache.felix.configadmin
+					</artifactId>
+						<version>1.8.0</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.scr</artifactId>
+						<version>1.8.2</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.coordinator</artifactId>
+						<version>1.3.0.v20131122-1810</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.prefs</artifactId>
+						<version>1.0.6</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.log</artifactId>
+						<version>1.0.1</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.metatype</artifactId>
+						<version>1.0.10</version>
+						<scope>test</scope>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.framework</artifactId>
-					<version>4.4.0</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.eventadmin</artifactId>
-					<version>1.3.2</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
-					<artifactId>
-						org.apache.felix.configadmin
-					</artifactId>
-					<version>1.8.0</version>
+					<artifactId>org.apache.felix.configadmin</artifactId>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.scr</artifactId>
-					<version>1.8.2</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.coordinator</artifactId>
-					<version>1.3.0.v20131122-1810</version>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.prefs</artifactId>
-					<version>1.0.6</version>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.log</artifactId>
-					<version>1.0.1</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.metatype</artifactId>
-					<version>1.0.10</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -144,11 +182,75 @@
 			<properties>
 				<pax.exam.framework>equinox_luna</pax.exam.framework>
 			</properties>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.coordinator</artifactId>
+						<version>1.3.0.v20140327-1650</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.osgi</artifactId>
+						<version>3.10.0.v20140407-2102</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.osgi.services</artifactId>
+						<version>3.4.0.v20140312-2051</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.ds</artifactId>
+						<version>1.4.200.v20131126-2331</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.cm</artifactId>
+						<version>1.1.0.v20131021-1936</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.common</artifactId>
+						<version>3.6.200.v20130402-1505</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.util</artifactId>
+						<version>1.0.500.v20130404-1337</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.preferences</artifactId>
+						<version>3.5.200.v20140224-1527</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.event</artifactId>
+						<version>1.3.100.v20140115-1647</version>
+						<scope>test</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.lunifera.osgi</groupId>
+						<artifactId>org.eclipse.equinox.console</artifactId>
+						<version>1.1.0.v20140131-1639</version>
+						<scope>test</scope>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
 			<dependencies>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.coordinator</artifactId>
-					<version>1.3.0.v20131122-1810</version>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
@@ -158,43 +260,41 @@
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.osgi.services</artifactId>
-					<version>3.4.0.v20131120-1328</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.ds</artifactId>
-					<version>1.4.200.v20131126-2331</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.cm</artifactId>
-					<version>1.1.0.v20131021-1936</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.common</artifactId>
-					<version>3.6.200.v20130402-1505</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.util</artifactId>
-					<version>1.0.500.v20130404-1337</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.preferences</artifactId>
-					<version>3.5.100.v20130422-1538</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.osgi</groupId>
 					<artifactId>org.eclipse.equinox.event</artifactId>
-					<version>1.3.100.v20131021-1935</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.lunifera.osgi</groupId>
+					<artifactId>org.eclipse.equinox.console</artifactId>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -280,13 +380,13 @@
 				<version>${paxexam.felix.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<!-- pax exam -->
 			<dependency>
-				<groupId>org.lunifera.osgi</groupId>
-				<artifactId>org.eclipse.osgi</artifactId>
-				<version>${paxexam.equinox.version}</version>
+				<groupId>org.ops4j.pax.exam</groupId>
+				<artifactId>pax-exam</artifactId>
+				<version>${paxexam.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- pax exam -->
 			<dependency>
 				<groupId>org.ops4j.pax.exam</groupId>
 				<artifactId>pax-exam-extender-service</artifactId>
