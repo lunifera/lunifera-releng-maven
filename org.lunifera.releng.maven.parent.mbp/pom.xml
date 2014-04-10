@@ -38,6 +38,22 @@
 				<pluginManagement>
 					<plugins>
 						<plugin>
+							<artifactId>maven-clean-plugin</artifactId>
+							<configuration>
+								<filesets>
+									<fileset>
+										<directory>${basedir}</directory>
+										<includes>
+											<include>*.jar</include>
+											<include>META-INF/</include>
+											<include>OSGI-INF/</include>
+										</includes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+								</filesets>
+							</configuration>
+						</plugin>
+						<plugin>
 							<groupId>org.apache.felix</groupId>
 							<artifactId>maven-bundle-plugin</artifactId>
 							<version>${mbp.version}</version>
@@ -73,40 +89,28 @@
 								</execution>
 							</executions>
 						</plugin>
-						<plugin>
-							<artifactId>maven-clean-plugin</artifactId>
-							<configuration>
-								<filesets>
-									<fileset>
-										<directory>${basedir}</directory>
-										<includes>
-											<include>*.jar</include>
-											<include>META-INF/</include>
-											<include>OSGI-INF/</include>
-										</includes>
-										<followSymlinks>false</followSymlinks>
-									</fileset>
-								</filesets>
-							</configuration>
-						</plugin>
 					</plugins>
 				</pluginManagement>
 				<plugins>
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-bundle-plugin</artifactId>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-scr-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
 					</plugin>
 				</plugins>
 			</build>
@@ -125,20 +129,24 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-bundle-plugin</artifactId>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-scr-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -552,6 +560,11 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
