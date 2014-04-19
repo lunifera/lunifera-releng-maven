@@ -21,6 +21,11 @@
 	<artifactId>org.lunifera.releng.maven.parent.mbp</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
+		<mbp.version>2.4.0</mbp.version>
+
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>not-in-eclipse</id>
@@ -60,34 +65,16 @@
 							<extensions>true</extensions>
 							<configuration>
 								<instructions>
+									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 									<Bundle-Name>${project.name}</Bundle-Name>
 									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
 									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
 									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+									<_dsannotations>*</_dsannotations>
 								</instructions>
 							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.felix</groupId>
-							<artifactId>maven-scr-plugin</artifactId>
-							<version>1.16.0</version>
-							<executions>
-								<execution>
-									<id>generate-scr-scrdescriptor</id>
-									<goals>
-										<goal>scr</goal>
-									</goals>
-									<configuration>
-										<supportedProjectTypes>
-											<supportedProjectType>bundle</supportedProjectType>
-										</supportedProjectTypes>
-										<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-										<specVersion>1.2</specVersion>
-									</configuration>
-								</execution>
-							</executions>
 						</plugin>
 					</plugins>
 				</pluginManagement>
@@ -103,10 +90,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-scr-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.felix</groupId>
@@ -143,10 +126,6 @@
 					<plugin>
 						<groupId>org.apache.felix</groupId>
 						<artifactId>maven-bundle-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-scr-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -216,34 +195,38 @@
 							<version>${mbp.version}</version>
 							<extensions>true</extensions>
 							<configuration>
+								<unpackBundle>true</unpackBundle>
 								<manifestLocation>${basedir}/META-INF</manifestLocation>
 								<instructions>
+									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 									<Bundle-Name>${project.name}</Bundle-Name>
 									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
 									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
 									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+									<_dsannotations>*</_dsannotations>
 								</instructions>
 							</configuration>
 						</plugin>
 						<plugin>
-							<groupId>org.apache.felix</groupId>
-							<artifactId>maven-scr-plugin</artifactId>
-							<version>1.16.0</version>
+							<artifactId>maven-clean-plugin</artifactId>
+						</plugin>
+						<plugin>
+							<artifactId>maven-dependency-plugin</artifactId>
 							<executions>
 								<execution>
-									<id>generate-scr-scrdescriptor</id>
-									<phase>generate-resources</phase>
+									<id>copy-dependencies</id>
+									<phase>prepare-package</phase>
 									<goals>
-										<goal>scr</goal>
+										<goal>copy-dependencies</goal>
 									</goals>
 									<configuration>
-										<supportedProjectTypes>
-											<supportedProjectType>bundle</supportedProjectType>
-										</supportedProjectTypes>
-										<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-										<specVersion>1.2</specVersion>
+										<outputDirectory>${basedir}</outputDirectory>
+										<includeScope>runtime</includeScope>
+										<overWriteReleases>false</overWriteReleases>
+										<overWriteSnapshots>true</overWriteSnapshots>
+										<overWriteIfNewer>true</overWriteIfNewer>
 									</configuration>
 								</execution>
 							</executions>
@@ -253,32 +236,8 @@
 							<artifactId>maven-antrun-plugin</artifactId>
 							<executions>
 								<execution>
-									<id>copy-manifest</id>
-									<phase>package</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<target>
-											<taskdef resource="net/sf/antcontrib/antlib.xml" />
-											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-											<if>
-												<available file="${basedir}/META-INF/MANIFEST.MF"
-													type="file" />
-												<then>
-													<delete dir="${project.build.outputDirectory}/META-INF"
-														quiet="true" />
-													<mkdir dir="${project.build.outputDirectory}/META-INF" />
-													<copy file="${basedir}/META-INF/MANIFEST.MF"
-														tofile="${project.build.outputDirectory}/META-INF/MANIFEST.MF" />
-												</then>
-											</if>
-										</target>
-									</configuration>
-								</execution>
-								<execution>
 									<id>copy-osgi-inf</id>
-									<phase>prepare-package</phase>
+									<phase>package</phase>
 									<goals>
 										<goal>run</goal>
 									</goals>
@@ -321,28 +280,6 @@
 								</dependency>
 							</dependencies>
 						</plugin>
-						<plugin>
-							<artifactId>maven-clean-plugin</artifactId>
-						</plugin>
-						<plugin>
-							<artifactId>maven-dependency-plugin</artifactId>
-							<executions>
-								<execution>
-									<id>copy-dependencies</id>
-									<phase>prepare-package</phase>
-									<goals>
-										<goal>copy-dependencies</goal>
-									</goals>
-									<configuration>
-										<outputDirectory>${basedir}</outputDirectory>
-										<includeScope>runtime</includeScope>
-										<overWriteReleases>false</overWriteReleases>
-										<overWriteSnapshots>true</overWriteSnapshots>
-										<overWriteIfNewer>true</overWriteIfNewer>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
 					</plugins>
 				</pluginManagement>
 				<resources>
@@ -365,6 +302,9 @@
 					</resource>
 				</resources>
 			</build>
+			<dependencies>
+
+			</dependencies>
 		</profile>
 		<profile>
 			<id>sign</id>
@@ -535,36 +475,14 @@
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
+
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-				<scope>provided</scope>
-				<version>1.2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${mbp.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.gogo.runtime</artifactId>
-				<version>0.10.0</version>
-				<scope>provided</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
@@ -574,36 +492,6 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.compendium</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-library</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
