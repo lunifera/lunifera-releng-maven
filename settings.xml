@@ -176,7 +176,7 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>lunifera-deps-snapshots</id>
+					<id>lunifera-nexus-snapshots</id>
 					<name>Lunifera Nexus Snapshots</name>
 					<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
 					</url>
@@ -188,7 +188,7 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>lunifera-deps-releases</id>
+					<id>lunifera-nexus-release</id>
 					<name>Lunifera Nexus Release</name>
 					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
 					</url>

@@ -47,7 +47,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>lunifera-nexus-staging</id>
+			<id>lunifera-nexus-release</id>
 			<name>Nexus Release Repository</name>
 			<url>${distribution.repository.release.url}</url>
 		</repository>
