@@ -146,7 +146,9 @@
 				<repository>
 					<id>ecf-maven</id>
 					<url>http://build.ecf-project.org/maven</url>
-					<releases><enabled>true</enabled></releases>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
 				</repository>
 				<repository>
 					<id>ecf-jms</id>
@@ -197,6 +199,19 @@
 					</releases>
 					<snapshots>
 						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>ops4j-deps-snapshots</id>
+					<name>OPS4j Snapshots</name>
+					<url>http://oss.sonatype.org/content/repositories/ops4j-snapshots/
+					</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<updatePolicy>always</updatePolicy>
+						<enabled>true</enabled>
 					</snapshots>
 				</repository>
 			</repositories>
