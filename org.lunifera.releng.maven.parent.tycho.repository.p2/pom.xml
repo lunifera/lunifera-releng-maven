@@ -34,13 +34,46 @@
 		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<configuration>
+					<resolver>p2</resolver>
+					<pomDependencies>consider</pomDependencies>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>deploy.p2</id>
 			<activation>
-				<property>
-					<name>lunifera.deploy.to.local.federated.p2</name>
-				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<lunifera.deployment.p2.log.file.path>${project.basedir}${file.separator}build.${lunifera.deployment.p2.label}.${lunifera.build.eclipse.platform.name}.${lunifera.build.branch}.log.properties</lunifera.deployment.p2.log.file.path>
@@ -50,37 +83,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<configuration>
-							<resolver>p2</resolver>
-							<pomDependencies>consider</pomDependencies>
-							<environments>
-								<environment>
-									<os>win32</os>
-									<ws>win32</ws>
-									<arch>x86_64</arch>
-								</environment>
-								<environment>
-									<os>linux</os>
-									<ws>gtk</ws>
-									<arch>x86</arch>
-								</environment>
-								<environment>
-									<os>linux</os>
-									<ws>gtk</ws>
-									<arch>x86_64</arch>
-								</environment>
-								<environment>
-									<os>macosx</os>
-									<ws>cocoa</ws>
-									<arch>x86_64</arch>
-								</environment>
-							</environments>
-						</configuration>
-					</plugin>
-
-					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
 							<execution>
@@ -89,6 +91,8 @@
 								<configuration>
 									<quiet>true</quiet>
 									<target>
+										<taskdef name="repoindex"
+											classname="org.osgi.impl.bundle.repoindex.ant.RepoIndexTask" />
 										<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy">
 											<classpath refid="maven.compile.classpath" />
 										</taskdef>
@@ -220,6 +224,23 @@
 											</condition>
 										</fail>
 
+										<!-- create the R5 index repository. -->
+										<repoindex name="${lunifera.deployment.p2.label}"
+											rootURL="${lunifera.deployment.p2.origin.dir}" verbose="true"
+											pretty="true" out="${lunifera.deployment.p2.origin.dir}/index.xml">
+											<fileset dir="${lunifera.deployment.p2.origin.dir}/plugins" includes="**/*" />
+										</repoindex>
+
+										<fail
+											message="Could not find generated index.xml template at ${lunifera.deployment.p2.origin.dir} !">
+											<condition>
+												<not>
+													<available file="${lunifera.deployment.p2.origin.dir}/index.xml"
+														type="file" />
+												</not>
+											</condition>
+										</fail>
+
 										<!-- "deploy.generated.p2.to.composite.dir.init" -->
 										<echo message="Copying repo to Federated Repository !!!" />
 										<if>
@@ -312,7 +333,6 @@
 													message="The P2 repository was not generated in '${lunifera.deployment.p2.origin.dir}' !" />
 											</else>
 										</if>
-
 
 										<!-- start rebuilding... -->
 										<echo message="Rebuilding Federated Repository !!!" />
@@ -422,19 +442,6 @@
 									<goal>run</goal>
 								</goals>
 							</execution>
-							<execution>
-								<id>refresh-master-repository</id>
-								<phase>verify</phase>
-								<configuration>
-									<quiet>true</quiet>
-									<target>
-
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
 						</executions>
 						<dependencies>
 							<dependency>
@@ -446,6 +453,21 @@
 								<groupId>org.apache.ant</groupId>
 								<artifactId>ant</artifactId>
 								<version>1.8.4</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.ant</artifactId>
+								<version>0.1.0</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.lib</artifactId>
+								<version>2.1.1</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.api</artifactId>
+								<version>2.0.0</version>
 							</dependency>
 							<dependency>
 								<groupId>ant-contrib</groupId>
@@ -467,6 +489,11 @@
 								<groupId>com.oopsconsultancy</groupId>
 								<artifactId>xmltask</artifactId>
 								<version>1.16</version>
+							</dependency>
+							<dependency>
+								<groupId>com.googlecode.pojosr</groupId>
+								<artifactId>de.kalpatec.pojosr.framework</artifactId>
+								<version>0.2.1</version>
 							</dependency>
 						</dependencies>
 					</plugin>

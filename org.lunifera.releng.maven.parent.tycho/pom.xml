@@ -152,7 +152,7 @@
 			</activation>
 			<properties>
 				<lunifera.build.branch>latest</lunifera.build.branch>
-				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</lunifera.deployment.artifact.version>
+				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.deployment.artifact.version>
 				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 			</properties>
 			<build>
@@ -188,7 +188,7 @@
 				</property>
 			</activation>
 			<properties>
-				<lunifera.deployment.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${lunifera.build.timestamp}</lunifera.deployment.artifact.version>
+				<lunifera.deployment.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.deployment.artifact.version>
 				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
 			</properties>
 			<build>

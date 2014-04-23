@@ -111,14 +111,6 @@
 					<name>JBoss Public Repository Group</name>
 					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 				</repository>
-				<repository>
-					<id>lunifera-deps-releases</id>
-					<name>Dependencies required by lunifera that are not contained in a
-						repo
-					</name>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
-					</url>
-				</repository>
 			</repositories>
 		</profile>
 		<profile>
@@ -127,12 +119,21 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>lunifera-nexus-release</id>
+					<name>Lunifera Nexus Release</name>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
+					</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
 			<repositories>
-				<repository>
-					<id>ecf</id>
-					<url>http://download.eclipse.org/rt/ecf/3.7.1/site.p2</url>
-					<layout>p2</layout>
-				</repository>
 				<repository>
 					<id>ecf</id>
 					<url>http://build.ecf-project.org/maven/</url>
@@ -163,6 +164,7 @@
 						<enabled>false</enabled>
 					</releases>
 					<snapshots>
+						<updatePolicy>always</updatePolicy>
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
@@ -174,6 +176,7 @@
 						<enabled>false</enabled>
 					</releases>
 					<snapshots>
+						<updatePolicy>always</updatePolicy>
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
@@ -186,6 +189,7 @@
 						<enabled>false</enabled>
 					</releases>
 					<snapshots>
+						<updatePolicy>always</updatePolicy>
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
@@ -223,11 +227,11 @@
 						<enabled>false</enabled>
 					</releases>
 					<snapshots>
+						<updatePolicy>always</updatePolicy>
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
 			</repositories>
-
 		</profile>
 	</profiles>
 </settings>
