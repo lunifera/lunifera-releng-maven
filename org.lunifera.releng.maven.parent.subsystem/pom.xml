@@ -19,22 +19,20 @@
 		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
+	<artifactId>org.lunifera.releng.maven.parent.subsystem</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
 
-	<profiles>
-		<profile>
-			<id>codeCoverage</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<!-- override this in order to generate the same report for multiple nested projects -->
-				<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-				<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-			</properties>
-		</profile>
+	</properties>
 
-	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.lunifera.tools.maven</groupId>
+				<artifactId>org.lunifera.tools.maven.plugin.subsystem</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>
