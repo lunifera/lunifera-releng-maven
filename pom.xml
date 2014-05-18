@@ -11,47 +11,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.lunifera.releng.maven</groupId>
 	<artifactId>org.lunifera.releng.maven.root</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>org.lunifera.releng.maven</groupId>
+		<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>org.lunifera.releng.maven.parent.mbp.aggregator/pom.xml</relativePath>
+	</parent>
+
+
+	<name>Lunifera - Release Engineering - Maven Parent Artifacts Build Aggregator</name>
+	<description>A POM parent aim to help build Integration Tests projects.</description>
 	<packaging>pom</packaging>
 
-	<description>Lunifera - Maven based Release Engineering POM files.</description>
-
-	<prerequisites>
-		<!-- Maven 3.1.0 is the earliest version using Eclipse Aether, Maven 3.0.x 
-			uses the predecessor Sonatype Aether -->
-		<maven>3.1</maven>
-	</prerequisites>
+	<properties>
+		<lunifera.aggregator.name>lunifera-releng-maven</lunifera.aggregator.name>
+		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
+		<lunifera.deploy.skip>true</lunifera.deploy.skip>
+	</properties>
 
 	<modules>
 		<module>org.lunifera.releng.maven.parent</module>
+		<module>org.lunifera.releng.maven.parent.mbp</module>
 		<module>org.lunifera.releng.maven.parent.itests</module>
 		<module>org.lunifera.releng.maven.parent.subsystem</module>
-		<module>org.lunifera.releng.maven.parent.mbp</module>
 		<module>org.lunifera.releng.maven.parent.mbp.aggregator</module>
-		<module>org.lunifera.releng.maven.parent.mbp.repository.obr</module>
 		<module>org.lunifera.releng.maven.parent.tycho</module>
 		<module>org.lunifera.releng.maven.parent.tycho.aggregator</module>
 		<module>org.lunifera.releng.maven.parent.tycho.product</module>
 		<module>org.lunifera.releng.maven.parent.tycho.repository.p2</module>
 	</modules>
 
-	<organization>
-		<name>Lunifera.org</name>
-		<url>www.lunifera.org</url>
-	</organization>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<url>${distribution.site.url}</url>
+	<distributionManagement>
+		<site>
+			<id>gh-pages-root</id>
+			<name>Lunifera GitHub Pages</name>
+			<url>${distribution.site.url}</url>
+		</site>
+	</distributionManagement>
 
 </project>

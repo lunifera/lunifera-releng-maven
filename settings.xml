@@ -15,61 +15,8 @@
 		<pluginGroup>org.sonatype.plugins</pluginGroup>
 	</pluginGroups>
 	<profiles>
-		<profile>
-			<!-- Required for dependencies of JBehave snapshots -->
-			<id>codehaus</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<repositories>
-				<repository>
-					<id>codehaus-public-repository-group</id>
-					<name>Codehaus Public Repository Group</name>
-					<url>https://nexus.codehaus.org/content/groups/public/</url>
-					<layout>default</layout>
-					<releases>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>codehaus-public-repository-group</id>
-					<name>Codehaus Public Repository Group</name>
-					<url>https://nexus.codehaus.org/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-		<profile>
-			<!-- Required for dependencies of Google module -->
-			<id>atlassian</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<repositories>
-				<repository>
-					<id>atlassian</id>
-					<url>http://maven.atlassian.com/public</url>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>atlassian</id>
-					<url>http://maven.atlassian.com/public</url>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
+
+
 		<profile>
 			<!-- Required for dependencies of Xtend module -->
 			<id>xtend</id>
@@ -132,17 +79,54 @@
 						<enabled>false</enabled>
 					</snapshots>
 				</pluginRepository>
-			</pluginRepositories>
-			<repositories>
-				<repository>
-					<id>ecf</id>
-					<url>http://build.ecf-project.org/maven/</url>
+				<pluginRepository>
+					<id>codehaus-public-repository-group</id>
+					<name>Codehaus Public Repository Group</name>
+					<url>https://nexus.codehaus.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
-						<enabled>false</enabled>
+						<enabled>true</enabled>
 					</snapshots>
+				</pluginRepository>
+				<pluginRepository>
+					<id>atlassian</id>
+					<url>http://maven.atlassian.com/public</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>apache-nexus-snapshots</id>
+					<name>Apache Nexus Snapshots</name>
+					<url>https://repository.apache.org/content/repositories/snapshots
+					</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<updatePolicy>always</updatePolicy>
+						<enabled>true</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+			<repositories>
+				<repository>
+					<id>codehaus-public-repository-group</id>
+					<name>Codehaus Public Repository Group</name>
+					<url>https://nexus.codehaus.org/content/groups/public/</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>jboss-public-repository-group</id>
+					<name>JBoss Public Repository Group</name>
+					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 				</repository>
 				<repository>
 					<id>ecf-maven</id>
@@ -150,6 +134,9 @@
 					<releases>
 						<enabled>true</enabled>
 					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
 				</repository>
 				<repository>
 					<id>ecf-jms</id>
@@ -167,6 +154,10 @@
 						<updatePolicy>always</updatePolicy>
 						<enabled>true</enabled>
 					</snapshots>
+				</repository>
+				<repository>
+					<id>atlassian</id>
+					<url>http://maven.atlassian.com/public</url>
 				</repository>
 				<repository>
 					<id>vaadin-snapshots</id>

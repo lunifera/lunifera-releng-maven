@@ -20,21 +20,199 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
+	<name>Lunifera - Releng - POM Parent for Aggregator Projects</name>
+	<description>A POM parent aimed to setup the build of aggregator projects.</description>
 	<packaging>pom</packaging>
 
+	<properties>
+        <distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
+	</properties>
+
+	<url>${distribution.site.url}</url>
+	<distributionManagement>
+		<site>
+			<id>gh-pages</id>
+			<name>Lunifera GitHub Pages</name>
+			<url>${distribution.site.url}</url>
+		</site>
+	</distributionManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<configuration>
+						<skip>${lunifera.site.skip}</skip>
+						<skipDeploy>${lunifera.deploy.skip}</skipDeploy>
+						<topSiteURL>${lunifera.site.url}</topSiteURL>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<skip>${lunifera.deploy.skip}</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<topSiteURL>${lunifera.site.url}</topSiteURL>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>${lunifera.deploy.skip}</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<profiles>
+		<!-- This profile is activated when a project is released. -->
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>lunifera.build.release</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+				</plugins>
+			</build>
+		</profile>
+
 		<profile>
 			<id>codeCoverage</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>lunifera.build.codecoverage</name>
+				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<!-- override this in order to generate the same report for multiple nested projects -->
+				<!-- override this in order to generate the same report for multiple 
+					nested projects -->
 				<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 				<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
 			</properties>
 		</profile>
 
+		<profile>
+			<id>javadoc</id>
+			<activation>
+				<property>
+					<name>lunifera.build.javadoc</name>
+				</property>
+			</activation>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+						</configuration>
+						<reportSets>
+							<reportSet>
+								<id>javadoc-aggregate</id>
+								<configuration>
+									<!-- Specific configuration for the aggregate report -->
+								</configuration>
+								<reports>
+									<report>aggregate</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
+		<profile>
+			<id>licenses</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
+						<reportSets>
+							<reportSet>
+								<id>licenses-aggregate</id>
+								<!-- <configuration> -->
+								<!-- <aggregate>true</aggregate> -->
+								<!-- </configuration> -->
+								<reports>
+									<report>third-party-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
+		<profile>
+			<id>reporting</id>
+			<activation>
+				<property>
+					<name>lunifera.build.reporting</name>
+				</property>
+			</activation>
+			<properties>
+				<javadocJreApiVersion>7</javadocJreApiVersion>
+			</properties>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+						<version>${report.jxr.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>${report.surefire.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
 	</profiles>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${report.project-info.version}</version>
+				<reportSets>
+					<reportSet>
+						<reports><!-- select reports -->
+							<report>index</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

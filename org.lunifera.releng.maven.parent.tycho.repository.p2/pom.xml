@@ -21,6 +21,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.tycho.repository.p2</artifactId>
+    <name>Lunifera - Releng - Tycho POM Parent for Eclipse p2 repository</name>
+    <description>A POM parent aimed to setup the build of p2 repository projects using Tycho.</description>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -33,6 +35,15 @@
 		<lunifera.deployment.p2.label>${project.artifactId}</lunifera.deployment.p2.label>
 		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
 	</properties>
+
+    <url>${distribution.site.url}</url>
+    <distributionManagement>
+        <site>
+            <id>gh-pages</id>
+            <name>Lunifera GitHub Pages</name>
+            <url>${distribution.site.url}</url>
+        </site>
+    </distributionManagement>
 
 	<build>
 		<plugins>

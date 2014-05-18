@@ -20,19 +20,46 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.subsystem</artifactId>
+    <name>Lunifera - Releng - POM Parent for OSGi Subsystem Artifact</name>
+    <description>A POM parent aimed to setup the build of OSGi Subsystem projects.</description>
 	<packaging>pom</packaging>
 
 	<properties>
-
+		<subsystem.plugin.version>${project.version}</subsystem.plugin.version>
 	</properties>
 
+    <url>${distribution.site.url}</url>
+    <distributionManagement>
+        <site>
+            <id>gh-pages</id>
+            <name>Lunifera GitHub Pages</name>
+            <url>${distribution.site.url}</url>
+        </site>
+    </distributionManagement>
+
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.lunifera.tools.maven</groupId>
-				<artifactId>org.lunifera.tools.maven.plugin.subsystem</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.lunifera.tools.maven</groupId>
+					<artifactId>org.lunifera.tools.maven.plugin.subsystem</artifactId>
+					<version>${subsystem.plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<Subsystem-Manifest>
+							<Subsystem-SymbolicName>${project.artifactId}</Subsystem-SymbolicName>
+						</Subsystem-Manifest>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+<!-- 		<plugins> -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.lunifera.tools.maven</groupId> -->
+<!-- 				<artifactId>org.lunifera.tools.maven.plugin.subsystem</artifactId> -->
+<!-- 				<extensions>true</extensions> -->
+<!-- 			</plugin> -->
+<!-- 		</plugins> -->
 	</build>
 </project>

@@ -1,3 +1,4 @@
+
 <!--#======================================================================= -->
 <!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
@@ -20,12 +21,22 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.mbp</artifactId>
+	<name>Lunifera - Releng - POM Parent for bundles (Pom-First) using Maven-Bundle-Plugin/Bnd.</name>
+	<description>A POM parent aim to help build Integration Tests projects.</description>
 	<packaging>pom</packaging>
 
 	<properties>
 		<mbp.version>2.4.0</mbp.version>
-
 	</properties>
+
+	<url>${distribution.site.url}</url>
+	<distributionManagement>
+		<site>
+			<id>gh-pages</id>
+			<name>Lunifera GitHub Pages</name>
+			<url>${distribution.site.url}</url>
+		</site>
+	</distributionManagement>
 
 	<profiles>
 		<profile>
@@ -307,35 +318,66 @@
 
 			</dependencies>
 		</profile>
+
 		<profile>
-			<id>sign</id>
+			<id>javadoc</id>
 			<activation>
 				<property>
-					<name>jarsigner.alias</name>
+					<name>lunifera.build.javadoc</name>
+					<value>true</value>
 				</property>
 			</activation>
-			<build>
+			<reporting>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jarsigner-plugin</artifactId>
-						<version>1.2</version>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${report.javadoc.version}</version>
+						<configuration>
+							<skip>${maven.javadoc.skip}</skip>
+							<quiet>${maven.javadoc.quiet}</quiet>
+							<charset>${project.reporting.outputEncoding}</charset>
+							<links>
+								<link>http://docs.oracle.com/javase/${javadocJreApiVersion}/docs/api/</link>
+							</links>
+							<!--<excludePackageNames>${maven.javadoc.excludePackageNames}</excludePackageNames> -->
+							<tagletArtifacts>
+								<tagletArtifact>
+									<groupId>org.apache.maven.plugin-tools</groupId>
+									<artifactId>maven-plugin-tools-javadoc</artifactId>
+									<version>3.3</version>
+								</tagletArtifact>
+								<tagletArtifact>
+									<groupId>org.codehaus.plexus</groupId>
+									<artifactId>plexus-component-javadoc</artifactId>
+									<version>1.5.5</version>
+								</tagletArtifact>
+							</tagletArtifacts>
+						</configuration>
+						<reportSets>
+							<reportSet>
+								<id>non-aggregate</id>
+								<reports>
+									<report>javadoc</report>
+									<!-- <report>test-javadoc</report> -->
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+			<build>
+				<plugins>
+					<!-- Generates Javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>sign</id>
+								<id>attach-javadocs</id>
 								<goals>
-									<goal>sign</goal>
+									<goal>jar</goal>
 								</goals>
-								<configuration>
-									<arguments>
-										<!-- TODO: there is no parameters for TSA in plugin, so we use 
-											workaround - see http://jira.codehaus.org/browse/MJARSIGNER-16 -->
-										<argument>-tsa</argument>
-										<argument>${jarsigner.tsa}</argument>
-										<argument>-tsacert</argument>
-										<argument>${jarsigner.tsacert}</argument>
-									</arguments>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -346,7 +388,9 @@
 		<profile>
 			<id>sources</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>lunifera.build.sources</name>
+				</property>
 			</activation>
 			<build>
 				<plugins>
@@ -385,22 +429,83 @@
 			</build>
 		</profile>
 		<profile>
-			<id>javadoc</id>
+			<id>licenses</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<!-- <property> -->
+				<!-- <name>lunifera.build.licenses</name> -->
+				<!-- </property> -->
 			</activation>
+			<properties>
+				<!-- default license to use for sons -->
+				<license.licenseName>epl_v1</license.licenseName>
+			</properties>
+			<reporting>
+				<plugins>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
+					</plugin>
+
+				</plugins>
+			</reporting>
 			<build>
 				<plugins>
-					<!-- Generates Javadoc -->
+					<!-- add license and third-party files to build -->
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
 						<executions>
 							<execution>
-								<id>attach-javadocs</id>
+								<id>attach-licenses</id>
 								<goals>
-									<goal>jar</goal>
+									<goal>update-project-license</goal>
+									<goal>add-third-party</goal>
 								</goals>
+								<configuration>
+									<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
+									<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
+									<useMissingFile>${license.useMissingFile}</useMissingFile>
+									<failOnMissingHeader>true</failOnMissingHeader>
+									<failIfWarning>${license.failIfWarning}</failIfWarning>
+									<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+									<!-- <generateBundle>true</generateBundle> -->
+									<!-- <dryRun>true</dryRun> -->
+									<encoding>UTF-8</encoding>
+									<licenseMerges>
+										<licenseMerge>
+											The Apache Software License, Version 2.0|Apache
+											License, Version
+											2.0|Apache License V2.0|Apache 2|ASF
+											2.0|apache-2.0|Apache
+											Public License 2.0
+										</licenseMerge>
+										<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
+										<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
+										<licenseMerge>
+											Lesser General Public License (LPGL) v 2.1|GNU
+											Lesser General
+											Public License, 2.1|LGPL 2.1
+										</licenseMerge>
+										<licenseMerge>
+											Lesser General Public License (LPGL)|GNU Lesser
+											General Public
+											License|GNU LESSER GENERAL PUBLIC
+											LICENSE|LGPL|lgpl
+										</licenseMerge>
+										<licenseMerge>
+											COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
+											(CDDL) Version
+											1.0|Common Development and Distribution License
+											(CDDL) v1.0
+										</licenseMerge>
+										<licenseMerge>Indiana University Extreme! Lab Software
+											License, vesion 1.1.1|Indiana University Extreme! Lab
+											Software License</licenseMerge>
+									</licenseMerges>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -408,16 +513,73 @@
 			</build>
 		</profile>
 
-		<!-- This profile is activated when a project is released. -->
+
 		<profile>
 			<id>release</id>
+			<activation>
+				<property>
+					<name>lunifera.build.release</name>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-enforcer-plugin</artifactId>
-						<inherited>false</inherited>
+						<inherited>true</inherited>
+						<configuration>
+							<failFast>true</failFast>
+							<fail>true</fail>
+						</configuration>
 						<executions>
+							<execution>
+								<id>check-required-profiles</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>lunifera.build.licenses</property>
+										</requireProperty>
+										<requireProperty>
+											<property>lunifera.build.reporting</property>
+										</requireProperty>
+										<requireProperty>
+											<property>lunifera.build.codecoverage</property>
+										</requireProperty>
+										<requireProperty>
+											<property>lunifera.build.javadoc</property>
+										</requireProperty>
+										<requireProperty>
+											<property>lunifera.build.sources</property>
+										</requireProperty>
+									</rules>
+									<ignoreCache>true</ignoreCache>
+									<failFast>true</failFast>
+								</configuration>
+							</execution>
+							<execution>
+								<id>check-project-files</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<phase>initialize</phase>
+								<configuration>
+									<rules>
+										<requireFilesExist>
+											<files>
+												<file>LICENSE.txt</file>
+												<!-- <file>README.txt</file> -->
+												<!--<file>changelog.txt</file> -->
+											</files>
+										</requireFilesExist>
+									</rules>
+									<ignoreCache>true</ignoreCache>
+									<failFast>true</failFast>
+									<fail>true</fail>
+								</configuration>
+							</execution>
 							<execution>
 								<id>enforce-release-rules</id>
 								<phase>verify</phase>
@@ -437,7 +599,15 @@
 								</configuration>
 							</execution>
 						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>extra-enforcer-rules</artifactId>
+								<version>1.0-beta-2</version>
+							</dependency>
+						</dependencies>
 					</plugin>
+
 					<!-- Checks compatibility with Java API -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
@@ -459,29 +629,10 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- Signs artifacts -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
