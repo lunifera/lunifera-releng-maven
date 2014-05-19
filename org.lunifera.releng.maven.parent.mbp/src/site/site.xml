@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<body>
+		<!-- Inherit this menu for sub modules. -->
+		<menu ref="parent" inherit="top" />
+	</body>
+</project>

@@ -21,8 +21,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.tycho.repository.p2</artifactId>
-    <name>Lunifera - Releng - Tycho POM Parent for Eclipse p2 repository</name>
-    <description>A POM parent aimed to setup the build of p2 repository projects using Tycho.</description>
+    <name>Releng - Parent Tycho POM for Eclipse p2 repository</name>
+    <description>A parent POM aimed to set up the build of p2 repository projects using Tycho.</description>
 	<packaging>pom</packaging>
 
 	<properties>

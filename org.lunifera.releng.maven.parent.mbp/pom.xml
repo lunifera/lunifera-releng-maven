@@ -21,8 +21,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.mbp</artifactId>
-	<name>Lunifera - Releng - POM Parent for bundles (Pom-First) using Maven-Bundle-Plugin/Bnd.</name>
-	<description>A POM parent aim to help build Integration Tests projects.</description>
+	<name>Releng - Parent POM for Pom-First Bundles and Fragments</name>
+	<description>A parent POM aimed to set up the build of bundle projects using Maven-Bundle-Plugin/Bnd.</description>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -142,6 +142,23 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<inherited>false</inherited>
+						<configuration>
+							<topSiteURL>${lunifera.site.url}</topSiteURL>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-file</id>
+								<goals>
+									<goal>attach-descriptor</goal>
+								</goals>
+								<inherited>false</inherited>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 				<pluginManagement>
@@ -314,9 +331,6 @@
 					</resource>
 				</resources>
 			</build>
-			<dependencies>
-
-			</dependencies>
 		</profile>
 
 		<profile>
@@ -324,8 +338,8 @@
 			<activation>
 				<property>
 					<name>lunifera.build.javadoc</name>
-					<value>true</value>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<reporting>
 				<plugins>
@@ -391,6 +405,7 @@
 				<property>
 					<name>lunifera.build.sources</name>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -428,91 +443,6 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>licenses</id>
-			<activation>
-				<!-- <property> -->
-				<!-- <name>lunifera.build.licenses</name> -->
-				<!-- </property> -->
-			</activation>
-			<properties>
-				<!-- default license to use for sons -->
-				<license.licenseName>epl_v1</license.licenseName>
-			</properties>
-			<reporting>
-				<plugins>
-
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>${report.license.version}</version>
-					</plugin>
-
-				</plugins>
-			</reporting>
-			<build>
-				<plugins>
-					<!-- add license and third-party files to build -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>${report.license.version}</version>
-						<executions>
-							<execution>
-								<id>attach-licenses</id>
-								<goals>
-									<goal>update-project-license</goal>
-									<goal>add-third-party</goal>
-								</goals>
-								<configuration>
-									<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
-									<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
-									<useMissingFile>${license.useMissingFile}</useMissingFile>
-									<failOnMissingHeader>true</failOnMissingHeader>
-									<failIfWarning>${license.failIfWarning}</failIfWarning>
-									<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
-									<!-- <generateBundle>true</generateBundle> -->
-									<!-- <dryRun>true</dryRun> -->
-									<encoding>UTF-8</encoding>
-									<licenseMerges>
-										<licenseMerge>
-											The Apache Software License, Version 2.0|Apache
-											License, Version
-											2.0|Apache License V2.0|Apache 2|ASF
-											2.0|apache-2.0|Apache
-											Public License 2.0
-										</licenseMerge>
-										<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
-										<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
-										<licenseMerge>
-											Lesser General Public License (LPGL) v 2.1|GNU
-											Lesser General
-											Public License, 2.1|LGPL 2.1
-										</licenseMerge>
-										<licenseMerge>
-											Lesser General Public License (LPGL)|GNU Lesser
-											General Public
-											License|GNU LESSER GENERAL PUBLIC
-											LICENSE|LGPL|lgpl
-										</licenseMerge>
-										<licenseMerge>
-											COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
-											(CDDL) Version
-											1.0|Common Development and Distribution License
-											(CDDL) v1.0
-										</licenseMerge>
-										<licenseMerge>Indiana University Extreme! Lab Software
-											License, vesion 1.1.1|Indiana University Extreme! Lab
-											Software License</licenseMerge>
-									</licenseMerges>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
 
 		<profile>
 			<id>release</id>
@@ -520,6 +450,7 @@
 				<property>
 					<name>lunifera.build.release</name>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>

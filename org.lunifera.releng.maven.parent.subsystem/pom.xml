@@ -20,8 +20,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.subsystem</artifactId>
-    <name>Lunifera - Releng - POM Parent for OSGi Subsystem Artifact</name>
-    <description>A POM parent aimed to setup the build of OSGi Subsystem projects.</description>
+    <name>Releng - Parent POM for OSGi Subsystem Artifact</name>
+    <description>A parent POM aimed to set up the build of OSGi Subsystem projects.</description>
 	<packaging>pom</packaging>
 
 	<properties>

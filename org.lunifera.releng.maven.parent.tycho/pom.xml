@@ -21,8 +21,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.tycho</artifactId>
-    <name>Lunifera - Releng - Tycho POM Parent for bundles</name>
-    <description>A POM parent aimed to setup the build of bundle (manifest-first) projects.</description>
+	<name>Releng - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
+	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho ().</description>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -46,14 +46,14 @@
 
 	</properties>
 
-    <url>${distribution.site.url}</url>
-    <distributionManagement>
-        <site>
-            <id>gh-pages</id>
-            <name>Lunifera GitHub Pages</name>
-            <url>${distribution.site.url}</url>
-        </site>
-    </distributionManagement>
+	<url>${distribution.site.url}</url>
+	<distributionManagement>
+		<site>
+			<id>gh-pages</id>
+			<name>Lunifera GitHub Pages</name>
+			<url>${distribution.site.url}</url>
+		</site>
+	</distributionManagement>
 
 
 	<profiles>

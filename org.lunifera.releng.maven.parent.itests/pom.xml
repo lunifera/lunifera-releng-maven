@@ -20,8 +20,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.itests</artifactId>
-	<name>Lunifera - Releng - POM Parent for Integration Tests</name>
-	<description>A POM parent aim to setup the build of integration tests projects.</description>
+	<name>Releng - Parent POM for Integration Tests</name>
+	<description>A parent POM aimed to set up the build of integration tests projects.</description>
 	<packaging>pom</packaging>
 
 	<url>${distribution.site.url}</url>

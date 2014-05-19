@@ -20,12 +20,12 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
-	<name>Lunifera - Releng - POM Parent for Aggregator Projects</name>
-	<description>A POM parent aimed to setup the build of aggregator projects.</description>
+	<name>Releng - Parent POM for Aggregator Project</name>
+	<description>A parent POM aimed to setup the build of aggregator projects.</description>
 	<packaging>pom</packaging>
 
 	<properties>
-        <distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
+		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
 	</properties>
 
 	<url>${distribution.site.url}</url>
@@ -37,6 +37,27 @@
 		</site>
 	</distributionManagement>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${report.project-info.version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!-- distribution-management, index, dependencies, help, issue-tracking, 
+								plugins, cim, license, dependency-management, mailing-list, project-team, 
+								dependency-convergence, scm, plugin-management, modules, summary -->
+							<report>modules</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -45,7 +66,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<configuration>
 						<skip>${lunifera.site.skip}</skip>
-						<skipDeploy>${lunifera.deploy.skip}</skipDeploy>
+						<skipDeploy>${lunifera.site.deploy.skip}</skipDeploy>
 						<topSiteURL>${lunifera.site.url}</topSiteURL>
 					</configuration>
 				</plugin>
@@ -66,6 +87,22 @@
 				<configuration>
 					<topSiteURL>${lunifera.site.url}</topSiteURL>
 				</configuration>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<inherited>false</inherited>
+					</execution>
+					<execution>
+						<id>attach-file</id>
+						<goals>
+							<goal>attach-descriptor</goal>
+						</goals>
+						<inherited>false</inherited>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -79,6 +116,37 @@
 	</build>
 
 	<profiles>
+		<profile>
+			<id>licenses</id>
+			<activation>
+				<property>
+					<name>lunifera.build.license</name>
+				</property>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<!-- default license to use for children -->
+				<license.licenseName>epl_v1</license.licenseName>
+			</properties>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
+						<reportSets>
+							<reportSet>
+								<id>licenses-report-aggregate</id>
+								<reports>
+									<report>third-party-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
 		<!-- This profile is activated when a project is released. -->
 		<profile>
 			<id>release</id>
@@ -140,33 +208,6 @@
 		</profile>
 
 		<profile>
-			<id>licenses</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>${report.license.version}</version>
-						<reportSets>
-							<reportSet>
-								<id>licenses-aggregate</id>
-								<!-- <configuration> -->
-								<!-- <aggregate>true</aggregate> -->
-								<!-- </configuration> -->
-								<reports>
-									<report>third-party-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-
-		<profile>
 			<id>reporting</id>
 			<activation>
 				<property>
@@ -199,20 +240,4 @@
 		</profile>
 	</profiles>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>${report.project-info.version}</version>
-				<reportSets>
-					<reportSet>
-						<reports><!-- select reports -->
-							<report>index</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting>
 </project>

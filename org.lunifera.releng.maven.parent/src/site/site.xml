@@ -2,93 +2,49 @@
 <project name="Lunifera OSGi Subsystems">
 
 	<body>
-		<menu name="Lunifera Releng">
+
+		<menu name="Lunifera OSGi Subsystems" inherit="bottom">
 			<item name="Overview" href="index.html" />
-			<item name="Kernel" href="runtime-kernel/index.html" />
-			<item name="Addons" href="addons/index.html" />
-			<item name="Addons-Web" href="addons/web/index.html" />
+			<item name="Usage" href="runtime-kernel/index.html" />
 		</menu>
-		<menu ref="modules"/>
-		<menu ref="reports" />
+		<menu name="Project Reports" ref="reports" inherit="top" />
+
+		<menu name="Other Lunifera Projects" inherit="bottom">
+			<item name="Runtime Kernel" href="lunifera-runtime-kernel/index.html" />
+			<item name="Runtime Add-ons" href="lunifera-runtime-addons/index.html" />
+		</menu>
+
 		<links>
 			<item name="Maven 3" href="http://maven.apache.org/" />
 		</links>
 	</body>
-	
+
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
 		<version>1.3.1</version>
 	</skin>
-	<!-- <skin> -->
-	<!-- <groupId>lt.velykis.maven.skins</groupId> -->
-	<!-- <artifactId>reflow-maven-skin</artifactId> -->
-	<!-- <version>1.1.0</version> -->
-	<!-- </skin> -->
 
 	<custom>
 		<fluidoSkin>
 			<topBarEnabled>true</topBarEnabled>
 			<sideBarEnabled>false</sideBarEnabled>
 
+			<profile>${lunifera.site.profile}</profile>
+
+			<breadcrumbs>
+				<item name="Kernel" href="lunifera-runtime-kernel/index.html" />
+				<item name="Add-ons" href="lunifera-runtime-addons/index.html" />
+			</breadcrumbs>
+
 			<topBarIcon>
-				<name>Lunifera Release Engineering Maven</name>
-				<alt>Maven Fluido Skin</alt>
-				<src>/images/logo_200px.png</src>
-				<href>/index.html</href>
+				<name>Lunifera OSGi Subsystems</name>
+				<alt>Lunifera OSGi Subsystems Project Site</alt>
+				<src>../org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png
+				</src>
+				<href>/lunifera-runtime-kernel/index.html</href>
 			</topBarIcon>
-			<topBarContainerStyle>width: 90%;</topBarContainerStyle>
-
-<!-- 			<googleSearch> -->
-<!-- 				<sitesearch /> -->
-<!-- 			</googleSearch> -->
-
-<!-- 			<copyrightClass>pull-right</copyrightClass> -->
-
-<!-- 			<gitHub> -->
-<!-- 				<projectId>lunifera/lunifera-releng-maven</projectId> -->
-<!-- 				<ribbonOrientation>right</ribbonOrientation> -->
-<!-- 				<ribbonColor>black</ribbonColor> -->
-<!-- 			</gitHub> -->
+			<!-- <topBarContainerStyle>width: 90%;</topBarContainerStyle> -->
 		</fluidoSkin>
-
-<!-- 		<reflowSkin> -->
-<!-- 			<theme>bootswatch-united</theme> -->
-<!-- 			<highlightJs>true</highlightJs> -->
-<!-- 			<brand> -->
-<!-- 				<name>My Project</name> -->
-<!-- 				<href>http://github.com/andriusvelykis/reflow-maven-skin</href> -->
-<!-- 			</brand> -->
-<!-- 			<slogan>Super interesting project doing good things.</slogan> -->
-<!-- 			<titleTemplate>%2$s | %1$s</titleTemplate> -->
-<!-- 			<toc>top</toc> -->
-<!-- 			<topNav>Download|reports</topNav> -->
-<!-- 			<bottomNav> -->
-<!-- 				<column>Main|Download</column> -->
-<!-- 				<column>Documentation</column> -->
-<!-- 				<column>reports|modules</column> -->
-<!-- 			</bottomNav> -->
-<!-- 			<bottomDescription> -->
-<!-- 				This is a very good project doing interesting and -->
-<!-- 				valuable things. -->
-<!-- 			</bottomDescription> -->
-<!-- 			<pages> -->
-<!-- 				<index project="project-id"> -->
-<!-- 					<shortTitle>Welcome</shortTitle> -->
-<!-- 					<breadcrumbs>false</breadcrumbs> -->
-<!-- 					<toc>false</toc> -->
-<!-- 					<sections> -->
-<!-- 						<carousel /> -->
-<!-- 						<body /> -->
-<!-- 						<sidebar /> -->
-<!-- 						<thumbs>2</thumbs> -->
-<!-- 						<columns>3</columns> -->
-<!-- 					</sections> -->
-<!-- 				</index> -->
-<!-- 				<developer-info> -->
-<!-- 					<toc>sidebar</toc> -->
-<!-- 				</developer-info> -->
-<!-- 			</pages> -->
-<!-- 		</reflowSkin> -->
 	</custom>
 </project>

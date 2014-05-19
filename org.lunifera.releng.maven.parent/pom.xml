@@ -14,17 +14,15 @@
 
 	<groupId>org.lunifera.releng.maven</groupId>
 	<artifactId>org.lunifera.releng.maven.parent</artifactId>
-	<name>Lunifera - Releng - Master Parent POM</name>
-	<description>A POM parent aimed to setup the build of all Lunifera projects.</description>
+	<name>Releng - Master Parent POM</name>
+	<description>A parent POM aimed to set up the build of general Maven based projects.</description>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2012</inceptionYear>
 
 	<prerequisites>
-		<!-- Maven 3.1.0 is the earliest version using Eclipse Aether, Maven 3.0.x 
-			uses the predecessor Sonatype Aether -->
-		<maven>3.2</maven>
+		<maven>3.2.1</maven>
 	</prerequisites>
 
 	<organization>
@@ -81,14 +79,31 @@
 	</licenses>
 
 	<properties>
-		<lunifera.site.protocol>github:</lunifera.site.protocol>
 		<lunifera.site.skip>false</lunifera.site.skip>
 		<lunifera.deploy.skip>false</lunifera.deploy.skip>
 
+		<!-- current profile to use: (pre-release|sandbox|retired) -->
+		<lunifera.site.profile></lunifera.site.profile>
+
+		<!-- protocol used to deploy the site -->
+		<lunifera.site.protocol>github:</lunifera.site.protocol>
+
+		<!-- points to the root of project's site at github -->
 		<lunifera.site.url>http://lunifera.github.io/</lunifera.site.url>
+
+		<!-- the name of the git repository that the aggregator represents -->
 		<lunifera.aggregator.name>lunifera-releng-maven</lunifera.aggregator.name>
+
+		<!-- the url of the repository's site -->
+		<lunifera.site.repository.url>${lunifera.site.url}${lunifera.aggregator.name}</lunifera.site.repository.url>
+
+		<!-- the complete url (to be use with distribution site settings) -->
 		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}/${project.artifactId}</distribution.site.url>
+
+		<!-- where to deploy the release artifacts -->
 		<distribution.repository.release.url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</distribution.repository.release.url>
+
+		<!-- where to deploy the snapshot artifacts -->
 		<distribution.repository.snapshot.url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</distribution.repository.snapshot.url>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -145,9 +160,9 @@
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 		<surefire.version>2.17</surefire.version>
 		<jacoco.version>0.7.1.201405082137</jacoco.version>
-        <paxexam.version>3.5.0</paxexam.version>
-        <paxexam.felix.version>4.4.0</paxexam.felix.version>
-        <paxurl.version>2.0.0</paxurl.version>
+		<paxexam.version>3.5.0</paxexam.version>
+		<paxexam.felix.version>4.4.0</paxexam.felix.version>
+		<paxurl.version>2.0.0</paxurl.version>
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
 			test -->
 		<sonar-jacoco-listeners.version>2.2</sonar-jacoco-listeners.version>
@@ -163,6 +178,7 @@
 		<!-- license configuration -->
 		<license.useMissingFile>true</license.useMissingFile>
 		<license.failIfWarning>true</license.failIfWarning>
+		<license.useRepositoryMissingFiles>true</license.useRepositoryMissingFiles>
 		<maven.license.file>${project.basedir}/LICENSE.txt</maven.license.file>
 
 		<!-- maven plugins -->
@@ -185,7 +201,7 @@
 							<report>license</report>
 							<report>dependencies</report>
 							<report>project-team</report>
-							<!-- <report>mailing-list</report> -->
+							<report>mailing-list</report>
 							<report>cim</report>
 							<report>issue-tracking</report>
 							<report>plugin-management</report>
@@ -207,6 +223,7 @@
 				<property>
 					<name>!lunifera.developer.home</name>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<lunifera.developer.home>${env.HOME}${file.separator}lunifera-dev${file.separator}</lunifera.developer.home>
@@ -219,6 +236,7 @@
 				<property>
 					<name>build.remove.old</name>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -250,7 +268,6 @@
 			<activation>
 				<property>
 					<name>lunifera.build.codecoverage</name>
-					<value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -387,12 +404,14 @@
 			</dependencies>
 		</profile>
 
+
 		<profile>
 			<id>reporting</id>
 			<activation>
 				<property>
 					<name>lunifera.build.reporting</name>
 				</property>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<javadocJreApiVersion>7</javadocJreApiVersion>
@@ -468,16 +487,19 @@
 				<role>Developer</role>
 			</roles>
 		</developer>
-	</developers>
-
-	<contributors>
-		<contributor>
+		<developer>
+			<id>haglo</id>
 			<name>Hans-George Glöckler</name>
 			<email>hans-georg.gloeckler@uni-ulm.de</email>
 			<timezone>+2</timezone>
 			<roles>
 				<role>Build and release manager</role>
 			</roles>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
 		</contributor>
 	</contributors>
 
@@ -490,6 +512,15 @@
 				<configuration>
 					<topSiteURL>${lunifera.site.url}</topSiteURL>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-file</id>
+						<goals>
+							<goal>attach-descriptor</goal>
+						</goals>
+						<inherited>false</inherited>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -589,17 +620,6 @@
 							<artifactId>wagon-git</artifactId>
 							<version>2.0.0</version>
 						</dependency>
-						<!-- <dependency> -->
-						<!-- <groupId>lt.velykis.maven.skins</groupId> -->
-						<!-- <artifactId>reflow-velocity-tools</artifactId> -->
-						<!-- <version>1.1.0</version> -->
-						<!-- </dependency> -->
-						<!-- Reflow skin requires Velocity >= 1.7 -->
-						<!-- <dependency> -->
-						<!-- <groupId>org.apache.velocity</groupId> -->
-						<!-- <artifactId>velocity</artifactId> -->
-						<!-- <version>1.7</version> -->
-						<!-- </dependency> -->
 						<dependency>
 							<groupId>org.apache.maven.skins</groupId>
 							<artifactId>maven-fluido-skin</artifactId>

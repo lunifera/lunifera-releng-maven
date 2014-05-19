@@ -21,8 +21,8 @@
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.tycho.aggregator</artifactId>
-    <name>Lunifera - Releng - Tycho POM Parent for Project Aggregator</name>
-    <description>A POM parent aimed to setup the build of Tycho based aggregator projects.</description>
+    <name>Releng - Parent Tycho POM for Project Aggregator</name>
+    <description>A parent POM aimed to set up the build of Tycho's based aggregator projects.</description>
 	<packaging>pom</packaging>
 
     <url>${distribution.site.url}</url>

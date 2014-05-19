@@ -11,7 +11,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.lunifera.releng.maven.root</artifactId>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
@@ -20,9 +19,9 @@
 		<relativePath>org.lunifera.releng.maven.parent.mbp.aggregator/pom.xml</relativePath>
 	</parent>
 
-
-	<name>Lunifera - Release Engineering - Maven Parent Artifacts Build Aggregator</name>
-	<description>A POM parent aim to help build Integration Tests projects.</description>
+	<artifactId>org.lunifera.releng.maven.root</artifactId>
+	<name>Lunifera - Maven Release Engineering Projects</name>
+	<description>An group of Maven based artifacts for all Lunifera projects.</description>
 	<packaging>pom</packaging>
 
 	<properties>

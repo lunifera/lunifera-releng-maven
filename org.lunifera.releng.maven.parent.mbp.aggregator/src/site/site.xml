@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<body>
+		<!-- Inherit this menu for sub modules. -->
+		<menu name="Sub-Modules" ref="modules" inherit="bottom" />
+	</body>
+
+	<bannerLeft>
+		<name>logo</name>
+		<src>/org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png</src>
+		<href>.</href>
+	</bannerLeft>
+
+	<custom>
+		<fluidoSkin>
+			<topBarEnabled>false</topBarEnabled>
+			<sideBarEnabled>true</sideBarEnabled>
+
+			<googleSearch>
+				<sitesearch />
+			</googleSearch>
+
+			<!-- <copyrightClass>pull-right</copyrightClass> -->
+
+			<gitHub>
+				<projectId>lunifera/lunifera-releng-maven</projectId>
+				<ribbonOrientation>right</ribbonOrientation>
+				<ribbonColor>black</ribbonColor>
+			</gitHub>
+		</fluidoSkin>
+	</custom>
+</project>
