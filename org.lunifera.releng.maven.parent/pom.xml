@@ -176,10 +176,11 @@
 		<report.project-info.version>2.7</report.project-info.version>
 
 		<!-- license configuration -->
+		<!-- default license to use for children -->
+		<license.licenseName>epl_v1</license.licenseName>
 		<license.useMissingFile>true</license.useMissingFile>
 		<license.failIfWarning>true</license.failIfWarning>
 		<license.useRepositoryMissingFiles>true</license.useRepositoryMissingFiles>
-		<maven.license.file>${project.basedir}/LICENSE.txt</maven.license.file>
 
 		<!-- maven plugins -->
 		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
@@ -187,6 +188,19 @@
 
 	<reporting>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>${report.license.version}</version>
+				<reportSets>
+					<reportSet>
+						<id>licenses-report</id>
+						<reports>
+							<report>third-party-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
@@ -234,7 +248,7 @@
 			<id>remove.old.build</id>
 			<activation>
 				<property>
-					<name>build.remove.old</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -267,7 +281,7 @@
 			<id>codeCoverage</id>
 			<activation>
 				<property>
-					<name>lunifera.build.codecoverage</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -315,6 +329,20 @@
 						<configuration>
 							<sonarHostURL>${sonar.host.url}</sonarHostURL>
 						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>${report.surefire.version}</version>
+						<reportSets>
+							<reportSet>
+								<id>integration-tests</id>
+								<reports>
+									<report>report-only</report>
+									<report>failsafe-report-only</report>
+								</reports>
+							</reportSet>
+						</reportSets>
 					</plugin>
 				</plugins>
 			</reporting>
@@ -404,12 +432,11 @@
 			</dependencies>
 		</profile>
 
-
 		<profile>
 			<id>reporting</id>
 			<activation>
 				<property>
-					<name>lunifera.build.reporting</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -431,20 +458,6 @@
 							<reportSet>
 								<reports>
 									<report>jira-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-report-plugin</artifactId>
-						<version>${report.surefire.version}</version>
-						<reportSets>
-							<reportSet>
-								<id>integration-tests</id>
-								<reports>
-									<report>report-only</report>
-									<report>failsafe-report-only</report>
 								</reports>
 							</reportSet>
 						</reportSets>
@@ -505,6 +518,10 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -686,7 +703,61 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
 					<version>${report.license.version}</version>
+					<executions>
+						<execution>
+							<id>attach-licenses</id>
+							<goals>
+								<goal>update-project-license</goal>
+								<goal>add-third-party</goal>
+							</goals>
+							<configuration>
+								<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
+								<!-- <generateBundle>true</generateBundle> -->
+								<!-- <dryRun>true</dryRun> -->
+								<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
+								<useMissingFile>${license.useMissingFile}</useMissingFile>
+								<useRepositoryMissingFiles>${license.useRepositoryMissingFiles}</useRepositoryMissingFiles>
+								<failOnMissingHeader>true</failOnMissingHeader>
+								<failIfWarning>${license.failIfWarning}</failIfWarning>
+								<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+								<encoding>UTF-8</encoding>
+								<licenseMerges>
+									<licenseMerge>
+										The Apache Software License, Version 2.0|Apache
+										License, Version
+										2.0|Apache License V2.0|Apache 2|ASF
+										2.0|apache-2.0|Apache
+										Public License 2.0
+									</licenseMerge>
+									<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
+									<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
+									<licenseMerge>
+										Lesser General Public License (LPGL) v 2.1|GNU
+										Lesser General
+										Public License, 2.1|LGPL 2.1
+									</licenseMerge>
+									<licenseMerge>
+										Lesser General Public License (LPGL)|GNU Lesser
+										General Public
+										License|GNU LESSER GENERAL PUBLIC
+										LICENSE|LGPL|lgpl
+									</licenseMerge>
+									<licenseMerge>
+										COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
+										(CDDL) Version
+										1.0|Common Development and Distribution License
+										(CDDL) v1.0
+									</licenseMerge>
+									<licenseMerge>Indiana University Extreme! Lab Software
+										License,
+										vesion 1.1.1|Indiana University Extreme! Lab
+										Software License</licenseMerge>
+								</licenseMerges>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>

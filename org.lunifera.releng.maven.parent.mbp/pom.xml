@@ -337,7 +337,7 @@
 			<id>javadoc</id>
 			<activation>
 				<property>
-					<name>lunifera.build.javadoc</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -403,7 +403,7 @@
 			<id>sources</id>
 			<activation>
 				<property>
-					<name>lunifera.build.sources</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>

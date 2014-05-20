@@ -57,7 +57,6 @@
 		</plugins>
 	</reporting>
 
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -117,55 +116,10 @@
 
 	<profiles>
 		<profile>
-			<id>licenses</id>
-			<activation>
-				<property>
-					<name>lunifera.build.license</name>
-				</property>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<!-- default license to use for children -->
-				<license.licenseName>epl_v1</license.licenseName>
-			</properties>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>${report.license.version}</version>
-						<reportSets>
-							<reportSet>
-								<id>licenses-report-aggregate</id>
-								<reports>
-									<report>third-party-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-
-		<!-- This profile is activated when a project is released. -->
-		<profile>
-			<id>release</id>
-			<activation>
-				<property>
-					<name>lunifera.build.release</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
 			<id>codeCoverage</id>
 			<activation>
 				<property>
-					<name>lunifera.build.codecoverage</name>
+					<name>lunifera.build.full</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -181,7 +135,7 @@
 			<id>javadoc</id>
 			<activation>
 				<property>
-					<name>lunifera.build.javadoc</name>
+					<name>lunifera.build.full</name>
 				</property>
 			</activation>
 			<reporting>
@@ -211,7 +165,7 @@
 			<id>reporting</id>
 			<activation>
 				<property>
-					<name>lunifera.build.reporting</name>
+					<name>lunifera.build.full</name>
 				</property>
 			</activation>
 			<properties>
