@@ -179,7 +179,7 @@
 		<!-- default license to use for children -->
 		<license.licenseName>epl_v1</license.licenseName>
 		<license.failIfWarning>true</license.failIfWarning>
-
+		<lunifera.license.version>0.0.1-SNAPSHOT</lunifera.license.version>
 		<!-- maven plugins -->
 		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
 	</properties>
@@ -502,6 +502,7 @@
 												<versionRange>[2.0,)</versionRange>
 												<goals>
 													<goal>copy-dependencies</goal>
+													<goal>unpack</goal>
 												</goals>
 											</pluginExecutionFilter>
 											<action>
@@ -545,6 +546,7 @@
 												<artifactId>license-maven-plugin</artifactId>
 												<versionRange>[1.7,)</versionRange>
 												<goals>
+													<goal>add-third-party</goal>
 													<goal>update-project-license</goal>
 												</goals>
 											</pluginExecutionFilter>
@@ -791,11 +793,8 @@
 					<version>${report.license.version}</version>
 					<inherited>true</inherited>
 					<configuration>
-<!-- 						<keepBackup>true</keepBackup> -->
-						<verbose>true</verbose>
-						<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
 						<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
-<!-- 						<useMissingFile>true</useMissingFile> -->
+						<useMissingFile>true</useMissingFile>
 						<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
 						<failOnMissingHeader>true</failOnMissingHeader>
 						<failIfWarning>${license.failIfWarning}</failIfWarning>

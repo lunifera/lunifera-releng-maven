@@ -38,26 +38,6 @@
 		</site>
 	</distributionManagement>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<dependencies>
-						<dependency>
-							<groupId>org.lunifera.releng.maven</groupId>
-							<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-							<version>${project.version}</version>
-							<classifier>third-party</classifier>
-							<type>properties</type>
-						</dependency>
-					</dependencies>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
 	<profiles>
 		<profile>
 			<id>not-in-eclipse</id>
@@ -519,11 +499,12 @@
 		</profile>
 	</profiles>
 
+
 	<dependencies>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-			<version>${project.version}</version>
+			<version>${lunifera.license.version}</version>
 			<classifier>third-party</classifier>
 			<type>properties</type>
 		</dependency>
