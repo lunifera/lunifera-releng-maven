@@ -82,7 +82,7 @@
 
 	<profiles>
 		<profile>
-			<id>deploy.p2</id>
+			<id>stage.p2</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>

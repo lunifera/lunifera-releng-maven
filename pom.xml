@@ -31,6 +31,7 @@
 	</properties>
 
 	<modules>
+		<module>org.lunifera.releng.maven.licenses</module>
 		<module>org.lunifera.releng.maven.parent</module>
 		<module>org.lunifera.releng.maven.parent.mbp</module>
 		<module>org.lunifera.releng.maven.parent.itests</module>

@@ -55,7 +55,6 @@
 		</site>
 	</distributionManagement>
 
-
 	<profiles>
 		<profile>
 			<id>platform.default</id>
@@ -309,6 +308,20 @@
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<dependencies>
+						<dependency>
+							<groupId>org.lunifera.releng.maven</groupId>
+							<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+							<version>${project.version}</version>
+							<classifier>third-party</classifier>
+							<type>properties</type>
+						</dependency>
+					</dependencies>
+				</plugin>
+
 				<!-- enable tycho build -->
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
@@ -371,4 +384,13 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.lunifera.releng.maven</groupId>
+			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+			<version>${project.version}</version>
+			<classifier>third-party</classifier>
+			<type>properties</type>
+		</dependency>
+	</dependencies>
 </project>

@@ -178,9 +178,7 @@
 		<!-- license configuration -->
 		<!-- default license to use for children -->
 		<license.licenseName>epl_v1</license.licenseName>
-		<license.useMissingFile>true</license.useMissingFile>
 		<license.failIfWarning>true</license.failIfWarning>
-		<license.useRepositoryMissingFiles>true</license.useRepositoryMissingFiles>
 
 		<!-- maven plugins -->
 		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
@@ -479,6 +477,89 @@
 				</plugins>
 			</reporting>
 		</profile>
+		<profile>
+			<id>in-eclipse</id>
+			<!-- activated only when running in m2e (eclipse) -->
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-dependency-plugin</artifactId>
+												<versionRange>[2.0,)</versionRange>
+												<goals>
+													<goal>copy-dependencies</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute />
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-antrun-plugin</artifactId>
+												<versionRange>[1.0,)</versionRange>
+												<goals>
+													<goal>run</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute>
+													<runOnIncremental>false</runOnIncremental>
+												</execute>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.jacoco</groupId>
+												<artifactId>jacoco-maven-plugin</artifactId>
+												<versionRange>[0.6,)
+												</versionRange>
+												<goals>
+													<goal>prepare-agent</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<!-- m2e doesn't know what to do with jacoco, let's ignore it 
+													or annoying error markers appear see http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
+												<ignore />
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.codehaus.mojo</groupId>
+												<artifactId>license-maven-plugin</artifactId>
+												<versionRange>[1.7,)</versionRange>
+												<goals>
+													<goal>update-project-license</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
 	</profiles>
 
 	<developers>
@@ -708,57 +789,60 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
 					<version>${report.license.version}</version>
+					<inherited>true</inherited>
+					<configuration>
+<!-- 						<keepBackup>true</keepBackup> -->
+						<verbose>true</verbose>
+						<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
+						<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
+<!-- 						<useMissingFile>true</useMissingFile> -->
+						<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
+						<failOnMissingHeader>true</failOnMissingHeader>
+						<failIfWarning>${license.failIfWarning}</failIfWarning>
+						<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+						<encoding>UTF-8</encoding>
+						<licenseMerges>
+							<licenseMerge>
+								The Apache Software License, Version 2.0|Apache
+								License, Version
+								2.0|Apache License V2.0|Apache 2|ASF
+								2.0|apache-2.0|Apache
+								Public License 2.0
+							</licenseMerge>
+							<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
+							<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
+							<licenseMerge>
+								Lesser General Public License (LPGL) v 2.1|GNU
+								Lesser General
+								Public License, 2.1|LGPL 2.1
+							</licenseMerge>
+							<licenseMerge>
+								Lesser General Public License (LPGL)|GNU Lesser
+								General Public
+								License|GNU LESSER GENERAL PUBLIC
+								LICENSE|LGPL|lgpl
+							</licenseMerge>
+							<licenseMerge>
+								COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
+								(CDDL)
+								Version
+								1.0|Common Development and Distribution License
+								(CDDL)
+								v1.0
+							</licenseMerge>
+							<licenseMerge>Indiana University Extreme! Lab Software
+								License,
+								vesion 1.1.1|Indiana University Extreme! Lab
+								Software License</licenseMerge>
+						</licenseMerges>
+					</configuration>
 					<executions>
 						<execution>
-							<id>attach-licenses</id>
+							<id>update-license-files</id>
 							<goals>
 								<goal>update-project-license</goal>
 								<goal>add-third-party</goal>
 							</goals>
-							<configuration>
-								<!-- <licenseResolver>classpath://org/lunifera/releng/maven/licenses</licenseResolver> -->
-								<!-- <generateBundle>true</generateBundle> -->
-								<!-- <dryRun>true</dryRun> -->
-								<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
-								<useMissingFile>${license.useMissingFile}</useMissingFile>
-								<useRepositoryMissingFiles>${license.useRepositoryMissingFiles}</useRepositoryMissingFiles>
-								<failOnMissingHeader>true</failOnMissingHeader>
-								<failIfWarning>${license.failIfWarning}</failIfWarning>
-								<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
-								<encoding>UTF-8</encoding>
-								<licenseMerges>
-									<licenseMerge>
-										The Apache Software License, Version 2.0|Apache
-										License, Version
-										2.0|Apache License V2.0|Apache 2|ASF
-										2.0|apache-2.0|Apache
-										Public License 2.0
-									</licenseMerge>
-									<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
-									<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
-									<licenseMerge>
-										Lesser General Public License (LPGL) v 2.1|GNU
-										Lesser General
-										Public License, 2.1|LGPL 2.1
-									</licenseMerge>
-									<licenseMerge>
-										Lesser General Public License (LPGL)|GNU Lesser
-										General Public
-										License|GNU LESSER GENERAL PUBLIC
-										LICENSE|LGPL|lgpl
-									</licenseMerge>
-									<licenseMerge>
-										COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
-										(CDDL) Version
-										1.0|Common Development and Distribution License
-										(CDDL) v1.0
-									</licenseMerge>
-									<licenseMerge>Indiana University Extreme! Lab Software
-										License,
-										vesion 1.1.1|Indiana University Extreme! Lab
-										Software License</licenseMerge>
-								</licenseMerges>
-							</configuration>
 						</execution>
 					</executions>
 				</plugin>
