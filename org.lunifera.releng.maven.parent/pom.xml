@@ -191,23 +191,12 @@
 		<jacoco.version>0.7.1.201405082137</jacoco.version>
 		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
+
+		<lunifera.report.short>false</lunifera.report.short>
 	</properties>
 
 	<reporting>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>${report.license.version}</version>
-				<reportSets>
-					<reportSet>
-						<id>licenses-report</id>
-						<reports>
-							<report>third-party-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
@@ -215,20 +204,15 @@
 				<reportSets>
 					<reportSet>
 						<reports>
-							<!-- distribution-management, index, dependencies, help, issue-tracking, 
-								plugins, cim, license, dependency-management, mailing-list, project-team, 
-								dependency-convergence, scm, plugin-management, modules, summary -->
+							<!-- existent ones are: distribution-management, index, dependencies, 
+								help, issue-tracking, plugins, cim, license, dependency-management, mailing-list, 
+								project-team, dependency-convergence, scm, plugin-management, modules, summary -->
 							<report>index</report>
-							<report>license</report>
-							<report>dependencies</report>
 							<report>project-team</report>
 							<report>mailing-list</report>
 							<report>cim</report>
 							<report>issue-tracking</report>
-							<report>plugin-management</report>
-							<report>dependency-convergence</report>
 							<report>scm</report>
-							<report>summary</report>
 						</reports>
 					</reportSet>
 				</reportSets>
@@ -237,6 +221,52 @@
 	</reporting>
 
 	<profiles>
+		<profile>
+			<id>full-project-info-report</id>
+			<activation>
+				<property>
+					<name>!lunifera.reporting.short</name>
+				</property>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
+						<reportSets>
+							<reportSet>
+								<id>licenses-report</id>
+								<reports>
+									<report>third-party-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+						<version>${report.project-info.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<!-- distribution-management, index, dependencies, help, issue-tracking, 
+										plugins, cim, license, dependency-management, mailing-list, project-team, 
+										dependency-convergence, scm, plugin-management, modules, summary -->
+									<report>license</report>
+									<report>dependencies</report>
+									<report>plugin-management</report>
+									<report>dependency-convergence</report>
+									<report>scm</report>
+									<report>summary</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
 		<profile>
 			<!-- Just in case the developer have forgotten to set it in settings.xml -->
 			<id>set.deployment.location</id>
