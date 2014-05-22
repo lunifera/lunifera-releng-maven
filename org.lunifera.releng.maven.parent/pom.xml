@@ -41,7 +41,7 @@
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>http://jenkins.lunifera.org:8083/job/lunifera-releng-maven/</url>
+		<url>${lunifera.ci.server.url}${lunifera.aggregator.name}/</url>
 	</ciManagement>
 
 	<url>${distribution.site.url}</url>
@@ -64,9 +64,10 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/lunifera/lunifera-releng-maven.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:lunifera/lunifera-releng-maven.git</developerConnection>
-		<url>https://github.com/lunifera/lunifera-releng-maven</url>
+		<!-- convention is that the repository name is same as the aggregator name -->
+		<connection>scm:git:git://github.com/${lunifera.scm.user}/${lunifera.aggregator.name}.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:lunifera/${lunifera.aggregator.name}.git</developerConnection>
+		<url>https://github.com/${lunifera.scm.user}/${lunifera.aggregator.name}</url>
 	</scm>
 	<!-- End -->
 
@@ -81,6 +82,14 @@
 	<properties>
 		<lunifera.site.skip>false</lunifera.site.skip>
 		<lunifera.deploy.skip>false</lunifera.deploy.skip>
+
+		<lunifera.scm.user>lunifera</lunifera.scm.user>
+
+		<!-- the base for SCM URL -->
+		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
+
+		<!-- the base for CI URL -->
+		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
 
 		<!-- current profile to use: (pre-release|sandbox|retired) -->
 		<lunifera.site.profile></lunifera.site.profile>
@@ -156,10 +165,6 @@
 		<stanbol.version>0.11.0</stanbol.version>
 		<zookeeper.version>3.4.5</zookeeper.version>
 		<hazelcast.version>3.1.5</hazelcast.version>
-		<copyright.years>${project.inceptionYear}, 2014</copyright.years>
-		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
-		<surefire.version>2.17</surefire.version>
-		<jacoco.version>0.7.1.201405082137</jacoco.version>
 		<paxexam.version>3.5.0</paxexam.version>
 		<paxexam.felix.version>4.4.0</paxexam.felix.version>
 		<paxurl.version>2.0.0</paxurl.version>
@@ -180,8 +185,12 @@
 		<license.licenseName>epl_v1</license.licenseName>
 		<license.failIfWarning>true</license.failIfWarning>
 		<lunifera.license.version>0.0.1-SNAPSHOT</lunifera.license.version>
+
 		<!-- maven plugins -->
+		<surefire.version>2.17</surefire.version>
+		<jacoco.version>0.7.1.201405082137</jacoco.version>
 		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
+		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 	</properties>
 
 	<reporting>
@@ -246,7 +255,7 @@
 			<id>remove.old.build</id>
 			<activation>
 				<property>
-					<name>lunifera.build.full</name>
+					<name>lunifera.build.release</name>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -280,6 +289,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+					<value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -435,6 +445,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+					<value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -495,6 +506,20 @@
 							<configuration>
 								<lifecycleMappingMetadata>
 									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-compiler-plugin</artifactId>
+												<versionRange>[3.0,)</versionRange>
+												<goals>
+													<goal>compile</goal>
+													<goal>testCompile</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
 										<pluginExecution>
 											<pluginExecutionFilter>
 												<groupId>org.apache.maven.plugins</groupId>

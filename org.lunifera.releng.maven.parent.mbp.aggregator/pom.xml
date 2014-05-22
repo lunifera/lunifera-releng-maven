@@ -120,6 +120,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+                    <value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -136,6 +137,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+                    <value>true</value>
 				</property>
 			</activation>
 			<reporting>
@@ -166,6 +168,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+                    <value>true</value>
 				</property>
 			</activation>
 			<properties>

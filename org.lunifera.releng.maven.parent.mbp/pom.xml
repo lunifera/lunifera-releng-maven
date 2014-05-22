@@ -283,6 +283,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+					<value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -349,6 +350,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
+					<value>true</value>
 				</property>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -417,6 +419,7 @@
 									<rules>
 										<requireProperty>
 											<property>lunifera.build.full</property>
+											<value>true</value>
 										</requireProperty>
 									</rules>
 									<ignoreCache>true</ignoreCache>
