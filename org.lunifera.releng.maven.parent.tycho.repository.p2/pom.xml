@@ -31,8 +31,8 @@
 		<encoded.compositeArtifacts>PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPD9jb21wb3NpdGVBcnRpZmFjdFJlcG9zaXRvcnkgdmVyc2lvbj0nMS4wLjAnPz4KPHJlcG9zaXRvcnkgbmFtZT0nTHVuaWZlcmEgVXBkYXRlIFNpdGUnIHR5cGU9J29yZy5lY2xpcHNlLmVxdWlub3guaW50ZXJuYWwucDIuYXJ0aWZhY3QucmVwb3NpdG9yeS5Db21wb3NpdGVBcnRpZmFjdFJlcG9zaXRvcnknIHZlcnNpb249JzEuMC4wJz4KICA8cHJvcGVydGllcyBzaXplPScxJz4KCTxwcm9wZXJ0eSBuYW1lPSdwMi50aW1lc3RhbXAnIHZhbHVlPScxMjQzODIyNTAyNDQwJy8+CiAgPC9wcm9wZXJ0aWVzPgogIDxjaGlsZHJlbiBzaXplPScwJz4JCiAgPC9jaGlsZHJlbj4KPC9yZXBvc2l0b3J5Pg==</encoded.compositeArtifacts>
 		<encoded.compositeContent>PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPD9jb21wb3NpdGVNZXRhZGF0YVJlcG9zaXRvcnkgdmVyc2lvbj0nMS4wLjAnPz4KPHJlcG9zaXRvcnkgbmFtZT0nTHVuaWZlcmEgVXBkYXRlIFNpdGUnIHR5cGU9J29yZy5lY2xpcHNlLmVxdWlub3guaW50ZXJuYWwucDIubWV0YWRhdGEucmVwb3NpdG9yeS5Db21wb3NpdGVNZXRhZGF0YVJlcG9zaXRvcnknIHZlcnNpb249JzEuMC4wJz4KICA8cHJvcGVydGllcyBzaXplPScxJz4KCTxwcm9wZXJ0eSBuYW1lPSdwMi50aW1lc3RhbXAnIHZhbHVlPScxMjQzODIyNTAyNDk5Jy8+CiAgPC9wcm9wZXJ0aWVzPgogIDxjaGlsZHJlbiBzaXplPScwJz4KICA8L2NoaWxkcmVuPgo8L3JlcG9zaXRvcnk+</encoded.compositeContent>
 
-		<!-- this properties can be overrided for each repository POM -->
-		<lunifera.deployment.p2.label>${project.artifactId}</lunifera.deployment.p2.label>
+		<!-- this properties must be overridden for each repository POM -->
+		<lunifera.stage.p2.label>${project.artifactId}</lunifera.stage.p2.label>
 		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
 	</properties>
 
@@ -87,9 +87,9 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<lunifera.deployment.p2.log.file.path>${project.basedir}${file.separator}build.${lunifera.deployment.p2.label}.${lunifera.build.eclipse.platform.name}.${lunifera.build.branch}.log.properties</lunifera.deployment.p2.log.file.path>
-				<lunifera.deployment.p2.origin.dir>${project.build.directory}${file.separator}repository</lunifera.deployment.p2.origin.dir>
-				<lunifera.deployment.p2.target.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}${lunifera.deployment.p2.label}${file.separator}${lunifera.deployment.artifact.version}</lunifera.deployment.p2.target.dir>
+				<lunifera.stage.p2.log.file.path>${project.basedir}${file.separator}build.${lunifera.stage.p2.label}.${lunifera.build.eclipse.platform.name}.${lunifera.build.branch}.log.properties</lunifera.stage.p2.log.file.path>
+				<lunifera.stage.p2.origin.dir>${project.build.directory}${file.separator}repository</lunifera.stage.p2.origin.dir>
+				<lunifera.stage.p2.target.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}${lunifera.stage.p2.label}${file.separator}${lunifera.stage.artifact.version}</lunifera.stage.p2.target.dir>
 			</properties>
 			<build>
 				<plugins>
@@ -116,15 +116,15 @@
 											message="Federated Repository Local Dir (lunifera.build.local.federated.p2.dir): ${lunifera.build.local.federated.p2.dir}" />
 										<echo message="Platform: ${lunifera.build.eclipse.platform.name}" />
 										<echo message="Build Type: ${lunifera.build.branch}" />
-										<echo message="Repo Name: ${lunifera.deployment.p2.label}" />
-										<echo message="Repo Keep Old: ${lunifera.deployment.p2.keep.old}" />
-										<echo message="Repo Version: ${lunifera.deployment.artifact.version}" />
+										<echo message="Repo Name: ${lunifera.stage.p2.label}" />
+										<echo message="Repo Keep Old: ${lunifera.stage.p2.keep.old}" />
+										<echo message="Repo Version: ${lunifera.stage.artifact.version}" />
 										<echo
-											message="Log File (lunifera.deployment.p2.log.file.path): ${lunifera.deployment.p2.log.file.path}" />
+											message="Log File (lunifera.stage.p2.log.file.path): ${lunifera.stage.p2.log.file.path}" />
 										<echo
-											message="P2 Source Dir (lunifera.deployment.p2.origin.dir): ${lunifera.deployment.p2.origin.dir}" />
+											message="P2 Source Dir (lunifera.stage.p2.origin.dir): ${lunifera.stage.p2.origin.dir}" />
 										<echo
-											message="P2 Target Dir (lunifera.deployment.p2.target.dir): ${lunifera.deployment.p2.target.dir}" />
+											message="P2 Target Dir (lunifera.stage.p2.target.dir): ${lunifera.stage.p2.target.dir}" />
 
 										<!-- "init" -->
 										<fail
@@ -236,17 +236,17 @@
 										</fail>
 
 										<!-- create the R5 index repository. -->
-										<repoindex name="${lunifera.deployment.p2.label}"
-											rootURL="${lunifera.deployment.p2.origin.dir}" verbose="true"
-											pretty="true" out="${lunifera.deployment.p2.origin.dir}/index.xml">
-											<fileset dir="${lunifera.deployment.p2.origin.dir}/plugins" includes="**/*" />
+										<repoindex name="${lunifera.stage.p2.label}"
+											rootURL="${lunifera.stage.p2.origin.dir}" verbose="true"
+											pretty="true" out="${lunifera.stage.p2.origin.dir}/index.xml">
+											<fileset dir="${lunifera.stage.p2.origin.dir}/plugins" includes="**/*" />
 										</repoindex>
 
 										<fail
-											message="Could not find generated index.xml template at ${lunifera.deployment.p2.origin.dir} !">
+											message="Could not find generated index.xml template at ${lunifera.stage.p2.origin.dir} !">
 											<condition>
 												<not>
-													<available file="${lunifera.deployment.p2.origin.dir}/index.xml"
+													<available file="${lunifera.stage.p2.origin.dir}/index.xml"
 														type="file" />
 												</not>
 											</condition>
@@ -255,11 +255,11 @@
 										<!-- "deploy.generated.p2.to.composite.dir.init" -->
 										<echo message="Copying repo to Federated Repository !!!" />
 										<if>
-											<available file="${lunifera.deployment.p2.log.file.path}"
+											<available file="${lunifera.stage.p2.log.file.path}"
 												type="file" />
 											<then>
 												<echo message="OPEN BUILD LOG" />
-												<property file="${lunifera.deployment.p2.log.file.path}"
+												<property file="${lunifera.stage.p2.log.file.path}"
 													prefix="old" />
 												<echoproperties prefix="old." />
 											</then>
@@ -269,30 +269,30 @@
 										<!-- remove the latest built repository directory -->
 										<if>
 											<and>
-												<equals arg1="${lunifera.deployment.p2.keep.old}"
+												<equals arg1="${lunifera.stage.p2.keep.old}"
 													arg2="false" />
-												<available file="${old.lunifera.deployment.p2.target.dir}"
+												<available file="${old.lunifera.stage.p2.target.dir}"
 													type="dir" />
 											</and>
 											<then>
 												<echo message="REMOVING OLD BUILD" />
 												<delete includeemptydirs="true" failonerror="false">
 													<fileset includes="**/*"
-														dir="${old.lunifera.deployment.p2.target.dir}" />
+														dir="${old.lunifera.stage.p2.target.dir}" />
 												</delete>
-												<delete dir="${old.lunifera.deployment.p2.target.dir}" />
+												<delete dir="${old.lunifera.stage.p2.target.dir}" />
 											</then>
 										</if>
 										<!-- remove an existent repository directory -->
 										<if>
-											<available file="${lunifera.deployment.p2.target.dir}"
+											<available file="${lunifera.stage.p2.target.dir}"
 												type="dir" />
 											<then>
 												<delete includeemptydirs="true" failonerror="false">
 													<fileset includes="**/*"
-														dir="${lunifera.deployment.p2.target.dir}" />
+														dir="${lunifera.stage.p2.target.dir}" />
 												</delete>
-												<delete dir="${lunifera.deployment.p2.target.dir}" />
+												<delete dir="${lunifera.stage.p2.target.dir}" />
 											</then>
 										</if>
 
@@ -301,47 +301,47 @@
 											P2 -->
 										<echo message="COPYING P2" />
 										<if>
-											<available file="${lunifera.deployment.p2.origin.dir}"
+											<available file="${lunifera.stage.p2.origin.dir}"
 												type="dir" />
 											<then>
-												<mkdir dir="${lunifera.deployment.p2.target.dir}" />
-												<copy todir="${lunifera.deployment.p2.target.dir}">
-													<fileset dir="${lunifera.deployment.p2.origin.dir}"
+												<mkdir dir="${lunifera.stage.p2.target.dir}" />
+												<copy todir="${lunifera.stage.p2.target.dir}">
+													<fileset dir="${lunifera.stage.p2.origin.dir}"
 														includes="**/*" />
 												</copy>
 												<if>
-													<equals arg1="${lunifera.deployment.p2.keep.old}"
+													<equals arg1="${lunifera.stage.p2.keep.old}"
 														arg2="false" />
 													<then>
-														<propertyfile file="${lunifera.deployment.p2.log.file.path}"
+														<propertyfile file="${lunifera.stage.p2.log.file.path}"
 															comment="Building log for ${lunifera.build.eclipse.platform.name} - ${lunifera.build.branch}">
 															<entry key="build.counter" type="int" default="0"
 																operation="+" />
 															<entry key="build.date" type="date" value="now" />
-															<entry key="lunifera.deployment.artifact.version"
-																value="${lunifera.deployment.artifact.version}" />
-															<entry key="lunifera.deployment.p2.target.dir"
-																value="${lunifera.deployment.p2.target.dir}" />
+															<entry key="lunifera.stage.artifact.version"
+																value="${lunifera.stage.artifact.version}" />
+															<entry key="lunifera.stage.p2.target.dir"
+																value="${lunifera.stage.p2.target.dir}" />
 														</propertyfile>
 													</then>
 													<else>
-														<propertyfile file="${lunifera.deployment.p2.log.file.path}"
+														<propertyfile file="${lunifera.stage.p2.log.file.path}"
 															comment="Building log for ${lunifera.build.eclipse.platform.name} - ${lunifera.build.branch}">
 															<entry key="build.counter" type="int" default="0"
 																operation="+" />
 															<entry key="build.date" type="date" value="now" />
 															<entry key="lunifera.build.local.federated.p2.dir"
 																value="${lunifera.build.local.federated.p2.dir}" />
-															<entry key="lunifera.deployment.artifact.versions"
+															<entry key="lunifera.stage.artifact.versions"
 																default="" operation="+"
-																value=",${lunifera.deployment.artifact.version}" />
+																value=",${lunifera.stage.artifact.version}" />
 														</propertyfile>
 													</else>
 												</if>
 											</then>
 											<else>
 												<fail
-													message="The P2 repository was not generated in '${lunifera.deployment.p2.origin.dir}' !" />
+													message="The P2 repository was not generated in '${lunifera.stage.p2.origin.dir}' !" />
 											</else>
 										</if>
 

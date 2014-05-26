@@ -93,7 +93,7 @@
 			</activation>
 			<properties>
 				<lunifera.build.product.origin.dir>${project.build.directory}${file.separator}${file.separator}product</lunifera.build.product.origin.dir>
-				<lunifera.deployment.product.target.dir>${lunifera.developer.home}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}${lunifera.deployment.p2.label}${file.separator}${lunifera.deployment.artifact.version}</lunifera.deployment.product.target.dir>
+				<lunifera.stage.product.target.dir>${lunifera.developer.home}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}${lunifera.stage.p2.label}${file.separator}${lunifera.stage.artifact.version}</lunifera.stage.product.target.dir>
 			</properties>
 
 		</profile>

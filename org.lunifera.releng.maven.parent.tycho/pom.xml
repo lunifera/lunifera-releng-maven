@@ -42,7 +42,7 @@
 		<lunifera.build.remote.federated.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.federated.p2.url>
 
 		<!-- this property is calculated based on the aggregator pom's version -->
-		<lunifera.deployment.artifact.version>none</lunifera.deployment.artifact.version>
+		<lunifera.stage.artifact.version>none</lunifera.stage.artifact.version>
 
 	</properties>
 
@@ -164,8 +164,8 @@
 			</activation>
 			<properties>
 				<lunifera.build.branch>latest</lunifera.build.branch>
-				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.deployment.artifact.version>
-				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
+				<lunifera.stage.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.stage.artifact.version>
+				<lunifera.stage.p2.keep.old>false</lunifera.stage.p2.keep.old>
 			</properties>
 			<build>
 				<plugins>
@@ -200,8 +200,8 @@
 				</property>
 			</activation>
 			<properties>
-				<lunifera.deployment.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.deployment.artifact.version>
-				<lunifera.deployment.p2.keep.old>false</lunifera.deployment.p2.keep.old>
+				<lunifera.stage.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.stage.artifact.version>
+				<lunifera.stage.p2.keep.old>false</lunifera.stage.p2.keep.old>
 			</properties>
 			<build>
 				<plugins>
@@ -236,8 +236,8 @@
 				</property>
 			</activation>
 			<properties>
-				<lunifera.deployment.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</lunifera.deployment.artifact.version>
-				<lunifera.deployment.p2.keep.old>true</lunifera.deployment.p2.keep.old>
+				<lunifera.stage.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</lunifera.stage.artifact.version>
+				<lunifera.stage.p2.keep.old>true</lunifera.stage.p2.keep.old>
 			</properties>
 			<build>
 				<plugins>
