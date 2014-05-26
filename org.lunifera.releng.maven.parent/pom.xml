@@ -32,6 +32,7 @@
 
 	<issueManagement>
 		<system>Jira</system>
+        <!-- convention is to create jira's components using the same name as the aggregator projects -->
 		<url>https://lunifera.atlassian.net/browse/LS</url>
 	</issueManagement>
 
@@ -64,10 +65,10 @@
 	</distributionManagement>
 
 	<scm>
-		<!-- convention is that the repository name is same as the aggregator name -->
-		<connection>scm:git:git://github.com/${lunifera.scm.user}/${lunifera.aggregator.name}.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:lunifera/${lunifera.aggregator.name}.git</developerConnection>
-		<url>https://github.com/${lunifera.scm.user}/${lunifera.aggregator.name}</url>
+		<!-- convention is that the repository's name be the same as the aggregator name -->
+		<connection>${lunifera.scm.connection}</connection>
+		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
+		<url>${lunifera.scm.url}</url>
 	</scm>
 	<!-- End -->
 
@@ -84,6 +85,14 @@
 		<lunifera.deploy.skip>false</lunifera.deploy.skip>
 
 		<lunifera.scm.user>lunifera</lunifera.scm.user>
+		<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.aggregator.name}</lunifera.scm.url>
+		<lunifera.scm.url.host>https://github.com/</lunifera.scm.url.host>
+		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection>
+		<lunifera.scm.connection.protocol>scm:git:</lunifera.scm.connection.protocol>
+		<lunifera.scm.connection.host>git://github.com/</lunifera.scm.connection.host>
+		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}:${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection.dev>
+		<lunifera.scm.connection.dev.protocol>scm:git:</lunifera.scm.connection.dev.protocol>
+		<lunifera.scm.connection.dev.host>ssh://git@github.com</lunifera.scm.connection.dev.host>
 
 		<!-- the base for SCM URL -->
 		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
@@ -258,7 +267,6 @@
 									<report>dependencies</report>
 									<report>plugin-management</report>
 									<report>dependency-convergence</report>
-									<report>scm</report>
 									<report>summary</report>
 								</reports>
 							</reportSet>
@@ -967,6 +975,11 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
 					<version>1.3.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-invoker-plugin</artifactId>
+					<version>1.8</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

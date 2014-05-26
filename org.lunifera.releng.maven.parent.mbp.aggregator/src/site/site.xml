@@ -7,8 +7,8 @@
 
 	<bannerLeft>
 		<name>logo</name>
-		<src>/org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png</src>
-		<href>.</href>
+		<src>${lunifera.site.repository.url}/org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png</src>
+		<href>${lunifera.site.repository.url}</href>
 	</bannerLeft>
 
 	<custom>

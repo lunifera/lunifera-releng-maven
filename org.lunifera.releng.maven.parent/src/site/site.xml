@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Lunifera OSGi Subsystems">
 
+    <bannerLeft>
+        <name>logo</name>
+        <src>${lunifera.site.repository.url}/org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png</src>
+        <href>${lunifera.site.repository.url}</href>
+    </bannerLeft>
+
 	<body>
 
 		<menu name="Lunifera OSGi Subsystems" inherit="bottom">
@@ -27,8 +33,8 @@
 
 	<custom>
 		<fluidoSkin>
-			<topBarEnabled>true</topBarEnabled>
-			<sideBarEnabled>false</sideBarEnabled>
+			<topBarEnabled>false</topBarEnabled>
+			<sideBarEnabled>true</sideBarEnabled>
 
 			<profile>${lunifera.site.profile}</profile>
 
@@ -40,7 +46,7 @@
 			<topBarIcon>
 				<name>Lunifera OSGi Subsystems</name>
 				<alt>Lunifera OSGi Subsystems Project Site</alt>
-				<src>../org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png
+				<src>/org.lunifera.releng.maven.parent/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png
 				</src>
 				<href>/lunifera-runtime-kernel/index.html</href>
 			</topBarIcon>
