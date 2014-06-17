@@ -33,7 +33,6 @@
 
 		<!-- this properties must be overridden for each repository POM -->
 		<lunifera.stage.p2.label>${project.artifactId}</lunifera.stage.p2.label>
-		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
 	</properties>
 
     <url>${distribution.site.url}</url>

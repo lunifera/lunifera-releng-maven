@@ -36,7 +36,7 @@
 		<lunifera.build.eclipse.platform.p2.url>none</lunifera.build.eclipse.platform.p2.url>
 
 		<!-- these will be set by profiles that deals with the local federated 
-			repository -->
+			stage repository -->
 		<lunifera.build.local.federated.p2.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}</lunifera.build.local.federated.p2.dir>
 		<lunifera.build.local.federated.p2.url>file://${lunifera.build.local.federated.p2.dir}</lunifera.build.local.federated.p2.url>
 		<lunifera.build.remote.federated.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.federated.p2.url>
@@ -111,6 +111,21 @@
 			</repositories>
 		</profile>
 		<profile>
+			<id>enables.remote.federated.p2</id>
+			<activation>
+				<property>
+					<name>!lunifera.build.uses.local.federated.p2</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>lunifera.remote.federated.p2</id>
+					<url>${lunifera.build.remote.federated.p2.url}</url>
+					<layout>p2</layout>
+				</repository>
+			</repositories>
+		</profile>
+		<profile>
 			<id>lunifera.build.uses.remote.federated.p2</id>
 			<activation>
 				<property>
@@ -125,7 +140,6 @@
 				</repository>
 			</repositories>
 		</profile>
-
 		<profile>
 			<id>prepare-for-next-release</id>
 			<activation>
@@ -361,7 +375,7 @@
 						<useUIThread>false</useUIThread>
 						<failIfNoTests>false</failIfNoTests>
 						<!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
-						<argLine>-Dfile.encoding=UTF-8</argLine>
+						<argLine>${jacoco.agent.it.arg}</argLine>
 						<!-- Kill test JVM if tests take more than 10 minutes (600 seconds) 
 							to finish -->
 						<forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
@@ -374,7 +388,6 @@
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-			<version>${lunifera.license.version}</version>
 			<classifier>third-party</classifier>
 			<type>properties</type>
 		</dependency>

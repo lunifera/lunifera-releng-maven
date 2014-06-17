@@ -15,8 +15,6 @@
 		<pluginGroup>org.sonatype.plugins</pluginGroup>
 	</pluginGroups>
 	<profiles>
-
-
 		<profile>
 			<!-- Required for dependencies of Xtend module -->
 			<id>xtend</id>
@@ -50,7 +48,7 @@
 			<!-- Required for dependencies of JBoss module -->
 			<id>jboss</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<repositories>
 				<repository>
@@ -78,6 +76,11 @@
 					<snapshots>
 						<enabled>false</enabled>
 					</snapshots>
+				</pluginRepository>
+				<pluginRepository>
+					<id>lunifera thirdparty</id>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/thirdparty/
+					</url>
 				</pluginRepository>
 				<pluginRepository>
 					<id>codehaus-public-repository-group</id>

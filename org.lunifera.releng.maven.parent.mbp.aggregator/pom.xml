@@ -26,6 +26,8 @@
 
 	<properties>
 		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
+		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
 	</properties>
 
 	<url>${distribution.site.url}</url>
@@ -116,20 +118,36 @@
 
 	<profiles>
 		<profile>
+			<!-- aggregator will group the reports for all modules -->
 			<id>codeCoverage</id>
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
-                    <value>true</value>
+					<value>true</value>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<!-- override this in order to generate the same report for multiple 
-					nested projects -->
-				<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-				<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
 			</properties>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.sonar-plugins</groupId>
+						<artifactId>maven-report</artifactId>
+						<version>${report.sonar.version}</version>
+						<configuration>
+							<sonarHostURL>${sonar.host.url}</sonarHostURL>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.sonar</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<profile>
@@ -137,7 +155,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
-                    <value>true</value>
+					<value>true</value>
 				</property>
 			</activation>
 			<reporting>
@@ -168,7 +186,7 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
-                    <value>true</value>
+					<value>true</value>
 				</property>
 			</activation>
 			<properties>

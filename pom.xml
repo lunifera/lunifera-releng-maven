@@ -41,6 +41,8 @@
 		<module>org.lunifera.releng.maven.parent.tycho.aggregator</module>
 		<module>org.lunifera.releng.maven.parent.tycho.product</module>
 		<module>org.lunifera.releng.maven.parent.tycho.repository.p2</module>
+		<module>org.lunifera.releng.maven.pom.equinox.luna</module>
+		<module>org.lunifera.releng.maven.pom.felix</module>
 	</modules>
 
 	<url>${distribution.site.url}</url>

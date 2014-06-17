@@ -32,7 +32,8 @@
 
 	<issueManagement>
 		<system>Jira</system>
-        <!-- convention is to create jira's components using the same name as the aggregator projects -->
+		<!-- convention is to create jira's components using the same name as the 
+			aggregator projects -->
 		<url>https://lunifera.atlassian.net/browse/LS</url>
 	</issueManagement>
 
@@ -65,7 +66,8 @@
 	</distributionManagement>
 
 	<scm>
-		<!-- convention is that the repository's name be the same as the aggregator name -->
+		<!-- convention is that the repository's name be the same as the aggregator 
+			name -->
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
@@ -83,6 +85,8 @@
 	<properties>
 		<lunifera.site.skip>false</lunifera.site.skip>
 		<lunifera.deploy.skip>false</lunifera.deploy.skip>
+
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 
 		<lunifera.scm.user>lunifera</lunifera.scm.user>
 		<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.aggregator.name}</lunifera.scm.url>
@@ -130,8 +134,11 @@
 		<osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
 
 		<!-- this properties must be set in settings.xml or using -Dlunifera.developer.home 
-			in command line -->
-		<lunifera.developer.home>none</lunifera.developer.home>
+			in command line. it defaults to the current user home -->
+		<lunifera.developer.home>${user.dir}</lunifera.developer.home>
+
+		<!-- indicates where to stage built repositories in local machine -->
+		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
 
 		<!-- this properties must be unique for the entire system -->
 		<lunifera.federated.repository.label>lunifera</lunifera.federated.repository.label>
@@ -140,8 +147,8 @@
 			of some steps and its properties. (branch latest head, milestone, release) -->
 		<lunifera.build.branch>head</lunifera.build.branch>
 
-		<!-- this indicate whether an old p2 published should be kept or not. this 
-			should be determined by the builder.brach being used. -->
+		<!-- this indicates whether an old p2 published should be kept or not. 
+			this should be determined by the builder.brach being used. -->
 		<lunifera.stage.p2.keep.old>false</lunifera.stage.p2.keep.old>
 
 		<junit.version>4.11</junit.version>
@@ -177,9 +184,11 @@
 		<paxexam.version>3.5.0</paxexam.version>
 		<paxexam.felix.version>4.4.0</paxexam.felix.version>
 		<paxurl.version>2.0.0</paxurl.version>
+		<maven.version>3.2.1</maven.version>
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
 			test -->
 		<sonar-jacoco-listeners.version>2.2</sonar-jacoco-listeners.version>
+		<lunifera.jacoco.include>*/**</lunifera.jacoco.include>
 
 		<report.javadoc.version>2.9.1</report.javadoc.version>
 		<report.license.version>1.7</report.license.version>
@@ -202,6 +211,44 @@
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
 
 		<lunifera.report.short>false</lunifera.report.short>
+
+		<!-- ************************ -->
+		<!-- Sonar/Reporting settings -->
+		<!-- ************************ -->
+		<!-- Sonar/Jacoco integration. Note that you need to call this profile 
+			when to execute mvn sonar:sonar -->
+		<sonar.host.url>http://88.198.33.16:9000/</sonar.host.url>
+
+		<!-- Tells Sonar to use jacoco for coverage results -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+
+		<!-- Don't let Sonar execute tests. We will ask it to Maven -->
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<!-- The system property jacoco.outputDir needs to be override on the command 
+			line with an absolute path if you want to merge results from all modules. 
+			Example in a Jenkins build where ${WORKSPACE} is defined and your project 
+			is in the root directory of the workspace : mvn clean install -Prun-its,coverage 
+			-Djacoco.outputDir=${WORKSPACE}/target. Note that unfortunately using the 
+			following does not work because of http://jira.codehaus.org/browse/SONAR-3427: 
+			<jacoco.outputDir>${session.executionRootDirectory}/target/</jacoco.outputDir> -->
+		<jacoco.outputDir>${project.basedir}/../target/</jacoco.outputDir>
+
+		<!-- Jacoco output file for UTs -->
+		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
+
+		<!-- Tells Sonar where the Jacoco coverage result file is located for Unit 
+			Tests -->
+		<sonar.jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</sonar.jacoco.reportPath>
+
+		<!-- Jacoco output file for ITs -->
+		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
+
+		<!-- Tells Sonar where the Jacoco coverage result file is located for Integration 
+			Tests -->
+		<sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
+
+		<sonar.language>java</sonar.language>
+
 	</properties>
 
 	<reporting>
@@ -231,12 +278,89 @@
 
 	<profiles>
 		<profile>
+			<id>check-license</id>
+			<activation>
+				<property>
+					<name>!lunifera.build.skip.license</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>license-maven-plugin</artifactId>
+							<version>${report.license.version}</version>
+							<inherited>true</inherited>
+							<configuration>
+								<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
+								<useMissingFile>true</useMissingFile>
+								<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
+								<failOnMissingHeader>true</failOnMissingHeader>
+								<failIfWarning>${license.failIfWarning}</failIfWarning>
+								<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+								<encoding>UTF-8</encoding>
+								<licenseMerges>
+									<licenseMerge>
+										The Apache Software License, Version 2.0|Apache
+										License, Version
+										2.0|Apache License V2.0|Apache 2|ASF
+										2.0|apache-2.0|Apache
+										Public License 2.0
+									</licenseMerge>
+									<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
+									<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
+									<licenseMerge>
+										Lesser General Public License (LPGL) v 2.1|GNU
+										Lesser General
+										Public License, 2.1|LGPL 2.1
+									</licenseMerge>
+									<licenseMerge>
+										Lesser General Public License (LPGL)|GNU Lesser
+										General Public
+										License|GNU LESSER GENERAL PUBLIC
+										LICENSE|LGPL|lgpl
+									</licenseMerge>
+									<licenseMerge>
+										COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
+										(CDDL)
+										Version
+										1.0|Common Development and Distribution License
+										(CDDL)
+										v1.0
+									</licenseMerge>
+									<licenseMerge>Indiana University Extreme! Lab Software
+										License,
+										vesion 1.1.1|Indiana University Extreme! Lab
+										Software License</licenseMerge>
+								</licenseMerges>
+							</configuration>
+							<executions>
+								<execution>
+									<id>update-license-files</id>
+									<goals>
+										<goal>update-project-license</goal>
+										<goal>add-third-party</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>full-project-info-report</id>
 			<activation>
 				<property>
 					<name>!lunifera.reporting.short</name>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<reporting>
 				<plugins>
@@ -329,42 +453,8 @@
 					<name>lunifera.build.full</name>
 					<value>true</value>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<!-- Sonar -->
-				<!-- ************************ -->
-				<!-- Sonar/Reporting settings -->
-				<!-- ************************ -->
-				<sonar.host.url>http://88.198.33.16:9000/</sonar.host.url>
-
-				<!-- Sonar/Jacoco integration. Note that these properties need to be 
-					defined outside the "coverage" profile because we want to be to able to execute 
-					mvn sonar:sonar without passing a profile -->
-				<!-- Tells Sonar to use jacoco for coverage results -->
-				<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-
-				<!-- Don't let Sonar execute tests. We will ask it to Maven -->
-				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-				<!-- The system property jacoco.outputDir needs to be override on the 
-					command line with an absolute path if you want to merge results from all 
-					modules. Example in a Jenkins build where ${WORKSPACE} is defined and your 
-					project is in the root directory of the workspace : mvn clean install -Prun-its,coverage 
-					-Djacoco.outputDir=${WORKSPACE}/target Note that unfortunately using the 
-					following does not work because of http://jira.codehaus.org/browse/SONAR-3427: 
-					<jacoco.outputDir>${session.executionRootDirectory}/target/</jacoco.outputDir> -->
-				<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
-				<!-- Jacoco output file for UTs -->
-				<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
-				<!-- Tells Sonar where the Jacoco coverage result file is located for 
-					Unit Tests -->
-				<sonar.jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</sonar.jacoco.reportPath>
-				<!-- Jacoco output file for ITs -->
-				<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
-				<!-- Tells Sonar where the Jacoco coverage result file is located for 
-					Integration Tests -->
-				<sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
-				<sonar.language>java</sonar.language>
 			</properties>
 			<reporting>
 				<plugins>
@@ -393,78 +483,67 @@
 				</plugins>
 			</reporting>
 			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- Setup jacoco -->
+						<plugin>
+							<groupId>org.jacoco</groupId>
+							<artifactId>jacoco-maven-plugin</artifactId>
+							<executions>
+								<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the 
+									info to be passed to the JVM hosting the code being tested. -->
+								<execution>
+									<id>prepare-ut-agent</id>
+									<phase>process-test-classes</phase>
+									<goals>
+										<goal>prepare-agent</goal>
+									</goals>
+									<configuration>
+										<dataFile>${sonar.jacoco.reportPath}</dataFile>
+										<destFile>${sonar.jacoco.reportPath}</destFile>
+										<propertyName>jacoco.agent.ut.arg</propertyName>
+										<append>true</append>
+										<includes>
+											<include>${lunifera.jacoco.include}</include>
+										</includes>
+									</configuration>
+								</execution>
+								<!-- Prepares a variable, jacoco.agent.it.arg, that contains the 
+									info to be passed to the JVM hosting the code being tested. -->
+								<execution>
+									<id>prepare-it-agent</id>
+									<phase>pre-integration-test</phase>
+									<goals>
+										<goal>prepare-agent-integration</goal>
+									</goals>
+									<configuration>
+										<dataFile>${sonar.jacoco.itReportPath}</dataFile>
+										<destFile>${sonar.jacoco.itReportPath}</destFile>
+										<propertyName>jacoco.agent.it.arg</propertyName>
+										<append>true</append>
+									</configuration>
+								</execution>
+								<execution>
+									<id>post-test</id>
+									<goals>
+										<goal>report</goal>
+									</goals>
+									<phase>site</phase>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
 				<plugins>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<argLine>${jacoco.agent.ut.arg}</argLine>
-							<!-- Specific to generate mapping between tests and covered code -->
-							<properties>
-								<property>
-									<name>listener</name>
-									<value>org.sonar.java.jacoco.JUnitListener</value>
-								</property>
-							</properties>
-						</configuration>
+						<groupId>org.codehaus.sonar</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
 					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<configuration>
-							<argLine>-Xmx1024m -XX:MaxPermSize=256m ${jacoco.agent.it.arg}</argLine>
-							<!-- Specific to generate mapping between tests and covered code -->
-							<properties>
-								<property>
-									<name>listener</name>
-									<value>org.sonar.java.jacoco.JUnitListener</value>
-								</property>
-							</properties>
-							<!-- Let's put failsafe reports with surefire to have access to tests 
-								failures/success reports in sonar -->
-							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-						</configuration>
-					</plugin>
+
 					<!-- Enabling use of jacoco -->
 					<plugin>
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
-						<executions>
-							<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info 
-								to be passed to the JVM hosting the code being tested. -->
-							<execution>
-								<id>prepare-ut-agent</id>
-								<phase>process-test-classes</phase>
-								<goals>
-									<goal>prepare-agent</goal>
-								</goals>
-								<configuration>
-									<destFile>${sonar.jacoco.reportPath}</destFile>
-									<propertyName>jacoco.agent.ut.arg</propertyName>
-									<append>true</append>
-								</configuration>
-							</execution>
-							<!-- Prepares a variable, jacoco.agent.it.arg, that contains the info 
-								to be passed to the JVM hosting the code being tested. -->
-							<execution>
-								<id>prepare-it-agent</id>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>prepare-agent</goal>
-								</goals>
-								<configuration>
-									<destFile>${sonar.jacoco.itReportPath}</destFile>
-									<propertyName>jacoco.agent.it.arg</propertyName>
-									<append>true</append>
-								</configuration>
-							</execution>
-							<execution>
-								<id>post-test</id>
-								<goals>
-									<goal>report</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
@@ -547,20 +626,6 @@
 										<pluginExecution>
 											<pluginExecutionFilter>
 												<groupId>org.apache.maven.plugins</groupId>
-												<artifactId>maven-compiler-plugin</artifactId>
-												<versionRange>[3.0,)</versionRange>
-												<goals>
-													<goal>compile</goal>
-													<goal>testCompile</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<ignore></ignore>
-											</action>
-										</pluginExecution>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.apache.maven.plugins</groupId>
 												<artifactId>maven-dependency-plugin</artifactId>
 												<versionRange>[2.0,)</versionRange>
 												<goals>
@@ -569,7 +634,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<execute />
+												<ignore />
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -611,6 +676,21 @@
 												<goals>
 													<goal>add-third-party</goal>
 													<goal>update-project-license</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.ops4j.pax.exam</groupId>
+												<artifactId>maven-paxexam-plugin</artifactId>
+												<versionRange>[1.2.4,)</versionRange>
+												<goals>
+													<goal>
+														generate-depends-file
+													</goal>
 												</goals>
 											</pluginExecutionFilter>
 											<action>
@@ -666,7 +746,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>parse-version</id>
+						<goals>
+							<goal>parse-version</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -685,22 +774,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>parse-version</id>
-						<goals>
-							<goal>parse-version</goal>
-						</goals>
-						<phase>validate</phase>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.codehaus.sonar</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>4.3.1</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
@@ -802,11 +883,6 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.sonar</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>4.3</version>
-				</plugin>
-				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.version}</version>
@@ -815,11 +891,6 @@
 					<groupId>org.codehaus.sonar-plugins</groupId>
 					<artifactId>maven-report</artifactId>
 					<version>0.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${surefire.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -851,102 +922,9 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>${report.license.version}</version>
-					<inherited>true</inherited>
-					<configuration>
-						<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
-						<useMissingFile>true</useMissingFile>
-						<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
-						<failOnMissingHeader>true</failOnMissingHeader>
-						<failIfWarning>${license.failIfWarning}</failIfWarning>
-						<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
-						<encoding>UTF-8</encoding>
-						<licenseMerges>
-							<licenseMerge>
-								The Apache Software License, Version 2.0|Apache
-								License, Version
-								2.0|Apache License V2.0|Apache 2|ASF
-								2.0|apache-2.0|Apache
-								Public License 2.0
-							</licenseMerge>
-							<licenseMerge>BSD License|BSD license|BSD</licenseMerge>
-							<licenseMerge>MIT License|MIT license|MIT</licenseMerge>
-							<licenseMerge>
-								Lesser General Public License (LPGL) v 2.1|GNU
-								Lesser General
-								Public License, 2.1|LGPL 2.1
-							</licenseMerge>
-							<licenseMerge>
-								Lesser General Public License (LPGL)|GNU Lesser
-								General Public
-								License|GNU LESSER GENERAL PUBLIC
-								LICENSE|LGPL|lgpl
-							</licenseMerge>
-							<licenseMerge>
-								COMMON DEVELOPMENT AND DISTRIBUTION LICENSE
-								(CDDL)
-								Version
-								1.0|Common Development and Distribution License
-								(CDDL)
-								v1.0
-							</licenseMerge>
-							<licenseMerge>Indiana University Extreme! Lab Software
-								License,
-								vesion 1.1.1|Indiana University Extreme! Lab
-								Software License</licenseMerge>
-						</licenseMerges>
-					</configuration>
-					<executions>
-						<execution>
-							<id>update-license-files</id>
-							<goals>
-								<goal>update-project-license</goal>
-								<goal>add-third-party</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
 					<version>1.5</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${surefire.version}</version>
-					<inherited>true</inherited>
-					<configuration>
-						<failIfNoTests>false</failIfNoTests>
-						<parallel>none</parallel>
-						<threadCount>1</threadCount>
-						<includes>
-							<include>**/*IntegrationTest.java</include>
-						</includes>
-						<systemProperties>
-							<property>
-								<name>project.version</name>
-								<value>${project.version}</value>
-							</property>
-						</systemProperties>
-					</configuration>
-					<executions>
-						<execution>
-							<id>integration-test</id>
-							<goals>
-								<goal>integration-test</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>verify</id>
-							<goals>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.fornax.toolsupport</groupId>
@@ -959,7 +937,7 @@
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
 					<artifactId>xtend-maven-plugin</artifactId>
-					<version>2.5</version>
+					<version>2.6.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -987,48 +965,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Felix -->
 			<dependency>
 				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.framework</artifactId>
-				<version>4.4.0</version>
+				<artifactId>org.apache.felix.bundlerepository</artifactId>
+				<version>1.6.6</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.eventadmin</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.coordinator</artifactId>
-				<version>1.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.configadmin</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.prefs</artifactId>
-				<version>1.0.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.metatype</artifactId>
-				<version>1.0.10</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.log</artifactId>
-				<version>1.0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.scr</artifactId>
-				<version>1.8.2</version>
-			</dependency>
-			<!-- end felix -->
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.core</artifactId>
@@ -1154,44 +1095,37 @@
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>${mockito.version}</version>
-			</dependency>
-			<dependency>
-				<!-- this is a OSGified version that only must be used when using mockito 
-					inside container -->
-				<groupId>org.lunifera.osgi</groupId>
-				<artifactId>org.mockito</artifactId>
-				<version>1.9.5.v201311280930</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.hamcrest.core</artifactId>
 				<version>1.3.0.v201303031735</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.hamcrest.integration</artifactId>
 				<version>1.3.0.v201305210900</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.hamcrest.library</artifactId>
 				<version>1.3.0.v201305281000</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.osgi</groupId>
-				<artifactId>org.osgi.compendium</artifactId>
-				<version>5.0.0</version>
-				<scope>provided</scope>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>1.3</version>
 			</dependency>
 			<dependency>
-				<groupId>org.osgi</groupId>
-				<artifactId>org.osgi.core</artifactId>
-				<version>5.0.0</version>
-				<scope>provided</scope>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-integration</artifactId>
+				<version>1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-library</artifactId>
+				<version>1.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
@@ -1203,12 +1137,6 @@
 				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.apache.felix.gogo.shell</artifactId>
 				<version>0.10.0.v201212101605</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.osgi</groupId>
-				<artifactId>org.osgi.enterprise</artifactId>
-				<version>5.0.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -1241,6 +1169,25 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>org.lunifera.releng.maven</groupId>
+				<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+				<version>${lunifera.license.version}</version>
+				<classifier>third-party</classifier>
+				<type>properties</type>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.core</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.compendium</artifactId>
+				<version>5.0.0</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -1254,29 +1201,27 @@
 			<artifactId>slf4j-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- those deps must only be used for unit tests. in order to run osgi 
+			it tests you must use the proper bundle from org.lunifera.osgi group -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.hamcrest.core</artifactId>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.hamcrest.integration</artifactId>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-integration</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.hamcrest.library</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

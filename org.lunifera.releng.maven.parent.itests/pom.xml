@@ -42,87 +42,12 @@
 			<properties>
 				<pax.exam.framework>felix</pax.exam.framework>
 			</properties>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.framework</artifactId>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.eventadmin</artifactId>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.coordinator</artifactId>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.configadmin</artifactId>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.scr</artifactId>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.prefs</artifactId>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.log</artifactId>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>org.apache.felix.metatype</artifactId>
-						<scope>test</scope>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
 			<dependencies>
 				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.framework</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.eventadmin</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.configadmin</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.scr</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.coordinator</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.prefs</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.log</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>org.apache.felix.metatype</artifactId>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>org.lunifera.releng.maven.pom.felix</artifactId>
+					<version>${project.version}</version>
+					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -136,203 +61,26 @@
 			<properties>
 				<pax.exam.framework>equinox_luna</pax.exam.framework>
 			</properties>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.osgi</artifactId>
-						<version>3.10.0.v20140407-2102</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.osgi.services</artifactId>
-						<version>3.4.0.v20140312-2051</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.coordinator</artifactId>
-						<version>1.3.0.v20140327-1650</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.osgi.util</artifactId>
-						<version>3.3.0.v20131023-1243</version>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.ds</artifactId>
-						<version>1.4.200.v20131126-2331</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.cm</artifactId>
-						<version>1.1.0.v20131021-1936</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.common</artifactId>
-						<version>3.6.200.v20130402-1505</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.util</artifactId>
-						<version>1.0.500.v20130404-1337</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.preferences</artifactId>
-						<version>3.5.200.v20140224-1527</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.event</artifactId>
-						<version>1.3.100.v20140115-1647</version>
-						<scope>test</scope>
-					</dependency>
-					<dependency>
-						<groupId>org.lunifera.osgi</groupId>
-						<artifactId>org.eclipse.equinox.console</artifactId>
-						<version>1.1.0.v20140131-1639</version>
-						<scope>test</scope>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
 			<dependencies>
 				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.osgi.services</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.coordinator</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.osgi.util</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.ds</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.cm</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.common</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.util</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.preferences</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.event</artifactId>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.equinox.console</artifactId>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
+					<version>${project.version}</version>
+					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
-		</profile>
-		<profile>
-			<id>m2e</id>
-			<!-- This profile is only activated when building in Eclipse with m2e -->
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-			</activation>
-			<dependencies>
-				<!-- for while equinox is the only R6 implementation -->
-				<dependency>
-					<groupId>org.lunifera.osgi</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-					<version>3.10.0.v20140407-2102</version>
-					<scope>test</scope>
-				</dependency>
-				<!-- <dependency> -->
-				<!-- <groupId>org.osgi</groupId> -->
-				<!-- <artifactId>org.osgi.core</artifactId> -->
-				<!-- </dependency> -->
-				<dependency>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.compendium</artifactId>
-				</dependency>
-			</dependencies>
-			<build>
-				<pluginManagement>
-					<plugins>
-						<!--This plugin's configuration is used to store Eclipse m2e settings 
-							only. It has no influence on the Maven build itself. -->
-						<plugin>
-							<groupId>org.eclipse.m2e</groupId>
-							<artifactId>lifecycle-mapping</artifactId>
-							<version>1.0.0</version>
-							<configuration>
-								<lifecycleMappingMetadata>
-									<pluginExecutions>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>
-													org.ops4j.pax.exam
-												</groupId>
-												<artifactId>
-													maven-paxexam-plugin
-												</artifactId>
-												<versionRange>
-													[1.2.4,)
-												</versionRange>
-												<goals>
-													<goal>
-														generate-depends-file
-													</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<ignore></ignore>
-											</action>
-										</pluginExecution>
-									</pluginExecutions>
-								</lifecycleMappingMetadata>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
 		</profile>
 	</profiles>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.lunifera.releng.maven</groupId>
+				<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+				<scope>compile</scope>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- pax exam -->
 			<dependency>
 				<groupId>org.ops4j.pax.exam</groupId>
@@ -504,6 +252,64 @@
 					<groupId>org.ops4j.pax.exam</groupId>
 					<artifactId>maven-paxexam-plugin</artifactId>
 					<version>1.2.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.version}</version>
+					<configuration>
+						<argLine>${jacoco.agent.ut.arg}</argLine>
+						<!-- Specific to generate mapping between tests and covered code -->
+						<properties>
+							<property>
+								<name>listener</name>
+								<value>org.sonar.java.jacoco.JUnitListener</value>
+							</property>
+						</properties>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${surefire.version}</version>
+					<inherited>true</inherited>
+					<configuration>
+						<argLine>${jacoco.agent.it.arg} -Xmx1024m -XX:MaxPermSize=256m</argLine>
+						<failIfNoTests>false</failIfNoTests>
+						<includes>
+							<include>**/*IntegrationTest.java</include>
+						</includes>
+						<systemProperties>
+							<property>
+								<name>project.version</name>
+								<value>${project.version}</value>
+							</property>
+						</systemProperties>
+						<!-- Specific to generate mapping between tests and covered code -->
+						<properties>
+							<property>
+								<name>listener</name>
+								<value>org.sonar.java.jacoco.JUnitListener</value>
+							</property>
+						</properties>
+						<!-- Let's put failsafe reports with surefire to have access to tests 
+							failures/success reports in sonar -->
+						<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+					</configuration>
+					<executions>
+						<execution>
+							<id>integration-test</id>
+							<goals>
+								<goal>integration-test</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>verify</id>
+							<goals>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

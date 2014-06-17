@@ -40,7 +40,7 @@
 
 	<profiles>
 		<profile>
-			<id>not-in-eclipse</id>
+			<id>not-in-eclipse-mbp</id>
 			<!-- activated in normal Maven build -->
 			<activation>
 				<property>
@@ -48,7 +48,6 @@
 				</property>
 			</activation>
 			<properties>
-				<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 				<osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
 			</properties>
 			<build>
@@ -85,24 +84,15 @@
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
 									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
 									<_dsannotations>*</_dsannotations>
+									<!-- <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE,META-INF/DEPENDENCIES=DEPENDENCIES</Include-Resource> -->
+									<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
+									<_removeheaders>Private-Package,Ignore-Package,Include-Resource</_removeheaders>
 								</instructions>
 							</configuration>
 						</plugin>
 					</plugins>
 				</pluginManagement>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.felix</groupId>
 						<artifactId>maven-bundle-plugin</artifactId>
@@ -120,7 +110,7 @@
 								<goals>
 									<goal>attach-descriptor</goal>
 								</goals>
-								<inherited>false</inherited>
+								<!-- <inherited>false</inherited> -->
 							</execution>
 						</executions>
 					</plugin>
@@ -128,7 +118,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>in-eclipse</id>
+			<id>in-eclipse-mbp</id>
 			<!-- activated only when running in m2e (eclipse) -->
 			<activation>
 				<property>
@@ -140,18 +130,6 @@
 			</properties>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.felix</groupId>
 						<artifactId>maven-bundle-plugin</artifactId>
@@ -182,9 +160,6 @@
 									<_dsannotations>*</_dsannotations>
 								</instructions>
 							</configuration>
-						</plugin>
-						<plugin>
-							<artifactId>maven-clean-plugin</artifactId>
 						</plugin>
 						<plugin>
 							<artifactId>maven-dependency-plugin</artifactId>
@@ -256,25 +231,25 @@
 						</plugin>
 					</plugins>
 				</pluginManagement>
-				<resources>
-					<resource>
-						<!-- pde (project root) -->
-						<directory>src/main/resources</directory>
-						<targetPath>
-							${basedir}
-						</targetPath>
-						<includes>
-							<include>plugin.xml</include>
-						</includes>
-					</resource>
-					<resource>
-						<!-- normal (output dir , /target/classes) -->
-						<directory>src/main/resources</directory>
-						<targetPath>
-							${project.build.outputDirectory}
-						</targetPath>
-					</resource>
-				</resources>
+				<!-- <resources> -->
+				<!-- <resource> -->
+				<!-- pde (project root) -->
+				<!-- <directory>src/main/resources</directory> -->
+				<!-- <targetPath> -->
+				<!-- ${basedir} -->
+				<!-- </targetPath> -->
+				<!-- <includes> -->
+				<!-- <include>plugin.xml</include> -->
+				<!-- </includes> -->
+				<!-- </resource> -->
+				<!-- <resource> -->
+				<!-- normal (output dir , /target/classes) -->
+				<!-- <directory>src/main/resources</directory> -->
+				<!-- <targetPath> -->
+				<!-- ${project.build.outputDirectory} -->
+				<!-- </targetPath> -->
+				<!-- </resource> -->
+				<!-- </resources> -->
 			</build>
 		</profile>
 
@@ -285,7 +260,6 @@
 					<name>lunifera.build.full</name>
 					<value>true</value>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<reporting>
 				<plugins>
@@ -352,7 +326,6 @@
 					<name>lunifera.build.full</name>
 					<value>true</value>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -397,7 +370,6 @@
 				<property>
 					<name>lunifera.build.release</name>
 				</property>
-				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -502,12 +474,10 @@
 		</profile>
 	</profiles>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-			<version>${lunifera.license.version}</version>
 			<classifier>third-party</classifier>
 			<type>properties</type>
 		</dependency>
