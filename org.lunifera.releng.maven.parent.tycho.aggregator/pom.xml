@@ -36,8 +36,6 @@
 
 	<properties>
 		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.aggregator.name}</distribution.site.url>
-		<sonar.jacoco.reportPath>${project.build.directory}/${jacoco.out.ut.file}</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${project.build.directory}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
 	</properties>
 
 	<profiles>
