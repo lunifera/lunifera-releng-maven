@@ -499,7 +499,6 @@
 										<goal>prepare-agent</goal>
 									</goals>
 									<configuration>
-										<dataFile>${sonar.jacoco.reportPath}</dataFile>
 										<destFile>${sonar.jacoco.reportPath}</destFile>
 										<propertyName>jacoco.agent.ut.arg</propertyName>
 										<append>true</append>
@@ -517,7 +516,6 @@
 										<goal>prepare-agent-integration</goal>
 									</goals>
 									<configuration>
-										<dataFile>${sonar.jacoco.itReportPath}</dataFile>
 										<destFile>${sonar.jacoco.itReportPath}</destFile>
 										<propertyName>jacoco.agent.it.arg</propertyName>
 										<append>true</append>
@@ -528,7 +526,18 @@
 									<goals>
 										<goal>report</goal>
 									</goals>
-									<phase>site</phase>
+									<configuration>
+										<dataFile>${sonar.jacoco.reportPath}</dataFile>
+									</configuration>
+								</execution>
+								<execution>
+									<id>post-itest</id>
+									<goals>
+										<goal>report-integration</goal>
+									</goals>
+									<configuration>
+										<dataFile>${sonar.jacoco.itReportPath}</dataFile>
+									</configuration>
 								</execution>
 							</executions>
 						</plugin>
