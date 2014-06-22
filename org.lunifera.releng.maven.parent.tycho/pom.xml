@@ -29,7 +29,7 @@
 		<tycho-version>0.20.0</tycho-version>
 		<tychoExtrasVersion>0.20.0</tychoExtrasVersion>
 
-		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/S20140227085123/repository/</orbit-site>
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit-site>
 
 		<!-- these will be set by profiles (defaults to Luna) -->
 		<lunifera.build.eclipse.platform.name>none</lunifera.build.eclipse.platform.name>
