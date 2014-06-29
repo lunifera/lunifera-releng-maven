@@ -405,7 +405,7 @@
 		</profile>
 		<profile>
 			<!-- Just in case the developer have forgotten to set it in settings.xml -->
-			<id>set.deployment.location</id>
+			<id>set.workspace.location</id>
 			<activation>
 				<property>
 					<name>!lunifera.developer.home</name>
@@ -930,6 +930,8 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5</version>
 					<configuration>
+						<releaseProfiles>codeCoverage,reporting</releaseProfiles>
+						<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
 						<pushChanges>false</pushChanges>
 						<localCheckout>true</localCheckout>
 					</configuration>
