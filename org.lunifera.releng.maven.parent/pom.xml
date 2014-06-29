@@ -206,6 +206,8 @@
 		<!-- default license to use for children -->
 		<license.licenseName>epl_v1</license.licenseName>
 		<license.failIfWarning>true</license.failIfWarning>
+		<license.dryRun>true</license.dryRun>
+		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 		<lunifera.license.version>0.0.1-SNAPSHOT</lunifera.license.version>
 
 		<!-- maven plugins -->
@@ -299,10 +301,7 @@
 							<configuration>
 								<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
 								<useMissingFile>true</useMissingFile>
-								<copyrightOwners>C4biz Softwares ME,Loetz KG</copyrightOwners>
-								<failOnMissingHeader>true</failOnMissingHeader>
 								<failIfWarning>${license.failIfWarning}</failIfWarning>
-								<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
 								<encoding>UTF-8</encoding>
 								<licenseMerges>
 									<licenseMerge>
@@ -346,6 +345,20 @@
 										<goal>update-project-license</goal>
 										<goal>add-third-party</goal>
 									</goals>
+								</execution>
+								<execution>
+									<id>update-file-header</id>
+									<goals>
+										<goal>update-file-header</goal>
+									</goals>
+									<phase>process-sources</phase>
+									<configuration>
+										<verbose>false</verbose>
+										<copyrightOwners>${license.copyrightOwners}</copyrightOwners>
+										<dryRun>${license.dryRun}</dryRun>
+										<failOnMissingHeader>true</failOnMissingHeader>
+										<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+									</configuration>
 								</execution>
 							</executions>
 						</plugin>
@@ -653,6 +666,20 @@
 										<pluginExecution>
 											<pluginExecutionFilter>
 												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-plugin-plugin</artifactId>
+												<versionRange>[3.0,)</versionRange>
+												<goals>
+													<goal>descriptor</goal>
+													<goal>helpmojo</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
 												<artifactId>maven-antrun-plugin</artifactId>
 												<versionRange>[1.0,)</versionRange>
 												<goals>
@@ -689,10 +716,13 @@
 												<goals>
 													<goal>add-third-party</goal>
 													<goal>update-project-license</goal>
+													<goal>update-file-header</goal>
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<execute>
+													<runOnIncremental>false</runOnIncremental>
+												</execute>
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -931,8 +961,7 @@
 					<version>2.5</version>
 					<configuration>
 						<releaseProfiles>codeCoverage,reporting</releaseProfiles>
-						<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-						<pushChanges>false</pushChanges>
+						<!-- <allowTimestampedSnapshots>true</allowTimestampedSnapshots> -->
 						<localCheckout>true</localCheckout>
 					</configuration>
 				</plugin>

@@ -27,6 +27,7 @@
 
 	<properties>
 		<mbp.version>2.4.0</mbp.version>
+		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 	</properties>
 
 	<url>${distribution.site.url}</url>
