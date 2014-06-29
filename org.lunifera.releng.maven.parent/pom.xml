@@ -151,6 +151,8 @@
 			this should be determined by the builder.brach being used. -->
 		<lunifera.stage.p2.keep.old>false</lunifera.stage.p2.keep.old>
 
+		<!-- Dependencies Version -->
+		<aether.version>1.0.0.v20140518</aether.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
@@ -185,6 +187,8 @@
 		<paxexam.felix.version>4.4.0</paxexam.felix.version>
 		<paxurl.version>2.0.0</paxurl.version>
 		<maven.version>3.2.1</maven.version>
+		<powermock.version>1.5.5</powermock.version>
+
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
 			test -->
 		<sonar-jacoco-listeners.version>2.2</sonar-jacoco-listeners.version>
@@ -845,7 +849,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
+					<version>2.5</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -977,7 +981,7 @@
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.bundlerepository</artifactId>
-				<version>2.0.1-SNAPSHOT</version>
+				<version>2.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
@@ -1065,6 +1069,11 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
 				<version>${logback.version}</version>
@@ -1104,6 +1113,18 @@
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>${powermock.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>${powermock.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
