@@ -21,7 +21,7 @@
 
 	<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
 	<name>Releng - Fragment POM for Node Integration Tests with Lunifera Kernel.</name>
-	<description>A POM aimed to group all dependencies needed for integration tests based on Lunifer Kernel container.</description>
+	<description>A POM aimed to group all dependencies needed for integration tests based on Lunifera Kernel container.</description>
 	<packaging>pom</packaging>
 
 	<url>${distribution.site.url}</url>
@@ -32,6 +32,13 @@
 			<url>${distribution.site.url}</url>
 		</site>
 	</distributionManagement>
+	<scm>
+		<!-- convention is that the repository's name be the same as the aggregator 
+			name -->
+		<connection>${lunifera.scm.connection}</connection>
+		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
+		<url>${lunifera.scm.url}</url>
+	</scm>
 
 	<build>
 		<plugins>
