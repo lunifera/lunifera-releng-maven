@@ -93,7 +93,7 @@
 		<lunifera.scm.url.host>https://github.com/</lunifera.scm.url.host>
 		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection>
 		<lunifera.scm.connection.protocol>scm:git:</lunifera.scm.connection.protocol>
-		<lunifera.scm.connection.host>git://github.com/</lunifera.scm.connection.host>
+		<lunifera.scm.connection.host>ssh://github.com/</lunifera.scm.connection.host>
 		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}:${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection.dev>
 		<lunifera.scm.connection.dev.protocol>scm:git:</lunifera.scm.connection.dev.protocol>
 		<lunifera.scm.connection.dev.host>ssh://git@github.com</lunifera.scm.connection.dev.host>
@@ -962,7 +962,9 @@
 					<configuration>
 						<releaseProfiles>codeCoverage,reporting</releaseProfiles>
 						<!-- <allowTimestampedSnapshots>true</allowTimestampedSnapshots> -->
-						<localCheckout>true</localCheckout>
+						<!-- <localCheckout>true</localCheckout> -->
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+						<pushChanges>false</pushChanges>
 					</configuration>
 				</plugin>
 				<plugin>
