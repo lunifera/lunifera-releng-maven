@@ -35,7 +35,6 @@
 		<module>org.lunifera.releng.maven.parent</module>
 		<module>org.lunifera.releng.maven.parent.mbp</module>
 		<module>org.lunifera.releng.maven.parent.itests</module>
-		<module>org.lunifera.releng.maven.parent.subsystem</module>
 		<module>org.lunifera.releng.maven.parent.mbp.aggregator</module>
 		<module>org.lunifera.releng.maven.parent.tycho</module>
 		<module>org.lunifera.releng.maven.parent.tycho.aggregator</module>
