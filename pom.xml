@@ -8,14 +8,13 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.7.0</version>
 		<relativePath>org.lunifera.releng.maven.parent.mbp.aggregator/pom.xml</relativePath>
 	</parent>
 
@@ -59,5 +58,6 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-	</scm>
+	  <tag>v0.7.0</tag>
+  </scm>
 </project>

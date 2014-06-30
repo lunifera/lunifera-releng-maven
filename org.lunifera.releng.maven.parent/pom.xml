@@ -8,15 +8,14 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.lunifera.releng.maven</groupId>
 	<artifactId>org.lunifera.releng.maven.parent</artifactId>
 	<name>Releng - Master Parent POM</name>
 	<description>A parent POM aimed to set up the build of general Maven based projects.</description>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.7.0</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2012</inceptionYear>
@@ -71,7 +70,8 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-	</scm>
+	  <tag>v0.7.0</tag>
+  </scm>
 	<!-- End -->
 
 	<licenses>
@@ -105,7 +105,7 @@
 		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
 
 		<!-- current profile to use: (pre-release|sandbox|retired) -->
-		<lunifera.site.profile></lunifera.site.profile>
+		<lunifera.site.profile />
 
 		<!-- protocol used to deploy the site -->
 		<lunifera.site.protocol>github:</lunifera.site.protocol>
@@ -208,7 +208,7 @@
 		<license.failIfWarning>true</license.failIfWarning>
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
-		<lunifera.license.version>0.0.1-SNAPSHOT</lunifera.license.version>
+		<lunifera.license.version>0.7.0</lunifera.license.version>
 
 		<!-- maven plugins -->
 		<surefire.version>2.17</surefire.version>
@@ -737,7 +737,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 									</pluginExecutions>
