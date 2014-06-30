@@ -93,11 +93,11 @@
 		<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.aggregator.name}</lunifera.scm.url>
 		<lunifera.scm.url.host>https://github.com/</lunifera.scm.url.host>
 		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection>
-		<lunifera.scm.connection.protocol>scm:git:</lunifera.scm.connection.protocol>
-		<lunifera.scm.connection.host>git@github.com/</lunifera.scm.connection.host>
-		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}:${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection.dev>
-		<lunifera.scm.connection.dev.protocol>scm:git:</lunifera.scm.connection.dev.protocol>
-		<lunifera.scm.connection.dev.host>git://git@github.com</lunifera.scm.connection.dev.host>
+		<lunifera.scm.connection.protocol>scm:git:git://</lunifera.scm.connection.protocol>
+		<lunifera.scm.connection.host>github.com/</lunifera.scm.connection.host>
+		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}/${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection.dev>
+		<lunifera.scm.connection.dev.protocol>scm:git:ssh://</lunifera.scm.connection.dev.protocol>
+		<lunifera.scm.connection.dev.host>git@github.com</lunifera.scm.connection.dev.host>
 
 		<!-- the base for SCM URL -->
 		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
