@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.lunifera.releng.maven</groupId>
@@ -70,8 +71,8 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<!-- End -->
 
 	<licenses>
@@ -93,10 +94,10 @@
 		<lunifera.scm.url.host>https://github.com/</lunifera.scm.url.host>
 		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection>
 		<lunifera.scm.connection.protocol>scm:git:</lunifera.scm.connection.protocol>
-		<lunifera.scm.connection.host>ssh://github.com/</lunifera.scm.connection.host>
+		<lunifera.scm.connection.host>git@github.com/</lunifera.scm.connection.host>
 		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}:${lunifera.scm.user}/${lunifera.aggregator.name}.git</lunifera.scm.connection.dev>
 		<lunifera.scm.connection.dev.protocol>scm:git:</lunifera.scm.connection.dev.protocol>
-		<lunifera.scm.connection.dev.host>ssh://git@github.com</lunifera.scm.connection.dev.host>
+		<lunifera.scm.connection.dev.host>git://git@github.com</lunifera.scm.connection.dev.host>
 
 		<!-- the base for SCM URL -->
 		<lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
@@ -209,6 +210,8 @@
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 		<lunifera.license.version>0.7.1-SNAPSHOT</lunifera.license.version>
+		<license.skip.header>false</license.skip.header>
+		<license.roots>src</license.roots>
 
 		<!-- maven plugins -->
 		<surefire.version>2.17</surefire.version>
@@ -353,11 +356,12 @@
 									</goals>
 									<phase>process-sources</phase>
 									<configuration>
+										<acceptPomPackaging>true</acceptPomPackaging>
 										<verbose>false</verbose>
 										<copyrightOwners>${license.copyrightOwners}</copyrightOwners>
 										<dryRun>${license.dryRun}</dryRun>
-										<failOnMissingHeader>true</failOnMissingHeader>
-										<failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+										<failOnMissingHeader>!{license.skip.header}</failOnMissingHeader>
+										<failOnNotUptodateHeader>!{license.skip.header}</failOnNotUptodateHeader>
 									</configuration>
 								</execution>
 							</executions>
@@ -721,7 +725,7 @@
 											</pluginExecutionFilter>
 											<action>
 												<execute>
-													<runOnIncremental>false</runOnIncremental>
+													<ignore/>
 												</execute>
 											</action>
 										</pluginExecution>
@@ -961,10 +965,9 @@
 					<version>2.5</version>
 					<configuration>
 						<releaseProfiles>codeCoverage,reporting</releaseProfiles>
-						<!-- <allowTimestampedSnapshots>true</allowTimestampedSnapshots> -->
-						<!-- <localCheckout>true</localCheckout> -->
+						<localCheckout>true</localCheckout>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
-						<pushChanges>false</pushChanges>
+						<pushChanges>true</pushChanges>
 					</configuration>
 				</plugin>
 				<plugin>
