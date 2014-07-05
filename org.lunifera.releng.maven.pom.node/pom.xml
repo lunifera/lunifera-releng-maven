@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -37,8 +38,8 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<build>
 		<plugins>
@@ -60,7 +61,70 @@
 		</plugins>
 	</build>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.runtime</artifactId>
+				<version>0.12.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.shell</artifactId>
+				<version>0.11.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.command</artifactId>
+				<version>0.14.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.bundlerepository</artifactId>
+				<version>${bundlerepository.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.aries.subsystem</groupId>
+				<artifactId>org.apache.aries.subsystem.core</artifactId>
+				<version>${apache.aries.subsystem.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.aries.subsystem</groupId>
+				<artifactId>org.apache.aries.subsystem.api</artifactId>
+				<version>${apache.aries.subsystem.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.aries.subsystem</groupId>
+				<artifactId>org.apache.aries.subsystem.obr</artifactId>
+				<version>${apache.aries.subsystem.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.lunifera.osgi</groupId>
+				<artifactId>javax.persistence</artifactId>
+				<version>2.1.0.v201304241213</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.fileinstall</artifactId>
+				<version>3.2.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.aries</groupId>
+				<artifactId>org.apache.aries.util</artifactId>
+				<version>1.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.lunifera.osgi</groupId>
+				<artifactId>org.eclipse.equinox.region</artifactId>
+				<version>1.2.0.v20140128-1636</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>org.lunifera.osgi</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.bundlerepository</artifactId>
@@ -69,11 +133,43 @@
 					<groupId>org.easymock</groupId>
 					<artifactId>easymock</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>org.osgi.core</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.lunifera.osgi</groupId>
+			<artifactId>org.eclipse.equinox.region</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.aries.subsystem</groupId>
 			<artifactId>org.apache.aries.subsystem.core</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>
+						org.apache.aries.application.api
+					</artifactId>
+					<groupId>org.apache.aries.application</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						org.apache.aries.application.utils
+					</artifactId>
+					<groupId>org.apache.aries.application</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>org.eclipse.equinox.region</artifactId>
+					<groupId>org.eclipse.equinox</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						org.eclipse.equinox.coordinator
+					</artifactId>
+					<groupId>org.eclipse.equinox</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.aries.subsystem</groupId>
@@ -102,6 +198,18 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.gogo.command</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.gogo.runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.gogo.shell</artifactId>
 		</dependency>
 	</dependencies>
 </project>

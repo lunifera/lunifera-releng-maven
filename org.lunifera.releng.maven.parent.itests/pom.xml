@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -36,7 +37,7 @@
 		<profile>
 			<id>itests.felix</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<pax.exam.framework>felix</pax.exam.framework>
@@ -45,7 +46,14 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>org.lunifera.releng.maven.pom.felix</artifactId>
-					<version>${project.version}</version>
+					<version>${current.releng.version}</version>
+					<type>pom</type>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+					<version>0.7.2-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -64,22 +72,41 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
-					<version>${project.version}</version>
+					<version>${current.releng.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
+				<dependency>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+					<version>0.7.2-SNAPSHOT</version>
+					<type>pom</type>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>itests.equinox.mars</id>
+			<!-- LUNA 3.11 -->
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<pax.exam.framework>equinox_mars</pax.exam.framework>
+			</properties>
+			<dependencies>
+				<!-- <dependency> -->
+				<!-- <groupId>org.lunifera.releng.maven</groupId> -->
+				<!-- <artifactId>org.lunifera.releng.maven.pom.equinox.mars</artifactId> -->
+				<!-- <version>${current.releng.version}</version> -->
+				<!-- <type>pom</type> -->
+				<!-- <scope>test</scope> -->
+				<!-- </dependency> -->
 			</dependencies>
 		</profile>
 	</profiles>
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.lunifera.releng.maven</groupId>
-				<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-				<scope>compile</scope>
-				<version>${project.version}</version>
-			</dependency>
 			<!-- pax exam -->
 			<dependency>
 				<groupId>org.ops4j.pax.exam</groupId>
@@ -230,16 +257,6 @@
 		<dependency>
 			<groupId>org.knowhowlab.osgi</groupId>
 			<artifactId>org.knowhowlab.osgi.testing.utils</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.apache.felix.gogo.runtime</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.apache.felix.gogo.shell</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

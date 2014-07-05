@@ -55,13 +55,17 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.apache.felix.gogo.runtime</artifactId>
+			<groupId>org.lunifera.releng.maven</groupId>
+			<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
+			<version>0.7.2-SNAPSHOT</version>
 			<scope>provided</scope>
+			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>org.lunifera.osgi</groupId>
-			<artifactId>org.apache.felix.gogo.shell</artifactId>
+			<groupId>org.lunifera.releng.maven</groupId>
+			<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+			<version>0.7.2-SNAPSHOT</version>
+			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
