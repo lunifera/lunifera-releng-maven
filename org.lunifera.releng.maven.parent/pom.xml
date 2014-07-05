@@ -15,7 +15,7 @@
 	<artifactId>org.lunifera.releng.maven.parent</artifactId>
 	<name>Releng - Master Parent POM</name>
 	<description>A parent POM aimed to set up the build of general Maven based projects.</description>
-	<version>0.7.2</version>
+	<version>0.7.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<inceptionYear>2012</inceptionYear>
@@ -70,7 +70,7 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-		<tag>v0.7.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<!-- End -->
 
@@ -210,7 +210,7 @@
 		<license.failIfWarning>true</license.failIfWarning>
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
-		<lunifera.license.version>0.7.2</lunifera.license.version>
+		<lunifera.license.version>0.7.3-SNAPSHOT</lunifera.license.version>
 		<license.skip.header>false</license.skip.header>
 		<license.roots>src</license.roots>
 		<license.canUpdateCopyright>true</license.canUpdateCopyright>
