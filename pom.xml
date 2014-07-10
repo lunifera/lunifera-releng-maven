@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>org.lunifera.releng.maven.parent.mbp.aggregator</artifactId>
-		<version>0.7.3-SNAPSHOT</version>
+		<version>0.8.1-SNAPSHOT</version>
 		<relativePath>org.lunifera.releng.maven.parent.mbp.aggregator/pom.xml</relativePath>
 	</parent>
 
