@@ -9,13 +9,14 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>org.lunifera.releng.maven.parent</artifactId>
-		<version>0.7.3-SNAPSHOT</version>
+		<version>0.8.1-SNAPSHOT</version>
 		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
 	</parent>
 
@@ -25,7 +26,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<mbp.version>2.4.0</mbp.version>
+		<mbp.version>2.5.0</mbp.version>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 	</properties>
 
@@ -43,8 +44,8 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<profiles>
 		<profile>
@@ -82,21 +83,40 @@
 							<artifactId>maven-bundle-plugin</artifactId>
 							<version>${mbp.version}</version>
 							<extensions>true</extensions>
-							<configuration>
-								<instructions>
-									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
-									<Bundle-Name>${project.name}</Bundle-Name>
-									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
-									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-									<_snapshot>${osgi-version-qualifier}</_snapshot>
-									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-									<_dsannotations>*</_dsannotations>
-									<!-- <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE,META-INF/DEPENDENCIES=DEPENDENCIES</Include-Resource> -->
-									<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
-									<_removeheaders>Private-Package,Ignore-Package,Include-Resource</_removeheaders>
-								</instructions>
-							</configuration>
+							<executions>
+								<execution>
+									<id>bundle</id>
+									<goals>
+										<goal>bundle</goal>
+									</goals>
+									<inherited>true</inherited>
+									<configuration>
+										<instructions>
+											<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
+											<Bundle-Name>${project.name}</Bundle-Name>
+											<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+											<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
+											<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+											<_snapshot>${osgi-version-qualifier}</_snapshot>
+											<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+											<_dsannotations>*</_dsannotations>
+											<!-- <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE,META-INF/DEPENDENCIES=DEPENDENCIES</Include-Resource> -->
+											<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
+											<_removeheaders>Private-Package,Ignore-Package,Include-Resource</_removeheaders>
+										</instructions>
+									</configuration>
+								</execution>
+								<execution>
+									<id>baseline</id>
+									<goals>
+										<goal>baseline</goal>
+									</goals>
+									<configuration>
+										<!-- <comparisonVersion>0.1.2</comparisonVersion> -->
+										<failOnWarning>true</failOnWarning>
+									</configuration>
+								</execution>
+							</executions>
 						</plugin>
 					</plugins>
 				</pluginManagement>
@@ -124,6 +144,22 @@
 					</plugin>
 				</plugins>
 			</build>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
+						<reportSets>
+							<reportSet>
+								<id>baseline-report</id>
+								<reports>
+									<report>BaselineReport.java</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
 		</profile>
 		<profile>
 			<id>in-eclipse-mbp</id>
@@ -203,7 +239,8 @@
 											<taskdef resource="net/sf/antcontrib/antlib.xml" />
 											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 											<if>
-												<available file="${project.build.outputDirectory}/OSGI-INF" type="dir" />
+												<available file="${project.build.outputDirectory}/OSGI-INF"
+													type="dir" />
 												<then>
 													<echo message="Copying OSGI-INF..." level="info" />
 													<delete dir="${basedir}/OSGI-INF" quiet="true" />
