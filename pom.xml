@@ -18,7 +18,7 @@
 		<relativePath>org.lunifera.releng.maven.parent.mbp.aggregator/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.root</artifactId>
+	<artifactId>lunifera-releng-maven</artifactId>
 	<name>Lunifera - Maven Release Engineering Projects</name>
 	<description>An group of Maven based artifacts for all Lunifera projects.</description>
 	<packaging>pom</packaging>
