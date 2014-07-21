@@ -202,7 +202,6 @@
 		<license.failIfWarning>true</license.failIfWarning>
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
-		<lunifera.license.version>${lunifera.releng.version}</lunifera.license.version>
 		<license.skip.header>false</license.skip.header>
 		<license.roots>src</license.roots>
 		<license.canUpdateCopyright>true</license.canUpdateCopyright>
@@ -1182,7 +1181,7 @@
 			<dependency>
 				<groupId>org.lunifera.releng.maven</groupId>
 				<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-				<version>${lunifera.license.version}</version>
+				<version>${lunifera.releng.version}</version>
 				<classifier>third-party</classifier>
 				<type>properties</type>
 			</dependency>
