@@ -213,6 +213,12 @@
 					</snapshots>
 				</repository>
 				<repository>
+					<id>jetty-8x</id>
+					<url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.15.v20140411
+					</url>
+					<layout>p2</layout>
+				</repository>
+				<repository>
 					<id>apache-deps-snapshots</id>
 					<name>Apache Nexus Snapshots</name>
 					<url>https://repository.apache.org/content/repositories/snapshots
