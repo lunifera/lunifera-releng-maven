@@ -28,6 +28,8 @@
 	<properties>
 		<mbp.version>2.5.0</mbp.version>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
+		<bundle.full.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</bundle.full.version>
+		<bundle.short.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bundle.short.version>
 	</properties>
 
 	<url>${distribution.site.url}</url>
@@ -95,7 +97,7 @@
 											<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 											<Bundle-Name>${project.name}</Bundle-Name>
 											<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-											<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
+											<Bundle-Version>${bundle.full.version}</Bundle-Version>
 											<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 											<_snapshot>${osgi-version-qualifier}</_snapshot>
 											<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
@@ -153,7 +155,7 @@
 							<reportSet>
 								<id>baseline-report</id>
 								<reports>
-									<report>BaselineReport.java</report>
+									<report>baseline-report</report>
 								</reports>
 							</reportSet>
 						</reportSets>
@@ -197,7 +199,7 @@
 									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 									<Bundle-Name>${project.name}</Bundle-Name>
 									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
+									<Bundle-Version>${bundle.full.version}</Bundle-Version>
 									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
 									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
@@ -229,6 +231,25 @@
 							<artifactId>maven-antrun-plugin</artifactId>
 							<executions>
 								<execution>
+									<id>delete-osgi-inf</id>
+									<phase>clean</phase>
+									<goals>
+										<goal>run</goal>
+									</goals>
+									<configuration>
+										<target>
+											<taskdef resource="net/sf/antcontrib/antlib.xml" />
+											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+											<if>
+												<available file="${basedir}/OSGI-INF" type="dir" />
+												<then>
+													<delete dir="${basedir}/OSGI-INF" quiet="true" />
+												</then>
+											</if>
+										</target>
+									</configuration>
+								</execution>
+								<execution>
 									<id>copy-osgi-inf</id>
 									<phase>package</phase>
 									<goals>
@@ -243,7 +264,6 @@
 													type="dir" />
 												<then>
 													<echo message="Copying OSGI-INF..." level="info" />
-													<delete dir="${basedir}/OSGI-INF" quiet="true" />
 													<mkdir dir="${basedir}/OSGI-INF" />
 													<copy todir="${basedir}/OSGI-INF">
 														<fileset dir="${project.build.outputDirectory}/OSGI-INF" />
@@ -398,8 +418,8 @@
 									<Bundle-Name>${project.name}</Bundle-Name>
 									<Bundle-SymbolicName>${project.artifactId}.source</Bundle-SymbolicName>
 									<Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
-									<Bundle-Version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</Bundle-Version>
-									<Eclipse-SourceBundle>${project.artifactId};version="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}";roots:="."</Eclipse-SourceBundle>
+									<Bundle-Version>${bundle.full.version}</Bundle-Version>
+									<Eclipse-SourceBundle>${project.artifactId};version="${bundle.full.version}";roots:="."</Eclipse-SourceBundle>
 								</manifestEntries>
 							</archive>
 						</configuration>
