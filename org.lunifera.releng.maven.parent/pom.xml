@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.lunifera.releng.maven</groupId>
@@ -21,7 +22,7 @@
 	<inceptionYear>2012</inceptionYear>
 
 	<prerequisites>
-		<maven>3.2.1</maven>
+		<maven>3.2.2</maven>
 	</prerequisites>
 
 	<organization>
@@ -84,6 +85,8 @@
 
 	<properties>
 		<lunifera.releng.version>0.8.1-SNAPSHOT</lunifera.releng.version>
+		<lunifera.license.version>0.8.1-SNAPSHOT</lunifera.license.version>
+
 		<lunifera.site.skip>false</lunifera.site.skip>
 		<lunifera.deploy.skip>false</lunifera.deploy.skip>
 
@@ -162,7 +165,6 @@
 		<apache.aries.subsystem.version>1.0.1-SNAPSHOT</apache.aries.subsystem.version>
 		<vaadin.addon.icepush.version>0.5.5</vaadin.addon.icepush.version>
 		<vaadin.addon.jpacontainer.version>3.0.0</vaadin.addon.jpacontainer.version>
-		<atmosphere.version>1.0.14-SNAPSHOT</atmosphere.version>
 		<drools.version>6.0.1.Final</drools.version>
 		<kie.version>6.0.1.Final</kie.version>
 		<jbpm.version>6.0.1.Final</jbpm.version>
@@ -183,11 +185,10 @@
 		<zookeeper.version>3.4.5</zookeeper.version>
 		<hazelcast.version>3.1.5</hazelcast.version>
 		<paxexam.version>4.0.0</paxexam.version>
-		<paxexam.felix.version>4.4.0</paxexam.felix.version>
+		<paxexam.felix.version>4.4.1</paxexam.felix.version>
 		<paxurl.version>2.1.0</paxurl.version>
 		<maven.version>3.2.2</maven.version>
 		<powermock.version>1.5.5</powermock.version>
-
 
 		<report.javadoc.version>2.9.1</report.javadoc.version>
 		<report.license.version>1.7</report.license.version>
@@ -203,7 +204,6 @@
 		<license.failIfWarning>true</license.failIfWarning>
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
-		<lunifera.license.version>${lunifera.releng.version}</lunifera.license.version>
 		<license.skip.header>false</license.skip.header>
 		<license.roots>src</license.roots>
 		<license.canUpdateCopyright>true</license.canUpdateCopyright>
@@ -211,8 +211,10 @@
 
 		<!-- maven plugins -->
 		<surefire.version>2.17</surefire.version>
-		<maven.site.version>3.4-SNAPSHOT</maven.site.version>
+		<maven.site.version>3.4</maven.site.version>
 		<jarsigner.tsa>https://timestamp.geotrust.com/tsa</jarsigner.tsa>
+		<maven.source.version>2.3</maven.source.version>
+		<sonar.maven.version>2.4</sonar.maven.version>
 
 		<lunifera.report.short>false</lunifera.report.short>
 
@@ -304,6 +306,7 @@
 							<version>${report.license.version}</version>
 							<inherited>true</inherited>
 							<configuration>
+								<quiet>true</quiet>
 								<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
 								<useMissingFile>true</useMissingFile>
 								<failIfWarning>${license.failIfWarning}</failIfWarning>
@@ -570,7 +573,7 @@
 				</pluginManagement>
 				<plugins>
 					<plugin>
-						<groupId>org.codehaus.sonar</groupId>
+						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>sonar-maven-plugin</artifactId>
 					</plugin>
 
@@ -831,9 +834,9 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.codehaus.sonar</groupId>
+					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>sonar-maven-plugin</artifactId>
-					<version>4.3.1</version>
+					<version>${sonar.maven.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -851,7 +854,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>2.2.1</version>
+					<version>${maven.source.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -905,6 +908,9 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.8.1</version>
+					<configuration>
+						<skip>${lunifera.deploy.skip}</skip>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -1133,13 +1139,16 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.runtime</artifactId>
 				<version>0.12.1</version>
-				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.gogo.command</artifactId>
+				<version>0.14.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.shell</artifactId>
 				<version>0.11.0-SNAPSHOT</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.knowhowlab.osgi</groupId>
@@ -1230,6 +1239,11 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
