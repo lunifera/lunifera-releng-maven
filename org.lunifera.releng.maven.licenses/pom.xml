@@ -57,14 +57,14 @@
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
-			<version>${lunifera.releng.version}</version>
+			<version>0.8.1-SNAPSHOT</version>
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
-			<version>${lunifera.releng.version}</version>
+			<version>0.8.1-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
