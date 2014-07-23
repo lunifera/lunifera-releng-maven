@@ -13,30 +13,19 @@
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
-		<artifactId>org.lunifera.releng.maven.parent</artifactId>
-		<version>0.8.1-SNAPSHOT</version>
-		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
+		<artifactId>lunifera-releng-maven</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
-	<name>Releng - Fragment POM for Integration Tests with Equinox (Luna) container</name>
+	<name>Lunifera Releng Maven - Fragment POM for Integration Tests with Equinox (Luna) container</name>
 	<description>A POM aimed to group all dependencies needed for integration tests running in Equinox (Luna) container.</description>
 	<packaging>pom</packaging>
 
-	<url>${distribution.site.url}</url>
-	<distributionManagement>
-		<site>
-			<id>gh-pages</id>
-			<name>Lunifera GitHub Pages</name>
-			<url>${distribution.site.url}</url>
-		</site>
-	</distributionManagement>
 	<scm>
-		<!-- convention is that the repository's name be the same as the aggregator 
-			name -->
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<url>${lunifera.scm.url}</url>
 		<tag>HEAD</tag>
 	</scm>
 

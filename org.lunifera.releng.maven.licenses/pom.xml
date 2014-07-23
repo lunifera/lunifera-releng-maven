@@ -8,36 +8,26 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
-		<artifactId>org.lunifera.releng.maven.parent</artifactId>
-		<version>0.8.1-SNAPSHOT</version>
-		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
+		<artifactId>lunifera-releng-maven</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.licenses</artifactId>
-	<name>Releng - Licenses Repository Artifact</name>
+	<name>Lunifera Releng Maven - Licenses Repository Artifact</name>
 	<description>A jar containing artifacts needed to resolve dependency licensing at build using license-maven-plugin.</description>
 
-	<url>${distribution.site.url}</url>
-	<distributionManagement>
-		<site>
-			<id>gh-pages</id>
-			<name>Lunifera GitHub Pages</name>
-			<url>${distribution.site.url}</url>
-		</site>
-	</distributionManagement>
 	<scm>
-		<!-- convention is that the repository's name be the same as the aggregator 
-			name -->
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<url>${lunifera.scm.url}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<dependencies>
 		<!-- All dependencies below are used to build the third-party missing license 
@@ -57,14 +47,14 @@
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
-			<version>0.8.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
-			<version>0.8.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
@@ -82,6 +72,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
+				<version>${report.license.version}</version>
 				<executions>
 					<execution>
 						<id>update-license-files</id>

@@ -9,18 +9,19 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
-		<artifactId>org.lunifera.releng.maven.parent</artifactId>
-		<version>0.8.1-SNAPSHOT</version>
-		<relativePath>../org.lunifera.releng.maven.parent/pom.xml</relativePath>
+		<artifactId>lunifera-releng-maven</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>org.lunifera.releng.maven.parent.tycho</artifactId>
-	<name>Releng - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
+	<name>Lunifera Releng Maven - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
 	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho ().</description>
 	<packaging>pom</packaging>
 
@@ -45,22 +46,11 @@
 
 	</properties>
 
-	<url>${distribution.site.url}</url>
-	<distributionManagement>
-		<site>
-			<id>gh-pages</id>
-			<name>Lunifera GitHub Pages</name>
-			<url>${distribution.site.url}</url>
-		</site>
-	</distributionManagement>
 	<scm>
-		<!-- convention is that the repository's name be the same as the aggregator 
-			name -->
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<url>${lunifera.scm.url}</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<profiles>
 		<profile>
@@ -132,6 +122,543 @@
 				</repository>
 			</repositories>
 		</profile>
+		<profile>
+			<id>whenIsRepositoryP2Project</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.eclipse.p2</exists>
+				</file>
+			</activation>
+			<properties>
+				<!-- encoded files needed by ant task -->
+				<encoded.p2index>dmVyc2lvbiA9IDEKIG1ldGFkYXRhLnJlcG9zaXRvcnkuZmFjdG9yeS5vcmRlciA9IGNvbXBvc2l0ZUNvbnRlbnQueG1sLFwhCiBhcnRpZmFjdC5yZXBvc2l0b3J5LmZhY3Rvcnkub3JkZXIgPSBjb21wb3NpdGVBcnRpZmFjdHMueG1sLFwh</encoded.p2index>
+				<encoded.compositeArtifacts>PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPD9jb21wb3NpdGVBcnRpZmFjdFJlcG9zaXRvcnkgdmVyc2lvbj0nMS4wLjAnPz4KPHJlcG9zaXRvcnkgbmFtZT0nTHVuaWZlcmEgVXBkYXRlIFNpdGUnIHR5cGU9J29yZy5lY2xpcHNlLmVxdWlub3guaW50ZXJuYWwucDIuYXJ0aWZhY3QucmVwb3NpdG9yeS5Db21wb3NpdGVBcnRpZmFjdFJlcG9zaXRvcnknIHZlcnNpb249JzEuMC4wJz4KICA8cHJvcGVydGllcyBzaXplPScxJz4KCTxwcm9wZXJ0eSBuYW1lPSdwMi50aW1lc3RhbXAnIHZhbHVlPScxMjQzODIyNTAyNDQwJy8+CiAgPC9wcm9wZXJ0aWVzPgogIDxjaGlsZHJlbiBzaXplPScwJz4JCiAgPC9jaGlsZHJlbj4KPC9yZXBvc2l0b3J5Pg==</encoded.compositeArtifacts>
+				<encoded.compositeContent>PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPD9jb21wb3NpdGVNZXRhZGF0YVJlcG9zaXRvcnkgdmVyc2lvbj0nMS4wLjAnPz4KPHJlcG9zaXRvcnkgbmFtZT0nTHVuaWZlcmEgVXBkYXRlIFNpdGUnIHR5cGU9J29yZy5lY2xpcHNlLmVxdWlub3guaW50ZXJuYWwucDIubWV0YWRhdGEucmVwb3NpdG9yeS5Db21wb3NpdGVNZXRhZGF0YVJlcG9zaXRvcnknIHZlcnNpb249JzEuMC4wJz4KICA8cHJvcGVydGllcyBzaXplPScxJz4KCTxwcm9wZXJ0eSBuYW1lPSdwMi50aW1lc3RhbXAnIHZhbHVlPScxMjQzODIyNTAyNDk5Jy8+CiAgPC9wcm9wZXJ0aWVzPgogIDxjaGlsZHJlbiBzaXplPScwJz4KICA8L2NoaWxkcmVuPgo8L3JlcG9zaXRvcnk+</encoded.compositeContent>
+
+				<!-- this properties should be overridden for each repository POM -->
+				<lunifera.stage.p2.label>${project.artifactId}</lunifera.stage.p2.label>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<configuration>
+							<resolver>p2</resolver>
+							<pomDependencies>consider</pomDependencies>
+							<environments>
+								<environment>
+									<os>win32</os>
+									<ws>win32</ws>
+									<arch>x86_64</arch>
+								</environment>
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86</arch>
+								</environment>
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86_64</arch>
+								</environment>
+								<environment>
+									<os>macosx</os>
+									<ws>cocoa</ws>
+									<arch>x86_64</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+		<profile>
+			<id>whenIsRepositoryP2Project.stage.p2</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.eclipse.p2</exists>
+				</file>
+				<property>
+					<name>stage.p2</name>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.stage.p2.log.file.path>${project.basedir}${file.separator}build.${lunifera.stage.p2.label}.${lunifera.build.eclipse.platform.name}.${lunifera.build.branch}.log.properties</lunifera.stage.p2.log.file.path>
+				<lunifera.stage.p2.origin.dir>${project.build.directory}${file.separator}repository</lunifera.stage.p2.origin.dir>
+				<lunifera.stage.p2.target.dir>${lunifera.developer.home.repositories}${lunifera.federated.repository.label}${file.separator}${lunifera.build.eclipse.platform.name}${file.separator}${lunifera.build.branch}${file.separator}${lunifera.stage.p2.label}${file.separator}${lunifera.stage.artifact.version}</lunifera.stage.p2.target.dir>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>generate-files</id>
+								<phase>verify</phase>
+								<configuration>
+									<quiet>true</quiet>
+									<target>
+										<taskdef name="repoindex"
+											classname="org.osgi.impl.bundle.repoindex.ant.RepoIndexTask" />
+										<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy">
+											<classpath refid="maven.compile.classpath" />
+										</taskdef>
+										<taskdef resource="net/sf/antcontrib/antlib.xml" />
+										<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+										<taskdef name="xmltask"
+											classname="com.oopsconsultancy.xmltask.ant.XmlTask" />
+
+										<echo
+											message="Federated Repository Local Dir (lunifera.build.local.federated.p2.dir): ${lunifera.build.local.federated.p2.dir}" />
+										<echo message="Platform: ${lunifera.build.eclipse.platform.name}" />
+										<echo message="Build Type: ${lunifera.build.branch}" />
+										<echo message="Repo Name: ${lunifera.stage.p2.label}" />
+										<echo message="Repo Keep Old: ${lunifera.stage.p2.keep.old}" />
+										<echo message="Repo Version: ${lunifera.stage.artifact.version}" />
+										<echo
+											message="Log File (lunifera.stage.p2.log.file.path): ${lunifera.stage.p2.log.file.path}" />
+										<echo
+											message="P2 Source Dir (lunifera.stage.p2.origin.dir): ${lunifera.stage.p2.origin.dir}" />
+										<echo
+											message="P2 Target Dir (lunifera.stage.p2.target.dir): ${lunifera.stage.p2.target.dir}" />
+
+										<!-- "init" -->
+										<fail
+											message="There property 'lunifera.developer.home' was not defined in settings.xml or in commandline.">
+											<condition>
+												<or>
+													<not>
+														<isset property="lunifera.developer.home" />
+													</not>
+													<equals arg1="${lunifera.developer.home}" arg2="none" />
+												</or>
+											</condition>
+										</fail>
+										<if>
+											<not>
+												<available file="${lunifera.developer.home}" type="dir" />
+											</not>
+											<then>
+												<mkdir dir="${lunifera.developer.home}" />
+											</then>
+										</if>
+										<if>
+											<not>
+												<available file="${lunifera.developer.home.repositories}"
+													type="dir" />
+											</not>
+											<then>
+												<mkdir dir="${lunifera.developer.home.repositories}" />
+											</then>
+										</if>
+										<if>
+											<not>
+												<available file="${lunifera.build.local.federated.p2.dir}"
+													type="dir" />
+											</not>
+											<then>
+												<mkdir dir="${lunifera.build.local.federated.p2.dir}" />
+											</then>
+										</if>
+										<groovy>
+											ant.echo "Extracted building templates..."
+
+											def
+											separator =
+											"${properties['file.separator']}"
+											def directory =
+											"${properties['project.build.directory']}" + separator +
+											"templates" + separator
+
+											new
+											File(directory).mkdir()
+
+											def
+											encodedP2index =
+											"${properties['encoded.p2index']}"
+											def
+											encodedCompositeArtifacts =
+											"${properties['encoded.compositeArtifacts']}"
+											def
+											encodedCompositeContent =
+											"${properties['encoded.compositeContent']}"
+
+											properties.p2indexFile = directory + "p2.index"
+											properties.compositeArtifactsFile = directory +
+											"compositeArtifacts.xml"
+											properties.compositeContentFile =
+											directory + "compositeContent.xml"
+
+											new
+											FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
+											new
+											FileOutputStream(properties.compositeArtifactsFile).write(encodedCompositeArtifacts.decodeBase64())
+											new
+											FileOutputStream(properties.compositeContentFile).write(encodedCompositeContent.decodeBase64())
+
+										</groovy>
+										<echo
+											message="** Lunifera User Developer Home: ${lunifera.developer.home}" />
+										<echo message=" - index source: ${p2indexFile}" />
+										<echo message=" - contentFile source: ${compositeContentFile}" />
+										<echo message=" - artifactsFile source: ${compositeArtifactsFile}" />
+
+										<!-- generate.composite.p2.init -->
+
+										<fail message="Could not find p2.index template at ${p2indexFile} !">
+											<condition>
+												<not>
+													<available file="${p2indexFile}" type="file" />
+												</not>
+											</condition>
+										</fail>
+
+										<fail
+											message="Could not find compositeContent.xml template at ${compositeContentFile} !">
+											<condition>
+												<not>
+													<available file="${compositeContentFile}" type="file" />
+												</not>
+											</condition>
+										</fail>
+
+										<fail
+											message="Could not find compositeArtifacts.xml template at ${compositeArtifactsFile} !">
+											<condition>
+												<not>
+													<available file="${compositeArtifactsFile}" type="file" />
+												</not>
+											</condition>
+										</fail>
+
+										<!-- create the R5 index repository. -->
+										<repoindex name="${lunifera.stage.p2.label}"
+											rootURL="${lunifera.stage.p2.origin.dir}" verbose="true"
+											pretty="true" out="${lunifera.stage.p2.origin.dir}/index.xml">
+											<fileset dir="${lunifera.stage.p2.origin.dir}/plugins"
+												includes="**/*" />
+										</repoindex>
+
+										<fail
+											message="Could not find generated index.xml template at ${lunifera.stage.p2.origin.dir} !">
+											<condition>
+												<not>
+													<available file="${lunifera.stage.p2.origin.dir}/index.xml"
+														type="file" />
+												</not>
+											</condition>
+										</fail>
+
+										<!-- "deploy.generated.p2.to.composite.dir.init" -->
+										<echo message="Copying repo to Federated Repository !!!" />
+										<if>
+											<available file="${lunifera.stage.p2.log.file.path}"
+												type="file" />
+											<then>
+												<echo message="OPEN BUILD LOG" />
+												<property file="${lunifera.stage.p2.log.file.path}"
+													prefix="old" />
+												<echoproperties prefix="old." />
+											</then>
+										</if>
+
+										<!-- deploy.generated.p2.to.composite.dir.clean -->
+										<!-- remove the latest built repository directory -->
+										<if>
+											<and>
+												<equals arg1="${lunifera.stage.p2.keep.old}" arg2="false" />
+												<available file="${old.lunifera.stage.p2.target.dir}"
+													type="dir" />
+											</and>
+											<then>
+												<echo message="REMOVING OLD BUILD" />
+												<delete includeemptydirs="true" failonerror="false">
+													<fileset includes="**/*"
+														dir="${old.lunifera.stage.p2.target.dir}" />
+												</delete>
+												<delete dir="${old.lunifera.stage.p2.target.dir}" />
+											</then>
+										</if>
+										<!-- remove an existent repository directory -->
+										<if>
+											<available file="${lunifera.stage.p2.target.dir}"
+												type="dir" />
+											<then>
+												<delete includeemptydirs="true" failonerror="false">
+													<fileset includes="**/*" dir="${lunifera.stage.p2.target.dir}" />
+												</delete>
+												<delete dir="${lunifera.stage.p2.target.dir}" />
+											</then>
+										</if>
+
+										<!-- deploy.generated.p2.to.composite.p2 -->
+										<!-- create the repository directory and copy files from the generated 
+											P2 -->
+										<echo message="COPYING P2" />
+										<if>
+											<available file="${lunifera.stage.p2.origin.dir}"
+												type="dir" />
+											<then>
+												<mkdir dir="${lunifera.stage.p2.target.dir}" />
+												<copy todir="${lunifera.stage.p2.target.dir}">
+													<fileset dir="${lunifera.stage.p2.origin.dir}"
+														includes="**/*" />
+												</copy>
+												<if>
+													<equals arg1="${lunifera.stage.p2.keep.old}" arg2="false" />
+													<then>
+														<propertyfile file="${lunifera.stage.p2.log.file.path}"
+															comment="Building log for ${lunifera.build.eclipse.platform.name} - ${lunifera.build.branch}">
+															<entry key="build.counter" type="int" default="0"
+																operation="+" />
+															<entry key="build.date" type="date" value="now" />
+															<entry key="lunifera.stage.artifact.version" value="${lunifera.stage.artifact.version}" />
+															<entry key="lunifera.stage.p2.target.dir" value="${lunifera.stage.p2.target.dir}" />
+														</propertyfile>
+													</then>
+													<else>
+														<propertyfile file="${lunifera.stage.p2.log.file.path}"
+															comment="Building log for ${lunifera.build.eclipse.platform.name} - ${lunifera.build.branch}">
+															<entry key="build.counter" type="int" default="0"
+																operation="+" />
+															<entry key="build.date" type="date" value="now" />
+															<entry key="lunifera.build.local.federated.p2.dir"
+																value="${lunifera.build.local.federated.p2.dir}" />
+															<entry key="lunifera.stage.artifact.versions"
+																default="" operation="+"
+																value=",${lunifera.stage.artifact.version}" />
+														</propertyfile>
+													</else>
+												</if>
+											</then>
+											<else>
+												<fail
+													message="The P2 repository was not generated in '${lunifera.stage.p2.origin.dir}' !" />
+											</else>
+										</if>
+
+										<!-- start rebuilding... -->
+										<echo message="Rebuilding Federated Repository !!!" />
+										<echo
+											message=" (lunifera.build.local.federated.p2.dir): ${lunifera.build.local.federated.p2.dir}" />
+
+										<dirset id="dirs" dir="${lunifera.build.local.federated.p2.dir}"
+											includes="*/*" />
+
+										<fail message="There is no repositories to process !">
+											<condition>
+												<resourcecount when="equal" count="0" refid="dirs" />
+											</condition>
+										</fail>
+
+										<if>
+											<available
+												file="${lunifera.build.local.federated.p2.dir}compositeContent.xml"
+												type="file" />
+											<then>
+												<echo message="DELETED OLD CONTENT FILE" />
+												<delete
+													file="${lunifera.build.local.federated.p2.dir}compositeContent.xml" />
+											</then>
+										</if>
+										<if>
+											<available
+												file="${lunifera.build.local.federated.p2.dir}compositeArtifacts.xml"
+												type="file" />
+											<then>
+												<echo message="DELETED OLD ARTIFACTS FILE" />
+												<delete
+													file="${lunifera.build.local.federated.p2.dir}compositeArtifacts.xml" />
+											</then>
+										</if>
+
+										<!-- generate.composite.p2.add.compositeContentFile -->
+										<xmltask source="${compositeContentFile}" destbuffer="bufferCompositeContent"
+											report="true" />
+										<var name="counterContent" value="0" />
+										<for param="child" list="${toString:dirs}" delimiter=";">
+											<sequential>
+												<math result="counterContent" operand1="${counterContent}"
+													operand2="1" operation="+" datatype="int" />
+												<echo message="Adding Content Child @{child} - ${counterContent}" />
+												<xmltask sourcebuffer="bufferCompositeContent"
+													destbuffer="bufferCompositeContent">
+													<insert path="/repository/children">
+						<![CDATA[ <child location='@{child}' /> ]]>
+													</insert>
+												</xmltask>
+											</sequential>
+										</for>
+										<xmltask sourcebuffer="bufferCompositeContent"
+											destbuffer="bufferCompositeContent">
+											<replace path="/repository/children/@size" withText="${counterContent}" />
+										</xmltask>
+
+										<!-- generate.composite.p2.add.compositeArtifactsFile -->
+										<xmltask source="${compositeArtifactsFile}"
+											destbuffer="bufferCompositeArtifacts" report="true" />
+										<var name="counterArtifacts" value="0" />
+										<for param="child" list="${toString:dirs}" delimiter=";">
+											<sequential>
+												<math result="counterArtifacts" operand1="${counterArtifacts}"
+													operand2="1" operation="+" datatype="int" />
+												<echo message="Adding Artifact Child @{child} - ${counterArtifacts}" />
+												<xmltask sourcebuffer="bufferCompositeArtifacts"
+													destbuffer="bufferCompositeArtifacts">
+													<insert path="/repository/children">
+						<![CDATA[ <child location='@{child}' /> ]]>
+													</insert>
+												</xmltask>
+											</sequential>
+										</for>
+										<xmltask sourcebuffer="bufferCompositeArtifacts"
+											destbuffer="bufferCompositeArtifacts">
+											<replace path="/repository/children/@size" withText="${counterArtifacts}" />
+										</xmltask>
+
+										<!-- generate.composite.p2.add.p2.index.file -->
+										<if>
+											<not>
+												<available
+													file="${lunifera.build.local.federated.p2.dir}p2.index"
+													type="file" />
+											</not>
+											<then>
+												<copy file="${p2indexFile}" todir="${lunifera.build.local.federated.p2.dir}" />
+											</then>
+										</if>
+
+										<!-- generate.composite.p2 -->
+										<echo message="CREATE COMPOSITE ARTIFACTS" />
+										<xmltask sourcebuffer="bufferCompositeArtifacts"
+											dest="${lunifera.build.local.federated.p2.dir}compositeArtifacts.xml" />
+
+										<echo message="CREATE COMPOSITE CONTENT" />
+										<xmltask sourcebuffer="bufferCompositeContent"
+											dest="${lunifera.build.local.federated.p2.dir}compositeContent.xml" />
+
+										<!-- end generation -->
+
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.codehaus.groovy</groupId>
+								<artifactId>groovy-all</artifactId>
+								<version>2.2.0</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.ant</groupId>
+								<artifactId>ant</artifactId>
+								<version>1.8.4</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.ant</artifactId>
+								<version>0.1.0</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.lib</artifactId>
+								<version>2.1.1</version>
+							</dependency>
+							<dependency>
+								<groupId>org.lunifera.osgi</groupId>
+								<artifactId>org.osgi.impl.bundle.repoindex.api</artifactId>
+								<version>2.0.0</version>
+							</dependency>
+							<dependency>
+								<groupId>ant-contrib</groupId>
+								<artifactId>ant-contrib</artifactId>
+								<version>1.0b3</version>
+								<exclusions>
+									<exclusion>
+										<groupId>ant</groupId>
+										<artifactId>ant</artifactId>
+									</exclusion>
+								</exclusions>
+							</dependency>
+							<dependency>
+								<groupId>net.sf.saxon</groupId>
+								<artifactId>Saxon-HE</artifactId>
+								<version>9.4</version>
+							</dependency>
+							<dependency>
+								<groupId>com.oopsconsultancy</groupId>
+								<artifactId>xmltask</artifactId>
+								<version>1.16</version>
+							</dependency>
+							<dependency>
+								<groupId>com.googlecode.pojosr</groupId>
+								<artifactId>de.kalpatec.pojosr.framework</artifactId>
+								<version>0.2.1</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>whenIsProductProject</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.eclipse.product</exists>
+				</file>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-p2-director-plugin</artifactId>
+							<version>${tycho-version}</version>
+							<executions>
+								<execution>
+									<!-- install the product for all configured os/ws/arch environments 
+										using p2 director -->
+									<id>materialize-products</id>
+									<goals>
+										<goal>materialize-products</goal>
+									</goals>
+								</execution>
+								<execution>
+									<!-- (optional) create product zips (one per os/ws/arch) -->
+									<id>archive-products</id>
+									<goals>
+										<goal>archive-products</goal>
+									</goals>
+									<phase>pre-integration-test</phase>
+								</execution>
+							</executions>
+							<configuration>
+								<formats>
+									<win32>zip</win32>
+									<linux>tar.gz</linux>
+									<macosx>tar.gz</macosx>
+								</formats>
+								<products>
+									<product>
+										<id>${project.artifactId}</id>
+										<!-- <archiveFileName>Equinox-Luna-Standard-Node-${unqualifiedVersion}.${buildQualifier}</archiveFileName> -->
+										<!-- (optional) customize the root folder name of the product zip -->
+										<!-- <rootFolder>myServer</rootFolder> -->
+									</product>
+								</products>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
 		<profile>
 			<id>prepare-for-next-release</id>
 			<activation>

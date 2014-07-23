@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Lunifera Luna Platform - Linux" sequenceNumber="404">
+<?pde version="3.8"?><target name="Lunifera Luna Platform - Linux" sequenceNumber="409">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.aether.maven.feature.feature.group" version="3.1.0.20140524-1439"/>
+<unit id="org.eclipse.aether.maven.feature.feature.group" version="3.1.0.20140706-2237"/>
 <repository location="http://download.eclipse.org/aether/maven-aether-provider/releases/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -28,7 +28,7 @@
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.lunifera.dependencies.feature.security.shiro.feature.group" version="1.2.2"/>
-<unit id="org.lunifera.dependencies.feature.aries.subsystems.feature.group" version="1.0.1.201407011403"/>
+<unit id="org.lunifera.dependencies.feature.aries.subsystems.feature.group" version="1.0.1.201407091400"/>
 <unit id="org.lunifera.dependencies.feature.zookeeper.feature.group" version="3.4.5"/>
 <unit id="org.lunifera.dsl.feature.entities.headless.source.feature.group" version="0.7.0"/>
 <unit id="org.lunifera.dependencies.feature.logback.feature.group" version="1.0.13"/>
@@ -42,11 +42,11 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.aether.connector.basic.feature.feature.group" version="1.0.0.v20140518"/>
 <unit id="org.eclipse.aether.transport.classpath.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.transport.wagon.feature.feature.group" version="1.0.0.v20140518"/>
 <unit id="org.eclipse.aether.feature.source.feature.group" version="1.0.0.v20140518"/>
 <unit id="org.eclipse.aether.transport.file.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.transport.wagon.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.feature.feature.group" version="1.0.0.v20140518"/>
 <unit id="org.eclipse.aether.transport.http.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.feature.feature.group" version="1.0.0.v20140518"/>
 <repository location="http://download.eclipse.org/aether/aether-core/releases/"/>
 </location>
 </locations>
