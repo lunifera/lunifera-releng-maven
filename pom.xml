@@ -179,22 +179,22 @@
 		<apache.aries.subsystem.version>1.0.1-SNAPSHOT</apache.aries.subsystem.version>
 		<vaadin.addon.icepush.version>0.5.5</vaadin.addon.icepush.version>
 		<vaadin.addon.jpacontainer.version>3.0.0</vaadin.addon.jpacontainer.version>
-		<drools.version>6.0.1.Final</drools.version>
-		<kie.version>6.0.1.Final</kie.version>
-		<jbpm.version>6.0.1.Final</jbpm.version>
+		<drools.version>6.1.0.CR2</drools.version>
+		<kie.version>6.1.0.CR2</kie.version>
+		<jbpm.version>6.1.0.CR2</jbpm.version>
 		<weld.version>2.1.0.Final</weld.version>
 		<logback.version>1.0.13</logback.version>
 		<derby.version>10.10.1.1</derby.version>
 		<mongodb.version>2.11.3</mongodb.version>
 		<mysql.connector.version>5.1.27</mysql.connector.version>
 		<shiro.version>1.2.3</shiro.version>
-		<jackrabbit.version>2.7.2</jackrabbit.version>
+		<jackrabbit.version>2.8.0</jackrabbit.version>
 		<camel.version>2.12.2</camel.version>
-		<vaadin.version>7.2.3</vaadin.version>
-		<activemq.version>5.8.0</activemq.version>
-		<wicket.version>6.12.0</wicket.version>
+		<vaadin.version>7.2.5</vaadin.version>
+		<activemq.version>5.10.0</activemq.version>
+		<wicket.version>6.16.0</wicket.version>
 		<assert.utils.version>1.2.2</assert.utils.version>
-		<ecf.version>3.7.1</ecf.version>
+		<ecf.version>3.9.0</ecf.version>
 		<stanbol.version>0.11.0</stanbol.version>
 		<zookeeper.version>3.4.5</zookeeper.version>
 		<hazelcast.version>3.1.5</hazelcast.version>
@@ -1157,7 +1157,7 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5</version>
 					<configuration>
-						<goals>site-deploy</goals>
+						<goals>deploy site-deploy</goals>
 						<preparationGoals>clean install</preparationGoals>
 						<arguments>
 							-Dlunifera.build.release -Dlunifera.build.full -Dlunifera.build.itests.run
