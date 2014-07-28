@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>lunifera-releng-maven</artifactId>
-		<version>0.9.4</version>
+		<version>0.9.5-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -34,7 +34,7 @@
 	<scm>
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<tag>v0.9.4</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<profiles>
