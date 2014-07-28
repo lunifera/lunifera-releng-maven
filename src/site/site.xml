@@ -29,10 +29,14 @@
 
 		<menu ref="reports" inherit="top" />
 
-		<menu name="Other Lunifera Projects" inherit="bottom">
-			<item name="Runtime Utilities" href="${lunifera.site.url}/lunifera-runtime-utils/index.html" />
-			<item name="Runtime Kernel" href="${lunifera.site.url}/lunifera-runtime-kernel/index.html" />
-			<item name="Runtime Add-ons" href="${lunifera.site.url}/lunifera-runtime-addons/index.html" />
+		<menu name="Other Lunifera Sub-Projects" inherit="bottom">
+			<item name="Runtime Utilities" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-utils/index.html" />
+			<item name="Runtime Kernel" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-kernel/index.html" />
+			<item name="Runtime Add-ons" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
+			<item name="Runtime Installer" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
+			<item name="Maven Tools" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
+			<item name="Pom-First Dependecies" href="lunifera-releng-maven-parent-mbp/lunifera-dependencies-mbp/index.html" />
+			<item name="Manifest-First Dependencies" href="lunifera-releng-maven-parent-tycho/lunifera-dependencies/index.html" />
 		</menu>
 
 		<links>

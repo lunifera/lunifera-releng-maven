@@ -18,7 +18,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
+	<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
 	<name>Lunifera Releng Maven - Fragment POM for Integration Tests with Equinox (Luna) container</name>
 	<description>A POM aimed to group all dependencies needed for integration tests running in Equinox (Luna) container.</description>
 	<packaging>pom</packaging>

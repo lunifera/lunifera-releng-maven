@@ -18,7 +18,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+	<artifactId>lunifera-releng-maven-fpom-node</artifactId>
 	<name>Lunifera Releng Maven - Fragment POM for Node Integration Tests with Lunifera Kernel.</name>
 	<description>A POM aimed to group all dependencies needed for integration tests based on Lunifera Kernel container.</description>
 	<packaging>pom</packaging>

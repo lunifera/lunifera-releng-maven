@@ -18,7 +18,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+	<artifactId>lunifera-releng-maven-licenses</artifactId>
 	<name>Lunifera Releng Maven - Licenses Repository Artifact</name>
 	<description>A jar containing artifacts needed to resolve dependency licensing at build using license-maven-plugin.</description>
 
@@ -45,14 +45,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
+			<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+			<artifactId>lunifera-releng-maven-fpom-node</artifactId>
 			<version>${project.version}</version>
 			<type>pom</type>
 			<scope>provided</scope>

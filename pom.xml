@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 
@@ -20,12 +21,12 @@
 	<version>0.9.3-SNAPSHOT</version>
 
 	<modules>
-		<module>org.lunifera.releng.maven.licenses</module>
-		<module>org.lunifera.releng.maven.parent.mbp</module>
-		<module>org.lunifera.releng.maven.parent.tycho</module>
-		<module>org.lunifera.releng.maven.pom.equinox.luna</module>
-		<module>org.lunifera.releng.maven.pom.felix</module>
-		<module>org.lunifera.releng.maven.pom.node</module>
+		<module>lunifera-releng-maven-licenses</module>
+		<module>lunifera-releng-maven-parent-mbp</module>
+		<module>lunifera-releng-maven-parent-tycho</module>
+		<module>lunifera-releng-maven-fpom-equinox-luna</module>
+		<module>lunifera-releng-maven-fpom-felix</module>
+		<module>lunifera-releng-maven-fpom-node</module>
 	</modules>
 
 	<inceptionYear>2012</inceptionYear>
@@ -52,10 +53,10 @@
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>${lunifera.ci.server.url}${lunifera.root.name}</url>
+		<url>${lunifera.ci.server.url}${lunifera.gitrepo.name}</url>
 	</ciManagement>
 
-	<url>${distribution.site.url}</url>
+	<url>${lunifera.site.repository.url}</url>
 	<distributionManagement>
 		<repository>
 			<id>lunifera-nexus-release</id>
@@ -102,10 +103,11 @@
 		<lunifera.scm.user>lunifera</lunifera.scm.user>
 		<lunifera.scm.branch>master</lunifera.scm.branch>
 		<lunifera.scm.url.host>https://github.com/</lunifera.scm.url.host>
-		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.root.name}.git</lunifera.scm.connection>
+		<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.gitrepo.name}/tree/${lunifera.scm.branch}</lunifera.scm.url>
 		<lunifera.scm.connection.protocol>scm:git:git://</lunifera.scm.connection.protocol>
 		<lunifera.scm.connection.host>github.com/</lunifera.scm.connection.host>
-		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}/${lunifera.scm.user}/${lunifera.root.name}.git</lunifera.scm.connection.dev>
+		<lunifera.scm.connection>${lunifera.scm.connection.protocol}${lunifera.scm.connection.host}${lunifera.scm.user}/${lunifera.gitrepo.name}.git</lunifera.scm.connection>
+		<lunifera.scm.connection.dev>${lunifera.scm.connection.dev.protocol}${lunifera.scm.connection.dev.host}/${lunifera.scm.user}/${lunifera.gitrepo.name}.git</lunifera.scm.connection.dev>
 		<lunifera.scm.connection.dev.protocol>scm:git:ssh://</lunifera.scm.connection.dev.protocol>
 		<lunifera.scm.connection.dev.host>git@github.com</lunifera.scm.connection.dev.host>
 
@@ -119,18 +121,19 @@
 		<lunifera.site.protocol>github:</lunifera.site.protocol>
 
 		<!-- points to the root of project's site at github -->
-		<lunifera.site.url>http://lunifera.github.io/</lunifera.site.url>
+		<lunifera.site.root.url>http://lunifera.github.io</lunifera.site.root.url>
 
 		<!-- the name of the git repository that the aggregator represents -->
-		<lunifera.root.name>lunifera-releng-maven</lunifera.root.name>
+		<lunifera.gitrepo.name>lunifera-releng-maven</lunifera.gitrepo.name>
 
 		<!-- the url of the repository's site -->
-		<lunifera.site.repository.url>${lunifera.site.url}${lunifera.root.name}/</lunifera.site.repository.url>
+		<!-- <lunifera.site.repository.url>${lunifera.site.root.url}${lunifera.gitrepo.name}</lunifera.site.repository.url> -->
+		<lunifera.site.repository.url>${lunifera.site.root.url}${file.separator}${lunifera.gitrepo.name}</lunifera.site.repository.url>
 
 		<!-- the complete url (to be use with distribution site settings) -->
 		<!-- default behavior is maven to append /${project.artifactId} in the 
 			end -->
-		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.url}${lunifera.root.name}</distribution.site.url>
+		<distribution.site.url>${lunifera.site.protocol}${lunifera.site.repository.url}</distribution.site.url>
 
 		<!-- where to deploy the release artifacts -->
 		<distribution.repository.release.url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/</distribution.repository.release.url>
@@ -273,10 +276,236 @@
 		<sonar.jacoco.itReportPath>${jacoco.outputDir}${jacoco.out.it.file}</sonar.jacoco.itReportPath>
 
 		<sonar.language>java</sonar.language>
-
 	</properties>
 
 	<profiles>
+		<profile>
+			<id>whenIsAggregatorProject</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.aggregator</exists>
+				</file>
+			</activation>
+			<properties>
+				<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.gitrepo.name}/tree/${lunifera.scm.branch}/${project.artifactId}/</lunifera.scm.url>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>whenIsRootProject</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.root</exists>
+				</file>
+			</activation>
+			<properties>
+				<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.gitrepo.name}</lunifera.scm.url>
+			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-site-plugin</artifactId>
+							<inherited>true</inherited>
+							<configuration>
+								<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
+								<siteDirectory>${project.basedir}/src/site</siteDirectory>
+								<topSiteURL>${lunifera.site.root.url}</topSiteURL>
+							</configuration>
+							<executions>
+								<execution>
+									<id>attach-file</id>
+									<goals>
+										<goal>attach-descriptor</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.sonar-plugins</groupId>
+						<artifactId>maven-report</artifactId>
+						<version>${report.sonar.version}</version>
+						<configuration>
+							<sonarHostURL>${sonar.host.url}</sonarHostURL>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+						<version>${report.project-info.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<!-- distribution-management, index, dependencies, help, issue-tracking, 
+										plugins, cim, license, dependency-management, mailing-list, project-team, 
+										dependency-convergence, scm, plugin-management, modules, summary -->
+									<report>index</report>
+									<report>modules</report>
+									<report>project-team</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<additionalDependencies>
+								<additionalDependency>
+									<groupId>org.osgi</groupId>
+									<artifactId>org.osgi.core</artifactId>
+									<version>6.0.0</version>
+								</additionalDependency>
+							</additionalDependencies>
+						</configuration>
+						<reportSets>
+							<reportSet>
+								<id>javadoc-aggregate</id>
+								<configuration>
+									<!-- Specific configuration for the aggregate report -->
+								</configuration>
+								<reports>
+									<report>aggregate</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+						<version>${report.jxr.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>${report.surefire.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
+		<profile>
+			<id>short-project-info-report</id>
+			<activation>
+				<file>
+					<missing>.lunifera.releng.root</missing>
+				</file>
+				<property>
+					<name>lunifera.reporting.short</name>
+				</property>
+			</activation>
+			<properties>
+			</properties>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+						<version>${report.project-info.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<!-- existent ones are: distribution-management, index, dependencies, 
+										help, issue-tracking, plugins, cim, license, dependency-management, mailing-list, 
+										project-team, dependency-convergence, scm, plugin-management, modules, summary -->
+									<report>index</report>
+									<report>project-team</report>
+									<report>mailing-list</report>
+									<report>cim</report>
+									<report>issue-tracking</report>
+									<report>scm</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+
+		<profile>
+			<id>full-project-info-report</id>
+			<activation>
+				<file>
+					<missing>.lunifera.releng.root</missing>
+				</file>
+				<property>
+					<name>!lunifera.reporting.short</name>
+				</property>
+			</activation>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>taglist-maven-plugin</artifactId>
+						<version>2.4</version>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${report.license.version}</version>
+						<reportSets>
+							<reportSet>
+								<id>licenses-report</id>
+								<reports>
+									<report>third-party-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+						<version>${report.project-info.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<!-- distribution-management, index, dependencies, help, issue-tracking, 
+										plugins, cim, license, dependency-management, mailing-list, project-team, 
+										dependency-convergence, scm, plugin-management, modules, summary -->
+									<report>index</report>
+									<report>distribution-management</report>
+									<report>issue-tracking</report>
+									<report>plugins</report>
+									<report>cim</report>
+									<report>dependency-management</report>
+									<report>license</report>
+									<report>dependencies</report>
+									<report>plugin-management</report>
+									<report>dependency-convergence</report>
+									<report>summary</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>2.1</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>dependency-updates-report</report>
+									<report>plugin-updates-report</report>
+									<report>property-updates-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
 		<profile>
 			<id>check-license</id>
 			<activation>
@@ -370,223 +599,7 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>whenIsRootAggregatorProject</id>
-			<activation>
-				<file>
-					<exists>.lunifera.releng.root</exists>
-				</file>
-			</activation>
-			<properties>
-				<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.root.name}</lunifera.scm.url>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-site-plugin</artifactId>
-						<inherited>true</inherited>
-						<configuration>
-							<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
-							<siteDirectory>${project.basedir}/src/site</siteDirectory>
-							<topSiteURL>${lunifera.site.url}</topSiteURL>
-						</configuration>
-						<executions>
-							<execution>
-								<id>attach-file</id>
-								<goals>
-									<goal>attach-descriptor</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.sonar-plugins</groupId>
-						<artifactId>maven-report</artifactId>
-						<version>${report.sonar.version}</version>
-						<configuration>
-							<sonarHostURL>${sonar.host.url}</sonarHostURL>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-project-info-reports-plugin</artifactId>
-						<version>${report.project-info.version}</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<!-- distribution-management, index, dependencies, help, issue-tracking, 
-										plugins, cim, license, dependency-management, mailing-list, project-team, 
-										dependency-convergence, scm, plugin-management, modules, summary -->
-									<report>index</report>
-									<report>modules</report>
-									<report>project-team</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<configuration>
-							<additionalDependencies>
-								<additionalDependency>
-									<groupId>org.osgi</groupId>
-									<artifactId>org.osgi.core</artifactId>
-									<version>6.0.0</version>
-								</additionalDependency>
-							</additionalDependencies>
-						</configuration>
-						<reportSets>
-							<reportSet>
-								<id>javadoc-aggregate</id>
-								<configuration>
-									<!-- Specific configuration for the aggregate report -->
-								</configuration>
-								<reports>
-									<report>aggregate</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jxr-plugin</artifactId>
-						<version>${report.jxr.version}</version>
-						<configuration>
-							<aggregate>true</aggregate>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-report-plugin</artifactId>
-						<version>${report.surefire.version}</version>
-						<configuration>
-							<aggregate>true</aggregate>
-						</configuration>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
 
-		<profile>
-			<id>short-project-info-report</id>
-			<activation>
-				<file>
-					<missing>.lunifera.releng.root</missing>
-				</file>
-				<property>
-					<name>lunifera.reporting.short</name>
-				</property>
-			</activation>
-			<properties>
-				<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.root.name}/tree/${lunifera.scm.branch}</lunifera.scm.url>
-			</properties>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-project-info-reports-plugin</artifactId>
-						<version>${report.project-info.version}</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<!-- existent ones are: distribution-management, index, dependencies, 
-										help, issue-tracking, plugins, cim, license, dependency-management, mailing-list, 
-										project-team, dependency-convergence, scm, plugin-management, modules, summary -->
-									<report>index</report>
-									<report>project-team</report>
-									<report>mailing-list</report>
-									<report>cim</report>
-									<report>issue-tracking</report>
-									<report>scm</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-
-		<profile>
-			<id>full-project-info-report</id>
-			<activation>
-				<file>
-					<missing>.lunifera.releng.root</missing>
-				</file>
-				<property>
-					<name>!lunifera.reporting.short</name>
-				</property>
-			</activation>
-			<properties>
-				<lunifera.scm.url>${lunifera.scm.url.host}${lunifera.scm.user}/${lunifera.root.name}/tree/${lunifera.scm.branch}</lunifera.scm.url>
-			</properties>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>taglist-maven-plugin</artifactId>
-						<version>2.4</version>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>license-maven-plugin</artifactId>
-						<version>${report.license.version}</version>
-						<reportSets>
-							<reportSet>
-								<id>licenses-report</id>
-								<reports>
-									<report>third-party-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-project-info-reports-plugin</artifactId>
-						<version>${report.project-info.version}</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<!-- distribution-management, index, dependencies, help, issue-tracking, 
-										plugins, cim, license, dependency-management, mailing-list, project-team, 
-										dependency-convergence, scm, plugin-management, modules, summary -->
-									<report>index</report>
-									<report>distribution-management</report>
-									<report>issue-tracking</report>
-									<report>plugins</report>
-									<report>cim</report>
-									<report>dependency-management</report>
-									<report>license</report>
-									<report>dependencies</report>
-									<report>plugin-management</report>
-									<report>dependency-convergence</report>
-									<report>summary</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.1</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<report>dependency-updates-report</report>
-									<report>plugin-updates-report</report>
-									<report>property-updates-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
 		<profile>
 			<!-- Just in case the developer have forgotten to set it in settings.xml -->
 			<id>set.workspace.location</id>
@@ -598,7 +611,7 @@
 			</activation>
 			<properties>
 				<lunifera.developer.home>${env.HOME}${file.separator}lunifera-dev${file.separator}</lunifera.developer.home>
-				<lunifera.stage.site.dir>${lunifera.developer.home}/site/</lunifera.stage.site.dir>
+				<lunifera.stage.site.dir>${lunifera.developer.home}${file.separator}site/</lunifera.stage.site.dir>
 			</properties>
 		</profile>
 		<profile>
@@ -966,6 +979,24 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
+					<siteDirectory>${project.basedir}/src/site</siteDirectory>
+					<topSiteURL>${lunifera.site.root.url}</topSiteURL>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-file</id>
+						<goals>
+							<goal>attach-descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<executions>
@@ -1071,7 +1102,7 @@
 							<artifactId>wagon-ssh</artifactId>
 							<version>2.6</version>
 						</dependency>
-						<!-- support to github pages deployment -->
+						<!-- support to github pages deployment http://site.trajano.net/wagon-git/ -->
 						<dependency>
 							<groupId>net.trajano.wagon</groupId>
 							<artifactId>wagon-git</artifactId>
@@ -1085,7 +1116,7 @@
 					</dependencies>
 					<configuration>
 						<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
-						<topSiteURL>${lunifera.site.url}</topSiteURL>
+						<topSiteURL>${lunifera.site.root.url}</topSiteURL>
 						<siteDirectory>${project.parent.basedir}/src/site</siteDirectory>
 						<chmod>true</chmod>
 						<inputEncoding>UTF-8</inputEncoding>
@@ -1129,7 +1160,9 @@
 					<configuration>
 						<goals>site-deploy</goals>
 						<preparationGoals>clean install</preparationGoals>
-						<arguments>-Dlunifera.build.release -Dlunifera.build.full -Dlunifera.build.itests.run</arguments>
+						<arguments>
+							-Dlunifera.build.release -Dlunifera.build.full -Dlunifera.build.itests.run
+						</arguments>
 						<localCheckout>true</localCheckout>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
 						<pushChanges>${lunifera.release.push}</pushChanges>
@@ -1320,7 +1353,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.releng.maven</groupId>
-				<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+				<artifactId>lunifera-releng-maven-licenses</artifactId>
 				<version>0.9.3-SNAPSHOT</version>
 				<classifier>third-party</classifier>
 				<type>properties</type>

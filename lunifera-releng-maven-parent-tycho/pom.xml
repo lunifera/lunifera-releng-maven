@@ -19,7 +19,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.parent.tycho</artifactId>
+	<artifactId>lunifera-releng-maven-parent-tycho</artifactId>
 	<name>Lunifera Releng Maven - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
 	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho ().</description>
 	<packaging>pom</packaging>
@@ -180,7 +180,7 @@
 					<exists>.lunifera.releng.eclipse.p2</exists>
 				</file>
 				<property>
-					<name>stage.p2</name>
+					<name>lunifera.stage.p2</name>
 				</property>
 			</activation>
 			<properties>
@@ -853,7 +853,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+			<artifactId>lunifera-releng-maven-licenses</artifactId>
 			<classifier>third-party</classifier>
 			<type>properties</type>
 		</dependency>

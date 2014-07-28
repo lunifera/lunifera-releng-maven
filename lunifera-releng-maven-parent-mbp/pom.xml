@@ -19,7 +19,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.lunifera.releng.maven.parent.mbp</artifactId>
+	<artifactId>lunifera-releng-maven-parent-mbp</artifactId>
 	<name>Lunifera Releng Maven - Parent POM for Pom-First Bundles and Fragments</name>
 	<description>A parent POM aimed to set up the build of bundle projects using Maven-Bundle-Plugin/Bnd.</description>
 	<packaging>pom</packaging>
@@ -307,14 +307,14 @@
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>org.lunifera.releng.maven.pom.felix</artifactId>
+					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
 					<version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+					<artifactId>lunifera-releng-maven-fpom-node</artifactId>
 					<version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
@@ -337,7 +337,7 @@
 					</dependency>
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
-						<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+						<artifactId>lunifera-releng-maven-fpom-node</artifactId>
 						<version>${project.version}</version>
 						<type>pom</type>
 					</dependency>
@@ -346,7 +346,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>org.lunifera.releng.maven.pom.node</artifactId>
+					<artifactId>lunifera-releng-maven-fpom-node</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -493,7 +493,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>org.lunifera.releng.maven.pom.felix</artifactId>
+					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
 					<version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
@@ -515,7 +515,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>org.lunifera.releng.maven.pom.equinox.luna</artifactId>
+					<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
 					<version>${project.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
@@ -528,7 +528,6 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
-					<value>true</value>
 				</property>
 			</activation>
 			<reporting>
@@ -594,7 +593,6 @@
 			<activation>
 				<property>
 					<name>lunifera.build.full</name>
-					<value>true</value>
 				</property>
 			</activation>
 			<build>
@@ -674,21 +672,6 @@
 									<fail>true</fail>
 								</configuration>
 							</execution>
-							<execution>
-								<id>enforce-release-rules</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>enforce</goal>
-								</goals>
-								<configuration>
-									<rules>
-										<!-- <requireActiveProfile> <message>You must sign JARs during 
-											release.</message> <profiles>sign</profiles> </requireActiveProfile> <requireProperty> 
-											<property>buildNumber</property> <regex>[0-9a-f]{40}</regex> </requireProperty> -->
-										<requireReleaseVersion />
-									</rules>
-								</configuration>
-							</execution>
 						</executions>
 						<dependencies>
 							<dependency>
@@ -728,7 +711,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>org.lunifera.releng.maven.licenses</artifactId>
+			<artifactId>lunifera-releng-maven-licenses</artifactId>
 			<classifier>third-party</classifier>
 			<type>properties</type>
 		</dependency>
