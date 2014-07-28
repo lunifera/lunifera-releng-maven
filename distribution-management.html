@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20140728" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Lunifera OSGi Subsystems - Release Engineering &#x2013; Surefire Report</title>
+    <title>Lunifera OSGi Subsystems - Release Engineering &#x2013; Project Distribution Management</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.3.1.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -158,69 +158,97 @@
         Lunifera Releng Maven - Fragment POM for Node Integration Tests with Lunifera Kernel.</a>
             </li>
                               <li class="nav-header">Project Documentation</li>
-                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                              
       <li>
   
                           <a href="project-info.html" title="Project Information">
-          <i class="icon-chevron-right"></i>
-        Project Information</a>
-                  </li>
-                                                                                                                                                                                        
-      <li>
-  
-                          <a href="project-reports.html" title="Project Reports">
           <i class="icon-chevron-down"></i>
-        Project Reports</a>
+        Project Information</a>
                     <ul class="nav nav-list">
                     
       <li>
   
-                          <a href="third-party-report.html" title="Third Parties">
+                          <a href="index.html" title="About">
           <i class="none"></i>
-        Third Parties</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="dependency-updates-report.html" title="Dependency Updates Report">
-          <i class="none"></i>
-        Dependency Updates Report</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="plugin-updates-report.html" title="Plugin Updates Report">
-          <i class="none"></i>
-        Plugin Updates Report</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="property-updates-report.html" title="Property Updates Report">
-          <i class="none"></i>
-        Property Updates Report</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="sonar.html" title="Sonar">
-          <i class="none"></i>
-        Sonar</a>
+        About</a>
             </li>
                     
       <li class="active">
   
-            <a href="#"><i class="none"></i>Surefire Report</a>
+            <a href="#"><i class="none"></i>Distribution Management</a>
           </li>
                     
       <li>
   
-                          <a href="jira-report.html" title="JIRA Report">
+                          <a href="issue-tracking.html" title="Issue Tracking">
           <i class="none"></i>
-        JIRA Report</a>
+        Issue Tracking</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="plugins.html" title="Project Plugins">
+          <i class="none"></i>
+        Project Plugins</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="integration.html" title="Continuous Integration">
+          <i class="none"></i>
+        Continuous Integration</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="dependency-management.html" title="Dependency Management">
+          <i class="none"></i>
+        Dependency Management</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="license.html" title="Project License">
+          <i class="none"></i>
+        Project License</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="dependencies.html" title="Dependencies">
+          <i class="none"></i>
+        Dependencies</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="plugin-management.html" title="Plugin Management">
+          <i class="none"></i>
+        Plugin Management</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="dependency-convergence.html" title="Dependency Convergence">
+          <i class="none"></i>
+        Dependency Convergence</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="project-summary.html" title="Project Summary">
+          <i class="none"></i>
+        Project Summary</a>
             </li>
               </ul>
         </li>
+                                                                                                                                                                              
+      <li>
+  
+                          <a href="project-reports.html" title="Project Reports">
+          <i class="icon-chevron-right"></i>
+        Project Reports</a>
+                  </li>
                               <li class="nav-header">Other Lunifera Sub-Projects</li>
                               
       <li>
@@ -292,43 +320,16 @@
                 
         <div id="bodyColumn"  class="span9" >
                                   
-            <script type="text/javascript">
-//<![CDATA[
-function toggleDisplay(elementId) {
- var elm = document.getElementById(elementId + 'error');
- if (elm && typeof elm.style != "undefined") {
- if (elm.style.display == "none") {
- elm.style.display = "";
- document.getElementById(elementId + 'off').style.display = "none";
- document.getElementById(elementId + 'on').style.display = "inline";
- } else if (elm.style.display == "") { elm.style.display = "none";
- document.getElementById(elementId + 'off').style.display = "inline";
- document.getElementById(elementId + 'on').style.display = "none";
- } 
- } 
- }
-//]]>
-</script>
+            <div class="section">
+<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
+<p>The following is the distribution management information used by this project.</p>
 <div class="section">
-<h2><a name="Surefire_Report"></a>Surefire Report</h2></div>
+<h3><a name="Repository_-_lunifera-nexus-release"></a>Repository - lunifera-nexus-release</h3><a name="Repository_-_lunifera-nexus-release"></a><a class="externalLink" href="http://maven.lunifera.org:8086/nexus/content/repositories/releases/">http://maven.lunifera.org:8086/nexus/content/repositories/releases/</a></div>
 <div class="section">
-<h2><a name="Summary"></a>Summary</h2><a name="Summary"></a><br />
-<table border="1" class="table table-striped">
-<tr class="a">
-<th>Tests</th>
-<th>Errors </th>
-<th>Failures</th>
-<th>Skipped</th>
-<th>Success Rate</th>
-<th>Time</th></tr>
-<tr class="b">
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0%</td>
-<td>0</td></tr></table><br />
-<p>Note: failures are anticipated and checked for with assertions while errors are unanticipated.</p><br /></div>
+<h3><a name="Snapshot_Repository_-_lunifera-nexus-snapshots"></a>Snapshot Repository - lunifera-nexus-snapshots</h3><a name="Snapshot_Repository_-_lunifera-nexus-snapshots"></a><a class="externalLink" href="http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/">http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/</a></div>
+<div class="section">
+<h3><a name="Site_-_gh-pages"></a>Site - gh-pages</h3><a name="Site_-_gh-pages"></a>
+<p>github:http://lunifera.github.io/lunifera-releng-maven</p></div></div>
                   </div>
             </div>
           </div>
