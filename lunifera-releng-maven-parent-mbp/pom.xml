@@ -303,11 +303,6 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.lunifera.runtime</groupId>
-					<artifactId>org.lunifera.runtime.utils.paxexam</artifactId>
-					<version>${lunifera.utils.version}</version>
-				</dependency>
-				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
 					<version>0.9.9-SNAPSHOT</version>
@@ -332,11 +327,6 @@
 			</activation>
 			<dependencyManagement>
 				<dependencies>
-					<dependency>
-						<groupId>org.lunifera.runtime</groupId>
-						<artifactId>org.lunifera.runtime.utils.paxexam</artifactId>
-						<version>${lunifera.utils.version}</version>
-					</dependency>
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
 						<artifactId>lunifera-releng-maven-fpom-node</artifactId>
