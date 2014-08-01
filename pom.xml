@@ -309,7 +309,7 @@
 							<inherited>true</inherited>
 							<configuration>
 								<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
-								<siteDirectory>${project.basedir}/src/site</siteDirectory>
+								<siteDirectory>${basedir}/src/site</siteDirectory>
 								<topSiteURL>${lunifera.site.root.url}</topSiteURL>
 							</configuration>
 							<executions>
