@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>lunifera-releng-maven</artifactId>
-		<version>0.10.0</version>
+		<version>0.10.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -34,7 +34,7 @@
 	<scm>
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<tag>v0.10.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<profiles>
@@ -305,14 +305,14 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
-					<version>0.10.0</version>
+					<version>0.10.1-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-					<version>0.10.0</version>
+					<version>0.10.1-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -330,7 +330,7 @@
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
 						<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-						<version>0.10.0</version>
+						<version>0.10.1-SNAPSHOT</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>
@@ -486,7 +486,7 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
-					<version>0.10.0</version>
+					<version>0.10.1-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -508,7 +508,7 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-					<version>0.10.0</version>
+					<version>0.10.1-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
