@@ -17,7 +17,7 @@
 	<name>Lunifera Release Engineering Maven - Master Parent POM</name>
 	<description>A parent POM aimed to set up the build of general Maven based projects.</description>
 	<packaging>pom</packaging>
-	<version>0.9.9-SNAPSHOT</version>
+	<version>0.10.0</version>
 
 	<modules>
 		<module>lunifera-releng-maven-licenses</module>
@@ -79,7 +79,7 @@
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<url>${lunifera.scm.url}</url>
-		<tag>HEAD</tag>
+		<tag>v0.10.0</tag>
 	</scm>
 	<!-- End -->
 
@@ -1353,7 +1353,7 @@
 			<dependency>
 				<groupId>org.lunifera.releng.maven</groupId>
 				<artifactId>lunifera-releng-maven-licenses</artifactId>
-				<version>0.9.9-SNAPSHOT</version>
+				<version>0.10.0</version>
 				<classifier>third-party</classifier>
 				<type>properties</type>
 			</dependency>
