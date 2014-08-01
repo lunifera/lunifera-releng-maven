@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Lunifera Luna Platform - Linux" sequenceNumber="409">
+<?pde version="3.8"?><target name="Lunifera Luna Platform - Linux" sequenceNumber="421">
 <locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.aether.connector.basic.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.transport.classpath.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.transport.wagon.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.feature.source.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.transport.file.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.transport.http.feature.feature.group" version="1.0.0.v20140518"/>
+<unit id="org.eclipse.aether.feature.feature.group" version="1.0.0.v20140518"/>
+<repository location="http://download.eclipse.org/aether/aether-core/releases/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.persistence.jpa.feature.group" version="2.6.0.v20130815-a4708b6"/>
+<repository location="http://download.eclipse.org/releases/luna"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.lunifera.dependencies.feature.security.shiro.feature.group" version="1.2.3"/>
+<unit id="org.lunifera.dependencies.feature.aries.subsystems.feature.group" version="1.0.1.201407301309"/>
+<unit id="org.lunifera.dependencies.feature.zookeeper.feature.group" version="3.4.5"/>
+<unit id="org.lunifera.dsl.feature.entities.headless.source.feature.group" version="0.7.0"/>
+<unit id="org.lunifera.dependencies.feature.logback.feature.group" version="1.0.13"/>
+<unit id="org.lunifera.dependencies.feature.assert-utilities.feature.group" version="1.2.2.2"/>
+<repository location="http://lun.lunifera.org/downloads/p2/lunifera/luna/latest/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.lunifera.dependencies.feature.jboss.jbpm.feature.group" version="6.1.0.CR2"/>
+<unit id="org.lunifera.dependencies.feature.jboss.drools.feature.group" version="6.1.0.CR2"/>
+<repository location="http://lun.lunifera.org/downloads/p2/lunifera/luna/latest/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.xtext.sdk.feature.group" version="2.6.0.v201405210727"/>
+<repository location="http://download.eclipse.org/releases/luna"/>
+</location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.aether.maven.feature.feature.group" version="3.1.0.20140706-2237"/>
 <repository location="http://download.eclipse.org/aether/maven-aether-provider/releases/"/>
@@ -16,38 +48,11 @@
 <repository location="http://download.eclipse.org/releases/luna"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.ecf.remoteservice.sdk.feature.feature.group" version="3.8.1.v20140528-1625"/>
-<unit id="org.eclipse.ecf.remoteservice.sdk.examples.feature.feature.group" version="1.0.0.v20140528-1625"/>
-<unit id="org.eclipse.ecf.remoteservice.sdk.examples.source.feature.feature.group" version="1.0.0.v20140528-1625"/>
-<unit id="org.eclipse.ecf.remoteservice.sdk.source.feature.feature.group" version="3.8.1.v20140528-1625"/>
-<repository location="http://download.eclipse.org/rt/ecf/3.8.1/site.p2"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.xtext.sdk.feature.group" version="2.6.0.v201405210727"/>
-<repository location="http://download.eclipse.org/releases/luna"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.lunifera.dependencies.feature.security.shiro.feature.group" version="1.2.2"/>
-<unit id="org.lunifera.dependencies.feature.aries.subsystems.feature.group" version="1.0.1.201407091400"/>
-<unit id="org.lunifera.dependencies.feature.zookeeper.feature.group" version="3.4.5"/>
-<unit id="org.lunifera.dsl.feature.entities.headless.source.feature.group" version="0.7.0"/>
-<unit id="org.lunifera.dependencies.feature.logback.feature.group" version="1.0.13"/>
-<unit id="org.lunifera.dependencies.feature.assert-utilities.feature.group" version="1.2.2.2"/>
-<repository location="http://lun.lunifera.org/downloads/p2/lunifera/luna/latest/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.persistence.jpa.feature.group" version="2.6.0.v20130815-a4708b6"/>
-<repository location="http://download.eclipse.org/releases/luna"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.aether.connector.basic.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.transport.classpath.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.transport.wagon.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.feature.source.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.transport.file.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.transport.http.feature.feature.group" version="1.0.0.v20140518"/>
-<unit id="org.eclipse.aether.feature.feature.group" version="1.0.0.v20140518"/>
-<repository location="http://download.eclipse.org/aether/aether-core/releases/"/>
+<unit id="org.eclipse.ecf.remoteservice.sdk.examples.source.feature.feature.group" version="1.0.0.v20140730-1642"/>
+<unit id="org.eclipse.ecf.remoteservice.sdk.source.feature.feature.group" version="3.9.0.v20140730-1642"/>
+<unit id="org.eclipse.ecf.remoteservice.sdk.feature.feature.group" version="3.9.0.v20140730-1642"/>
+<unit id="org.eclipse.ecf.remoteservice.sdk.examples.feature.feature.group" version="1.0.0.v20140730-1642"/>
+<repository location="http://build.ecf-project.org/repo/C-HEAD-sdk.feature/lastSuccessful/archive/site.p2/"/>
 </location>
 </locations>
 <environment>
