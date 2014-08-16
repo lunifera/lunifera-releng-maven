@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -19,7 +20,7 @@
 	</parent>
 
 	<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-	<name>Lunifera Releng Maven - Fragment POM for Node Integration Tests with Lunifera Kernel.</name>
+	<name>Lunifera Releng Maven - Fragment POM for dependencies of a Lunifera Node.</name>
 	<description>A POM aimed to group all dependencies needed for integration tests based on Lunifera Kernel container.</description>
 	<packaging>pom</packaging>
 
@@ -55,6 +56,12 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.bundlerepository</artifactId>
 				<version>${bundlerepository.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>easymock</artifactId>
+						<groupId>org.easymock</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
@@ -175,6 +182,16 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.gogo.command</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>org.osgi.compendium</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>org.osgi.core</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>

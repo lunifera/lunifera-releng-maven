@@ -9,7 +9,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -42,6 +43,9 @@
 			<id>not-in-eclipse-mbp</id>
 			<!-- activated in normal Maven build -->
 			<activation>
+				<file>
+					<missing>.lunifera.releng.itests</missing>
+				</file>
 				<property>
 					<name>!m2e.version</name>
 				</property>
@@ -51,6 +55,33 @@
 				<baseline.failOnError>true</baseline.failOnError>
 				<baseline.failOnWarning>true</baseline.failOnWarning>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-integration</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-library</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.core</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.compendium</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
 			<build>
 				<pluginManagement>
 					<plugins>
@@ -110,6 +141,21 @@
 								</execution>
 							</executions>
 						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-plugin</artifactId>
+							<version>${surefire.version}</version>
+							<configuration>
+								<argLine>${jacoco.agent.ut.arg}</argLine>
+								<!-- Specific to generate mapping between tests and covered code -->
+								<properties>
+									<property>
+										<name>listener</name>
+										<value>org.sonar.java.jacoco.JUnitListener</value>
+									</property>
+								</properties>
+							</configuration>
+						</plugin>
 					</plugins>
 				</pluginManagement>
 				<plugins>
@@ -140,6 +186,9 @@
 			<id>in-eclipse-mbp</id>
 			<!-- activated only when running in m2e (eclipse) -->
 			<activation>
+				<file>
+					<missing>.lunifera.releng.itests</missing>
+				</file>
 				<property>
 					<name>m2e.version</name>
 				</property>
@@ -147,6 +196,33 @@
 			<properties>
 				<osgi-version-qualifier>qualifier</osgi-version-qualifier>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-integration</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-library</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.core</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.osgi</groupId>
+					<artifactId>org.osgi.compendium</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -205,7 +281,7 @@
 							<executions>
 								<execution>
 									<id>delete-osgi-inf</id>
-									<phase>clean</phase>
+									<phase>validate</phase>
 									<goals>
 										<goal>run</goal>
 									</goals>
@@ -233,7 +309,8 @@
 											<taskdef resource="net/sf/antcontrib/antlib.xml" />
 											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 											<if>
-												<available file="${project.build.outputDirectory}/OSGI-INF" type="dir" />
+												<available file="${project.build.outputDirectory}/OSGI-INF"
+													type="dir" />
 												<then>
 													<echo message="Copying OSGI-INF..." level="info" />
 													<mkdir dir="${basedir}/OSGI-INF" />
@@ -288,36 +365,6 @@
 				<!-- </resources> -->
 			</build>
 		</profile>
-
-		<profile>
-			<id>whenIsIntegrationTestsProject.m2e</id>
-			<!-- This profile is only activated when a .lunifera.releng.itests file 
-				were found. -->
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-				<file>
-					<exists>.lunifera.releng.itests</exists>
-				</file>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
-					<version>0.10.1-SNAPSHOT</version>
-					<type>pom</type>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.lunifera.releng.maven</groupId>
-					<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-					<version>0.10.1-SNAPSHOT</version>
-					<type>pom</type>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
 		<profile>
 			<id>whenIsIntegrationTestsProject</id>
 			<activation>
@@ -333,9 +380,30 @@
 						<version>0.10.1-SNAPSHOT</version>
 						<type>pom</type>
 					</dependency>
+					<dependency>
+						<groupId>org.lunifera.releng.maven</groupId>
+						<artifactId>lunifera-releng-maven-fpom-itests</artifactId>
+						<version>0.10.1-SNAPSHOT</version>
+						<type>pom</type>
+					</dependency>
 				</dependencies>
 			</dependencyManagement>
 			<dependencies>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-integration</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-library</artifactId>
+					<scope>provided</scope>
+				</dependency>
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-node</artifactId>
@@ -343,8 +411,9 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.lunifera.runtime</groupId>
-					<artifactId>org.lunifera.runtime.utils.paxexam</artifactId>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>lunifera-releng-maven-fpom-itests</artifactId>
+					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -358,21 +427,6 @@
 						</plugin>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-plugin</artifactId>
-							<version>${surefire.version}</version>
-							<configuration>
-								<argLine>${jacoco.agent.ut.arg}</argLine>
-								<!-- Specific to generate mapping between tests and covered code -->
-								<properties>
-									<property>
-										<name>listener</name>
-										<value>org.sonar.java.jacoco.JUnitListener</value>
-									</property>
-								</properties>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-failsafe-plugin</artifactId>
 							<version>${surefire.version}</version>
 							<inherited>true</inherited>
@@ -382,14 +436,18 @@
 								<includes>
 									<include>**/*IntegrationTest.java</include>
 								</includes>
-								<systemProperties>
-									<property>
-										<name>project.version</name>
-										<value>${project.version}</value>
-									</property>
-								</systemProperties>
+								<systemPropertyVariables>
+									<jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg>
+									<lunifera.itests.framework>${lunifera.itests.framework}</lunifera.itests.framework>
+									<project.version>${project.version}</project.version>
+									<paxexam.version>${paxexam.version}</paxexam.version>
+								</systemPropertyVariables>
 								<!-- Specific to generate mapping between tests and covered code -->
 								<properties>
+									<property>
+										<name>lunifera.itests.framework</name>
+										<value>${lunifera.itests.framework}</value>
+									</property>
 									<property>
 										<name>listener</name>
 										<value>org.sonar.java.jacoco.JUnitListener</value>
@@ -440,24 +498,24 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
+						<configuration>
+							<systemProperties>
+								<property>
+									<name>project.version</name>
+									<value>${project.version}</value>
+								</property>
+								<property>
+									<name>lunifera.itests.framework</name>
+									<value>${lunifera.itests.framework}</value>
+								</property>
+							</systemProperties>
+						</configuration>
 						<executions>
 							<execution>
 								<id>integration-test</id>
 								<goals>
 									<goal>integration-test</goal>
 								</goals>
-								<configuration>
-									<systemProperties>
-										<property>
-											<name>project.version</name>
-											<value>${project.version}</value>
-										</property>
-										<property>
-											<name>osgi.framework</name>
-											<value>${osgi.framework}</value>
-										</property>
-									</systemProperties>
-								</configuration>
 							</execution>
 							<execution>
 								<id>verify</id>
@@ -472,10 +530,42 @@
 			</build>
 		</profile>
 		<profile>
+			<id>whenIsIntegrationTestsProjectWithNoDefaultFramework</id>
+			<activation>
+				<file>
+					<exists>.lunifera.releng.itests</exists>
+				</file>
+				<property>
+					<name>!lunifera.itests.framework</name>
+				</property>
+			</activation>
+			<properties>
+				<lunifera.itests.framework>equinox_luna</lunifera.itests.framework>
+			</properties>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.lunifera.releng.maven</groupId>
+						<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
+						<version>0.10.1-SNAPSHOT</version>
+						<type>pom</type>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
+			<dependencies>
+				<dependency>
+					<groupId>org.lunifera.releng.maven</groupId>
+					<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
+					<type>pom</type>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
 			<id>whenIsIntegrationTestsProject.felix</id>
 			<activation>
 				<property>
-					<name>osgi.framework</name>
+					<name>lunifera.itests.framework</name>
 					<value>felix</value>
 				</property>
 				<file>
@@ -497,7 +587,7 @@
 			<!-- LUNA 3.10 -->
 			<activation>
 				<property>
-					<name>osgi.framework</name>
+					<name>lunifera.itests.framework</name>
 					<value>equinox_luna</value>
 				</property>
 				<file>
@@ -700,22 +790,40 @@
 		</profile>
 	</profiles>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${surefire.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 	<dependencies>
+		<!-- those deps must only be used for unit tests. in order to run osgi 
+			it tests you must use the proper bundle from org.lunifera.osgi group -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>lunifera-releng-maven-licenses</artifactId>
 			<classifier>third-party</classifier>
 			<type>properties</type>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

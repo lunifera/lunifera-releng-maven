@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -28,6 +29,10 @@
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+	
+	<properties>
+		<paxexam.felix.version>4.4.1</paxexam.felix.version>
+	</properties>
 
 	<build>
 		<plugins>
@@ -55,11 +60,11 @@
 			<artifactId>org.apache.felix.framework</artifactId>
 			<version>${paxexam.felix.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.main</artifactId>
-			<version>${paxexam.felix.version}</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.felix</groupId> -->
+		<!-- <artifactId>org.apache.felix.main</artifactId> -->
+		<!-- <version>${paxexam.felix.version}</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.eventadmin</artifactId>
@@ -77,6 +82,22 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.gogo.command</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>org.osgi.core</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>org.osgi.compendium</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						org.apache.felix.bundlerepository
+					</artifactId>
+					<groupId>org.apache.felix</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
@@ -112,6 +133,16 @@
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.log</artifactId>
 			<version>1.0.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>org.osgi.core</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>org.osgi.compendium</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
@@ -122,6 +153,12 @@
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.resolver</artifactId>
 			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>org.osgi.core</artifactId>
+					<groupId>org.osgi</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
