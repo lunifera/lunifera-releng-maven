@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 
@@ -377,55 +378,51 @@
 		</profile>
 
 		<profile>
-			<id>short-project-info-report</id>
-			<activation>
-				<file>
-					<missing>.lunifera.releng.root</missing>
-				</file>
-				<property>
-					<name>lunifera.reporting.short</name>
-				</property>
-			</activation>
-			<properties>
-			</properties>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-project-info-reports-plugin</artifactId>
-						<version>${report.project-info.version}</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<!-- existent ones are: distribution-management, index, dependencies, 
-										help, issue-tracking, plugins, cim, license, dependency-management, mailing-list, 
-										project-team, dependency-convergence, scm, plugin-management, modules, summary -->
-									<report>index</report>
-									<report>project-team</report>
-									<report>mailing-list</report>
-									<report>cim</report>
-									<report>issue-tracking</report>
-									<report>scm</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-
-		<profile>
 			<id>full-project-info-report</id>
 			<activation>
 				<file>
 					<missing>.lunifera.releng.root</missing>
 				</file>
 				<property>
-					<name>!lunifera.reporting.short</name>
+					<name>lunifera.build.release</name>
 				</property>
 			</activation>
+			<properties>
+				<javadocJreApiVersion>7</javadocJreApiVersion>
+			</properties>
 			<reporting>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
+						<version>${report.jxr.version}</version>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-changes-plugin</artifactId>
+						<version>2.10</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>jira-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>${report.version.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>dependency-updates-report</report>
+									<report>plugin-updates-report</report>
+									<report>property-updates-report</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>taglist-maven-plugin</artifactId>
@@ -486,6 +483,7 @@
 				</plugins>
 			</reporting>
 		</profile>
+
 		<profile>
 			<id>check-license</id>
 			<activation>
@@ -594,6 +592,7 @@
 				<lunifera.stage.site.dir>${lunifera.developer.home}${file.separator}site/</lunifera.stage.site.dir>
 			</properties>
 		</profile>
+
 		<profile>
 			<id>remove.old.build</id>
 			<activation>
@@ -746,61 +745,9 @@
 		</profile>
 
 		<profile>
-			<id>reporting</id>
-			<activation>
-				<file>
-					<missing>.lunifera.releng.root</missing>
-				</file>
-				<property>
-					<name>lunifera.build.full</name>
-				</property>
-			</activation>
-			<properties>
-				<javadocJreApiVersion>7</javadocJreApiVersion>
-			</properties>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jxr-plugin</artifactId>
-						<version>${report.jxr.version}</version>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-changes-plugin</artifactId>
-						<version>2.10</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<report>jira-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>versions-maven-plugin</artifactId>
-						<version>${report.version.version}</version>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<report>dependency-updates-report</report>
-									<report>plugin-updates-report</report>
-									<report>property-updates-report</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-		<profile>
-			<id>in-eclipse</id>
+			<id>lifecycle-mapping-in-eclipse</id>
 			<!-- activated only when running in m2e (eclipse) -->
 			<activation>
-				<file>
-					<missing>.lunifera.releng.root</missing>
-				</file>
 				<property>
 					<name>m2e.version</name>
 				</property>
