@@ -69,11 +69,6 @@
 				<version>${paxurl.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.ops4j.pax.url</groupId>
-				<artifactId>pax-url-obr</artifactId>
-				<version>${paxurl.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.core</artifactId>
 				<version>${apache.aries.subsystem.version}</version>
@@ -210,6 +205,10 @@
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.gogo.shell</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ops4j.pax.url</groupId>
+			<artifactId>pax-url-aether</artifactId>
 		</dependency>
 	</dependencies>
 </project>
