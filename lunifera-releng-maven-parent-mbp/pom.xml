@@ -700,7 +700,7 @@
 							<archive>
 								<manifestEntries>
 									<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-									<Bundle-Name>${project.name}</Bundle-Name>
+									<Bundle-Name>${project.name} (source)</Bundle-Name>
 									<Bundle-SymbolicName>${project.artifactId}.source</Bundle-SymbolicName>
 									<Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
 									<Bundle-Version>${bundle.full.version}</Bundle-Version>
