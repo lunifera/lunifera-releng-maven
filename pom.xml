@@ -170,7 +170,7 @@
 		<!-- Dependencies Version -->
 		<paxexam.version>4.1.0</paxexam.version>
 		<paxurl.version>2.1.0</paxurl.version>
-		<bundlerepository.version>2.0.2</bundlerepository.version>
+		<bundlerepository.version>2.0.3-SNAPSHOT</bundlerepository.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
@@ -554,6 +554,7 @@
 									</goals>
 									<phase>process-sources</phase>
 									<configuration>
+										<excludes><exclude>**/THIRD-PARTY.properties</exclude></excludes>
 										<canUpdateCopyright>${license.canUpdateCopyright}</canUpdateCopyright>
 										<canUpdateDescription>${license.canUpdateDescription}</canUpdateDescription>
 										<acceptPomPackaging>true</acceptPomPackaging>
