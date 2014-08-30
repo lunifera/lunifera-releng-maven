@@ -71,17 +71,12 @@
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.core</artifactId>
-				<version>${apache.aries.subsystem.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.api</artifactId>
-				<version>${apache.aries.subsystem.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.aries.subsystem</groupId>
-				<artifactId>org.apache.aries.subsystem.obr</artifactId>
-				<version>${apache.aries.subsystem.version}</version>
+				<version>1.1.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
