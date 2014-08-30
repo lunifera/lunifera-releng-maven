@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 
@@ -553,7 +554,9 @@
 									</goals>
 									<phase>process-sources</phase>
 									<configuration>
-										<excludes><exclude>**/THIRD-PARTY.properties</exclude></excludes>
+										<excludes>
+											<exclude>**/THIRD-PARTY.properties</exclude>
+										</excludes>
 										<canUpdateCopyright>${license.canUpdateCopyright}</canUpdateCopyright>
 										<canUpdateDescription>${license.canUpdateDescription}</canUpdateDescription>
 										<acceptPomPackaging>true</acceptPomPackaging>
@@ -785,7 +788,10 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore />
+												<execute>
+													<runOnIncremental>false</runOnIncremental>
+													<runOnConfiguration>true</runOnConfiguration>
+												</execute>
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -1094,7 +1100,8 @@
 						<goals>deploy site-deploy</goals>
 						<preparationGoals>clean install</preparationGoals>
 						<arguments>
-							-Dlunifera.build.release -Dlunifera.build.full -Dlunifera.build.itests.run
+							-Dlunifera.build.release -Dlunifera.build.full
+							-Dlunifera.build.itests.run
 						</arguments>
 						<localCheckout>true</localCheckout>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
