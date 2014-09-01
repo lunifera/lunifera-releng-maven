@@ -46,14 +46,14 @@
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-			<version>${project.version}</version>
+			<version>0.12.3-SNAPSHOT</version>
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.lunifera.releng.maven</groupId>
 			<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-			<version>${project.version}</version>
+			<version>0.12.3-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
