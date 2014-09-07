@@ -9,7 +9,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -27,8 +28,8 @@
 	<properties>
 		<mbp.version>2.5.0</mbp.version>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
-		<bundle.full.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</bundle.full.version>
 		<bundle.short.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bundle.short.version>
+		<bundle.full.version>${bundle.short.version}.${osgi-version-qualifier}</bundle.full.version>
 	</properties>
 
 	<scm>
@@ -69,16 +70,6 @@
 					<groupId>org.hamcrest</groupId>
 					<artifactId>hamcrest-library</artifactId>
 					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.core</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.compendium</artifactId>
-					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<build>
@@ -212,16 +203,6 @@
 					<artifactId>hamcrest-library</artifactId>
 					<scope>test</scope>
 				</dependency>
-				<dependency>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.core</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.compendium</artifactId>
-					<scope>provided</scope>
-				</dependency>
 			</dependencies>
 			<build>
 				<plugins>
@@ -309,13 +290,37 @@
 											<taskdef resource="net/sf/antcontrib/antlib.xml" />
 											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 											<if>
-												<available file="${project.build.outputDirectory}/OSGI-INF" type="dir" />
+												<available file="${project.build.outputDirectory}/OSGI-INF"
+													type="dir" />
 												<then>
 													<echo message="Copying OSGI-INF..." level="info" />
 													<mkdir dir="${basedir}/OSGI-INF" />
 													<copy todir="${basedir}/OSGI-INF">
 														<fileset dir="${project.build.outputDirectory}/OSGI-INF" />
 													</copy>
+												</then>
+											</if>
+										</target>
+									</configuration>
+								</execution>
+								<execution>
+									<id>copy-meta-inf</id>
+									<phase>package</phase>
+									<goals>
+										<goal>run</goal>
+									</goals>
+									<configuration>
+										<target>
+											<taskdef resource="net/sf/antcontrib/antlib.xml" />
+											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+											<if>
+												<available file="${basedir}/META-INF/MANIFEST.MF"
+													type="file" />
+												<then>
+													<echo message="Copying META-INF/MANIFEST.MF..." level="info" />
+													<mkdir dir="${project.build.outputDirectory}/META-INF" />
+													<copy file="${basedir}/META-INF/MANIFEST.MF" todir="${project.build.outputDirectory}/META-INF"
+														overwrite="true" />
 												</then>
 											</if>
 										</target>
@@ -808,6 +813,21 @@
 	<dependencies>
 		<!-- those deps must only be used for unit tests. in order to run osgi 
 			it tests you must use the proper bundle from org.lunifera.osgi group -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.annotation</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
