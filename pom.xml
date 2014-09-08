@@ -258,8 +258,6 @@
 		<sonar.language>java</sonar.language>
 
 		<!-- BINDEX -->
-		<bindex.api.version>2.0.1</bindex.api.version>
-		<bindex.lib.version>2.1.2</bindex.lib.version>
 		<pojosr.version>0.4.0-SNAPSHOT</pojosr.version>
 
 	</properties>
