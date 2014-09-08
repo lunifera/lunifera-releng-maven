@@ -199,7 +199,6 @@
 								<configuration>
 									<quiet>true</quiet>
 									<target>
-										<taskdef name="repoindex" classname="org.osgi.impl.bundle.repoindex.ant.RepoIndexTask" />
 										<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy">
 											<classpath refid="maven.compile.classpath" />
 										</taskdef>
@@ -515,6 +514,20 @@
 								<version>1.16</version>
 							</dependency>
 						</dependencies>
+					</plugin>
+					<plugin>
+						<groupId>org.lunifera.tools.maven</groupId>
+						<artifactId>
+							org.lunifera.tools.maven.plugin.bindex
+						</artifactId>
+						<version>0.1.5-SNAPSHOT</version>
+						<extensions>true</extensions>
+						<configuration>
+							<compressed>true</compressed>
+							<incrementOverride>true</incrementOverride>
+							<repositoryName>${lunifera.stage.p2.label}</repositoryName>
+							<rootURLStr>${lunifera.stage.p2.target.dir}</rootURLStr>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
