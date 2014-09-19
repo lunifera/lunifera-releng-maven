@@ -196,7 +196,7 @@
 		<!-- license configuration -->
 		<!-- default license to use for children -->
 		<license.licenseName>epl_v1</license.licenseName>
-		<license.failIfWarning>true</license.failIfWarning>
+		<license.failIfWarning>false</license.failIfWarning>
 		<license.dryRun>true</license.dryRun>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 		<license.skip.header>false</license.skip.header>
@@ -503,11 +503,17 @@
 							<version>${report.license.version}</version>
 							<inherited>true</inherited>
 							<configuration>
-								<quiet>true</quiet>
+								<skipAddThirdParty>${lunifera.build.ignore.license}</skipAddThirdParty>
+								<skipCheckLicense>${lunifera.build.ignore.license}</skipCheckLicense>
+								<verbose>false</verbose>
+								<generateBundle>true</generateBundle>
+								<deployMissingFile>false</deployMissingFile>
 								<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
+								<quiet>false</quiet>
 								<useMissingFile>true</useMissingFile>
 								<failIfWarning>${license.failIfWarning}</failIfWarning>
 								<encoding>UTF-8</encoding>
+								<useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:0.12.3-SNAPSHOT</useAsMissingFileRepository>
 								<licenseMerges>
 									<licenseMerge>
 										The Apache Software License, Version 2.0|Apache
@@ -563,7 +569,7 @@
 										</excludes>
 										<canUpdateCopyright>${license.canUpdateCopyright}</canUpdateCopyright>
 										<canUpdateDescription>${license.canUpdateDescription}</canUpdateDescription>
-										<acceptPomPackaging>true</acceptPomPackaging>
+										<acceptPomPackaging>false</acceptPomPackaging>
 										<verbose>false</verbose>
 										<copyrightOwners>${license.copyrightOwners}</copyrightOwners>
 										<dryRun>${license.dryRun}</dryRun>
@@ -1156,6 +1162,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.9</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>

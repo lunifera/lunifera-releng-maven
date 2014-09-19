@@ -9,7 +9,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -21,7 +22,7 @@
 
 	<artifactId>lunifera-releng-maven-parent-tycho</artifactId>
 	<name>Lunifera Releng Maven - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
-	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho ().</description>
+	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho.</description>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -515,20 +516,6 @@
 							</dependency>
 						</dependencies>
 					</plugin>
-					<plugin>
-						<groupId>org.lunifera.tools.maven</groupId>
-						<artifactId>
-							org.lunifera.tools.maven.plugin.bindex
-						</artifactId>
-						<version>0.1.5-SNAPSHOT</version>
-						<extensions>true</extensions>
-						<configuration>
-							<compressed>true</compressed>
-							<incrementOverride>true</incrementOverride>
-							<repositoryName>${lunifera.stage.p2.label}</repositoryName>
-							<rootURLStr>${lunifera.stage.p2.target.dir}</rootURLStr>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -836,6 +823,7 @@
 			<artifactId>lunifera-releng-maven-licenses</artifactId>
 			<classifier>third-party</classifier>
 			<type>properties</type>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
