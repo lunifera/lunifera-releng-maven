@@ -96,6 +96,9 @@
 							<artifactId>maven-bundle-plugin</artifactId>
 							<version>${mbp.version}</version>
 							<extensions>true</extensions>
+							<configuration>
+								<obrRepository>NONE</obrRepository>
+							</configuration>
 							<executions>
 								<execution>
 									<id>bundle</id>
@@ -223,6 +226,7 @@
 							<version>${mbp.version}</version>
 							<extensions>true</extensions>
 							<configuration>
+								<obrRepository>NONE</obrRepository>
 								<unpackBundle>true</unpackBundle>
 								<manifestLocation>${basedir}/META-INF</manifestLocation>
 								<instructions>
@@ -843,6 +847,7 @@
 			<artifactId>lunifera-releng-maven-licenses</artifactId>
 			<classifier>third-party</classifier>
 			<type>properties</type>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
