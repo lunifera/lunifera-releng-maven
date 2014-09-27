@@ -149,13 +149,13 @@
 
 		<!-- this properties must be set in settings.xml or using -Dlunifera.developer.home 
 			in command line. it defaults to the current user home -->
-		<lunifera.developer.home>${user.dir}</lunifera.developer.home>
+		<lunifera.developer.home>${user.dir}${file.separator}</lunifera.developer.home>
 
 		<!-- indicates where to stage built repositories in local machine -->
-		<lunifera.developer.home.repositories>${lunifera.developer.home}${file.separator}repositories${file.separator}</lunifera.developer.home.repositories>
+		<lunifera.developer.home.repositories>${lunifera.developer.home}repositories${file.separator}</lunifera.developer.home.repositories>
 
 		<!-- indicates where to stage built repositories in local machine -->
-		<lunifera.developer.home.site>${lunifera.developer.home}${file.separator}STAGE-SITE${file.separator}</lunifera.developer.home.site>
+		<lunifera.developer.home.site>${lunifera.developer.home}STAGE-SITE${file.separator}</lunifera.developer.home.site>
 
 		<!-- this properties must be unique for the entire system -->
 		<lunifera.federated.repository.label>lunifera</lunifera.federated.repository.label>
@@ -294,7 +294,7 @@
 							<inherited>true</inherited>
 							<configuration>
 								<stagingDirectory>${lunifera.developer.home.site}</stagingDirectory>
-								<siteDirectory>${basedir}/src/site</siteDirectory>
+								<siteDirectory>${basedir}${file.separator}src${file.separator}site</siteDirectory>
 								<topSiteURL>${lunifera.site.root.url}</topSiteURL>
 							</configuration>
 							<executions>
@@ -600,7 +600,7 @@
 			</activation>
 			<properties>
 				<lunifera.developer.home>${env.HOME}${file.separator}lunifera-dev${file.separator}</lunifera.developer.home>
-				<lunifera.stage.site.dir>${lunifera.developer.home}${file.separator}site/</lunifera.stage.site.dir>
+				<lunifera.stage.site.dir>${lunifera.developer.home}site${file.separator}</lunifera.stage.site.dir>
 			</properties>
 		</profile>
 
