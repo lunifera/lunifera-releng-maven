@@ -593,7 +593,7 @@
 			<id>whenIsProductProject</id>
 			<activation>
 				<file>
-					<exists>.lunifera.releng.eclipse.product</exists>
+					<exists>.lunifera.releng.eclipse.rcp</exists>
 				</file>
 			</activation>
 			<build>
