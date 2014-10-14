@@ -126,6 +126,29 @@
 			</pluginRepositories>
 			<repositories>
 				<repository>
+					<id>lunifera-vaadin-371</id>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731
+					</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>lunifera-third</id>
+					<url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731
+					</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<updatePolicy>always</updatePolicy>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
 					<id>codehaus-public-repository-group</id>
 					<name>Codehaus Public Repository Group</name>
 					<url>https://nexus.codehaus.org/content/groups/public/</url>
@@ -154,12 +177,12 @@
 						<enabled>false</enabled>
 					</snapshots>
 				</repository>
-				<repository>
-					<id>ecf-jms</id>
-					<url>http://download.ecf-project.org/repo/C-HEAD-jms.feature/lastSuccessful/archive/site.p2/
-					</url>
-					<layout>p2</layout>
-				</repository>
+				<!-- <repository> -->
+				<!-- <id>ecf-jms</id> -->
+				<!-- <url>http://download.ecf-project.org/repo/C-HEAD-jms.feature/lastSuccessful/archive/site.p2/ -->
+				<!-- </url> -->
+				<!-- <layout>p2</layout> -->
+				<!-- </repository> -->
 				<repository>
 					<id>oss.sonatype.org-snapshot</id>
 					<url>http://oss.sonatype.org/content/repositories/snapshots</url>
