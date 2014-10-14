@@ -9,14 +9,13 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.lunifera.releng.maven</groupId>
 		<artifactId>lunifera-releng-maven</artifactId>
-		<version>0.12.3-SNAPSHOT</version>
+		<version>0.12.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -35,7 +34,7 @@
 	<scm>
 		<connection>${lunifera.scm.connection}</connection>
 		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v0.12.4</tag>
 	</scm>
 
 	<profiles>
@@ -294,8 +293,7 @@
 											<taskdef resource="net/sf/antcontrib/antlib.xml" />
 											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 											<if>
-												<available file="${project.build.outputDirectory}/OSGI-INF"
-													type="dir" />
+												<available file="${project.build.outputDirectory}/OSGI-INF" type="dir" />
 												<then>
 													<echo message="Copying OSGI-INF..." level="info" />
 													<mkdir dir="${basedir}/OSGI-INF" />
@@ -318,13 +316,11 @@
 											<taskdef resource="net/sf/antcontrib/antlib.xml" />
 											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 											<if>
-												<available file="${basedir}/META-INF/MANIFEST.MF"
-													type="file" />
+												<available file="${basedir}/META-INF/MANIFEST.MF" type="file" />
 												<then>
 													<echo message="Copying META-INF/MANIFEST.MF..." level="info" />
 													<mkdir dir="${project.build.outputDirectory}/META-INF" />
-													<copy file="${basedir}/META-INF/MANIFEST.MF" todir="${project.build.outputDirectory}/META-INF"
-														overwrite="true" />
+													<copy file="${basedir}/META-INF/MANIFEST.MF" todir="${project.build.outputDirectory}/META-INF" overwrite="true" />
 												</then>
 											</if>
 										</target>
@@ -385,13 +381,13 @@
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
 						<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-						<version>0.12.3-SNAPSHOT</version>
+						<version>0.12.4</version>
 						<type>pom</type>
 					</dependency>
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
 						<artifactId>lunifera-releng-maven-fpom-itests</artifactId>
-						<version>0.12.3-SNAPSHOT</version>
+						<version>0.12.4</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>
@@ -555,7 +551,7 @@
 					<dependency>
 						<groupId>org.lunifera.releng.maven</groupId>
 						<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-						<version>0.12.3-SNAPSHOT</version>
+						<version>0.12.4</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>
@@ -584,7 +580,7 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-felix</artifactId>
-					<version>0.12.3-SNAPSHOT</version>
+					<version>0.12.4</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -606,7 +602,7 @@
 				<dependency>
 					<groupId>org.lunifera.releng.maven</groupId>
 					<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-					<version>0.12.3-SNAPSHOT</version>
+					<version>0.12.4</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
