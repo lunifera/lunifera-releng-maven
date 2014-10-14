@@ -1110,8 +1110,7 @@
 						<goals>deploy site-deploy</goals>
 						<preparationGoals>clean install</preparationGoals>
 						<arguments>
-							-Dlunifera.build.release -Dlunifera.build.full
-							-Dlunifera.build.itests.run
+							-Dlunifera.build.release -Dlunifera.build.full -Dlunifera.build.itests.run
 						</arguments>
 						<localCheckout>true</localCheckout>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
