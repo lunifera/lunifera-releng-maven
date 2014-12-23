@@ -8,7 +8,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 
@@ -27,6 +28,7 @@
 		<module>lunifera-releng-maven-fpom-felix</module>
 		<module>lunifera-releng-maven-fpom-node</module>
 		<module>lunifera-releng-maven-fpom-itests</module>
+		<module>lunifera-releng-maven-fpom-mplugin</module>
 	</modules>
 
 	<inceptionYear>2012</inceptionYear>
@@ -168,20 +170,20 @@
 		<lunifera.stage.p2.keep.old>false</lunifera.stage.p2.keep.old>
 
 		<!-- Dependencies Version -->
-		<paxexam.version>4.1.0</paxexam.version>
+		<paxexam.version>4.4.0</paxexam.version>
 		<paxurl.version>2.1.0</paxurl.version>
 		<bundlerepository.version>2.0.3-SNAPSHOT</bundlerepository.version>
 		<junit.version>4.11</junit.version>
-		<mockito.version>1.9.5</mockito.version>
+		<mockito.version>1.10.17</mockito.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
 		<guava.version>16.0.1</guava.version>
 		<osgi.version>5.0.0</osgi.version>
-		<slf4j.version>1.7.5</slf4j.version>
-		<logback.version>1.0.13</logback.version>
+		<slf4j.version>1.7.9</slf4j.version>
+		<logback.version>1.1.2</logback.version>
 		<shiro.version>1.2.3</shiro.version>
 		<ecf.version>3.9.0</ecf.version>
 		<maven.version>3.2.3</maven.version>
-		<powermock.version>1.5.5</powermock.version>
+		<powermock.version>1.6.0</powermock.version>
 		<hamcrest.version>1.3</hamcrest.version>
 
 		<report.javadoc.version>2.9.1</report.javadoc.version>
@@ -219,7 +221,7 @@
 
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
 			test -->
-		<sonar-jacoco-listeners.version>2.4</sonar-jacoco-listeners.version>
+		<sonar-jacoco-listeners.version>2.7</sonar-jacoco-listeners.version>
 		<lunifera.jacoco.include>*/**</lunifera.jacoco.include>
 
 		<!-- Sonar/Jacoco integration. Note that you need to call this profile 
@@ -512,7 +514,7 @@
 								<useMissingFile>true</useMissingFile>
 								<failIfWarning>${license.failIfWarning}</failIfWarning>
 								<encoding>UTF-8</encoding>
-								<useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:0.12.3-SNAPSHOT</useAsMissingFileRepository>
+								<useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:0.12.5-SNAPSHOT</useAsMissingFileRepository>
 								<licenseMerges>
 									<licenseMerge>
 										The Apache Software License, Version 2.0|Apache
@@ -1132,7 +1134,7 @@
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
 					<artifactId>xtend-maven-plugin</artifactId>
-					<version>2.6.0</version>
+					<version>2.7.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -1267,7 +1269,7 @@
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.runtime</artifactId>
-				<version>0.12.1</version>
+				<version>0.14.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
@@ -1332,6 +1334,12 @@
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.compendium</artifactId>
 				<version>5.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+				<version>1.2.8</version>
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>
