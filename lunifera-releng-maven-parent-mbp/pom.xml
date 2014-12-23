@@ -9,7 +9,8 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -25,7 +26,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<mbp.version>2.5.0</mbp.version>
+		<mbp.version>2.5.3</mbp.version>
+		<scr.version>1.20.0</scr.version>
 		<license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
 		<bundle.short.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bundle.short.version>
 		<bundle.full.version>${bundle.short.version}.${osgi-version-qualifier}</bundle.full.version>
@@ -40,10 +42,10 @@
 	<profiles>
 		<profile>
 			<id>not-in-eclipse-mbp</id>
-			<!-- activated in normal Maven build -->
+			<!-- activated in normal Maven build only for bundle projects -->
 			<activation>
 				<file>
-					<missing>.lunifera.releng.itests</missing>
+					<exists>.lunifera.releng.bundle</exists>
 				</file>
 				<property>
 					<name>!m2e.version</name>
@@ -70,6 +72,10 @@
 					<artifactId>hamcrest-library</artifactId>
 					<scope>test</scope>
 				</dependency>
+				<dependency>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+				</dependency>
 			</dependencies>
 			<build>
 				<pluginManagement>
@@ -89,6 +95,19 @@
 									</fileset>
 								</filesets>
 							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-scr-plugin</artifactId>
+							<version>${scr.version}</version>
+							<executions>
+								<execution>
+									<id>generate-scr-scrdescriptor</id>
+									<goals>
+										<goal>scr</goal>
+									</goals>
+								</execution>
+							</executions>
 						</plugin>
 						<plugin>
 							<groupId>org.apache.felix</groupId>
@@ -114,10 +133,9 @@
 											<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 											<_snapshot>${osgi-version-qualifier}</_snapshot>
 											<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-											<_dsannotations>*</_dsannotations>
-											<!-- <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE,META-INF/DEPENDENCIES=DEPENDENCIES</Include-Resource> -->
 											<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
-											<_removeheaders>Private-Package,Ignore-Package,Include-Resource</_removeheaders>
+ 											<Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE.txt</Include-Resource>
+											<_removeheaders>Private-Package,Ignore-Package</_removeheaders>
 										</instructions>
 									</configuration>
 								</execution>
@@ -154,6 +172,10 @@
 				<plugins>
 					<plugin>
 						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-scr-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
 						<artifactId>maven-bundle-plugin</artifactId>
 					</plugin>
 				</plugins>
@@ -177,10 +199,10 @@
 		</profile>
 		<profile>
 			<id>in-eclipse-mbp</id>
-			<!-- activated only when running in m2e (eclipse) -->
+			<!-- activated only when running in m2e (eclipse) for bundle projects -->
 			<activation>
 				<file>
-					<missing>.lunifera.releng.itests</missing>
+					<exists>.lunifera.releng.bundle</exists>
 				</file>
 				<property>
 					<name>m2e.version</name>
@@ -205,20 +227,41 @@
 					<artifactId>hamcrest-library</artifactId>
 					<scope>test</scope>
 				</dependency>
+				<dependency>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+				</dependency>
 			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-bundle-plugin</artifactId>
+						<artifactId>maven-scr-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
 					</plugin>
+<!-- 					<plugin> -->
+<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 						<artifactId>maven-antrun-plugin</artifactId> -->
+<!-- 					</plugin> -->
 				</plugins>
 				<pluginManagement>
 					<plugins>
+						<plugin>
+							<groupId>org.apache.felix</groupId>
+							<artifactId>maven-scr-plugin</artifactId>
+							<version>${scr.version}</version>
+							<executions>
+								<execution>
+									<id>generate-scr-scrdescriptor</id>
+									<goals>
+										<goal>scr</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
 						<plugin>
 							<groupId>org.apache.felix</groupId>
 							<artifactId>maven-bundle-plugin</artifactId>
@@ -227,7 +270,6 @@
 							<configuration>
 								<obrRepository>NONE</obrRepository>
 								<unpackBundle>true</unpackBundle>
-								<manifestLocation>${basedir}/META-INF</manifestLocation>
 								<instructions>
 									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 									<Bundle-Name>${project.name}</Bundle-Name>
@@ -236,137 +278,11 @@
 									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
 									<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-									<_dsannotations>*</_dsannotations>
 								</instructions>
 							</configuration>
 						</plugin>
-						<plugin>
-							<artifactId>maven-dependency-plugin</artifactId>
-							<executions>
-								<execution>
-									<id>copy-dependencies</id>
-									<phase>prepare-package</phase>
-									<goals>
-										<goal>copy-dependencies</goal>
-									</goals>
-									<configuration>
-										<outputDirectory>${basedir}</outputDirectory>
-										<includeScope>runtime</includeScope>
-										<overWriteReleases>false</overWriteReleases>
-										<overWriteSnapshots>true</overWriteSnapshots>
-										<overWriteIfNewer>true</overWriteIfNewer>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-antrun-plugin</artifactId>
-							<executions>
-								<execution>
-									<id>delete-osgi-inf</id>
-									<phase>validate</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<target>
-											<taskdef resource="net/sf/antcontrib/antlib.xml" />
-											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-											<if>
-												<available file="${basedir}/OSGI-INF" type="dir" />
-												<then>
-													<delete dir="${basedir}/OSGI-INF" quiet="true" />
-												</then>
-											</if>
-										</target>
-									</configuration>
-								</execution>
-								<execution>
-									<id>copy-osgi-inf</id>
-									<phase>package</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<target>
-											<taskdef resource="net/sf/antcontrib/antlib.xml" />
-											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-											<if>
-												<available file="${project.build.outputDirectory}/OSGI-INF" type="dir" />
-												<then>
-													<echo message="Copying OSGI-INF..." level="info" />
-													<mkdir dir="${basedir}/OSGI-INF" />
-													<copy todir="${basedir}/OSGI-INF">
-														<fileset dir="${project.build.outputDirectory}/OSGI-INF" />
-													</copy>
-												</then>
-											</if>
-										</target>
-									</configuration>
-								</execution>
-								<execution>
-									<id>copy-meta-inf</id>
-									<phase>package</phase>
-									<goals>
-										<goal>run</goal>
-									</goals>
-									<configuration>
-										<target>
-											<taskdef resource="net/sf/antcontrib/antlib.xml" />
-											<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-											<if>
-												<available file="${basedir}/META-INF/MANIFEST.MF" type="file" />
-												<then>
-													<echo message="Copying META-INF/MANIFEST.MF..." level="info" />
-													<mkdir dir="${project.build.outputDirectory}/META-INF" />
-													<copy file="${basedir}/META-INF/MANIFEST.MF" todir="${project.build.outputDirectory}/META-INF" overwrite="true" />
-												</then>
-											</if>
-										</target>
-									</configuration>
-								</execution>
-							</executions>
-							<dependencies>
-								<dependency>
-									<groupId>org.apache.ant</groupId>
-									<artifactId>ant</artifactId>
-									<version>1.8.4</version>
-								</dependency>
-								<dependency>
-									<groupId>ant-contrib</groupId>
-									<artifactId>ant-contrib</artifactId>
-									<version>1.0b3</version>
-									<exclusions>
-										<exclusion>
-											<groupId>ant</groupId>
-											<artifactId>ant</artifactId>
-										</exclusion>
-									</exclusions>
-								</dependency>
-							</dependencies>
-						</plugin>
 					</plugins>
 				</pluginManagement>
-				<!-- <resources> -->
-				<!-- <resource> -->
-				<!-- pde (project root) -->
-				<!-- <directory>src/main/resources</directory> -->
-				<!-- <targetPath> -->
-				<!-- ${basedir} -->
-				<!-- </targetPath> -->
-				<!-- <includes> -->
-				<!-- <include>plugin.xml</include> -->
-				<!-- </includes> -->
-				<!-- </resource> -->
-				<!-- <resource> -->
-				<!-- normal (output dir , /target/classes) -->
-				<!-- <directory>src/main/resources</directory> -->
-				<!-- <targetPath> -->
-				<!-- ${project.build.outputDirectory} -->
-				<!-- </targetPath> -->
-				<!-- </resource> -->
-				<!-- </resources> -->
 			</build>
 		</profile>
 		<profile>
@@ -813,21 +729,6 @@
 	<dependencies>
 		<!-- those deps must only be used for unit tests. in order to run osgi 
 			it tests you must use the proper bundle from org.lunifera.osgi group -->
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.annotation</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
