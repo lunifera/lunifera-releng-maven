@@ -174,9 +174,9 @@
 		<paxurl.version>2.1.0</paxurl.version>
 		<bundlerepository.version>2.0.3-SNAPSHOT</bundlerepository.version>
 		<junit.version>4.11</junit.version>
-		<mockito.version>1.10.17</mockito.version>
+		<mockito.version>1.9.5</mockito.version>
 		<osgi.testing.utils.version>1.2.2</osgi.testing.utils.version>
-		<guava.version>16.0.1</guava.version>
+		<guava.version>18.0</guava.version>
 		<osgi.version>5.0.0</osgi.version>
 		<slf4j.version>1.7.9</slf4j.version>
 		<logback.version>1.1.2</logback.version>
@@ -1264,7 +1264,7 @@
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.runtime</artifactId>
-				<version>0.14.0</version>
+				<version>0.12.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
