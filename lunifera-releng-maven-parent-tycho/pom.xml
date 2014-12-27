@@ -25,9 +25,17 @@
 	<description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho.</description>
 	<packaging>pom</packaging>
 
+	<!-- temporary stuff in order to test tycho 0.23.0-SNAPSHOT -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tycho-snapshots</id>
+			<url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<properties>
-		<tycho-version>0.22.0</tycho-version>
-		<tychoExtrasVersion>0.22.0</tychoExtrasVersion>
+		<tycho-version>0.23.0-SNAPSHOT</tycho-version>
+		<tychoExtrasVersion>0.23.0-SNAPSHOT</tychoExtrasVersion>
 
 		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit-site>
 
@@ -597,28 +605,28 @@
 							</dependency>
 						</dependencies>
 					</plugin>
-<!-- 					<plugin> -->
-<!-- 						<groupId>org.lunifera.tools.maven.repoindex</groupId> -->
-<!-- 						<artifactId>org.lunifera.tools.maven.repoindex.plugin</artifactId> -->
-<!-- 						<version>0.2.1-SNAPSHOT</version> -->
-<!-- 						<executions> -->
-<!-- 							<execution> -->
-<!-- 								<id>generateIndex</id> -->
-<!-- 								<phase>verify</phase> -->
-<!-- 								<goals> -->
-<!-- 									<goal>generateIndex</goal> -->
-<!-- 								</goals> -->
-<!-- 								<inherited>true</inherited> -->
-<!-- 							</execution> -->
-<!-- 						</executions> -->
-<!-- 						<dependencies> -->
-<!-- 							<dependency> -->
-<!-- 								<groupId>org.lunifera.tools.maven.subsystem</groupId> -->
-<!-- 								<artifactId>org.lunifera.tools.maven.subsystem.lib.repoindex</artifactId> -->
-<!-- 								<version>0.2.1-SNAPSHOT</version> -->
-<!-- 							</dependency> -->
-<!-- 						</dependencies> -->
-<!-- 					</plugin> -->
+					<plugin>
+						<groupId>org.lunifera.tools.maven.repoindex</groupId>
+						<artifactId>org.lunifera.tools.maven.repoindex.plugin</artifactId>
+						<version>0.2.1-SNAPSHOT</version>
+						<executions>
+							<execution>
+								<id>generateIndex</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>generateIndex</goal>
+								</goals>
+								<inherited>true</inherited>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.lunifera.tools.maven.subsystem</groupId>
+								<artifactId>org.lunifera.tools.maven.subsystem.lib.repoindex</artifactId>
+								<version>0.2.1-SNAPSHOT</version>
+							</dependency>
+						</dependencies>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
