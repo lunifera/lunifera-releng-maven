@@ -70,7 +70,7 @@
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.core</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
+				<version>${aries.subsystems.version}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>org.apache.aries.application.api</artifactId>
@@ -93,7 +93,7 @@
 			<dependency>
 				<groupId>org.apache.aries.subsystem</groupId>
 				<artifactId>org.apache.aries.subsystem.api</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
+				<version>${aries.subsystems.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
@@ -108,12 +108,12 @@
 			<dependency>
 				<groupId>org.apache.aries</groupId>
 				<artifactId>org.apache.aries.util</artifactId>
-				<version>1.1.0</version>
+				<version>${aries.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.lunifera.osgi</groupId>
 				<artifactId>org.eclipse.equinox.region</artifactId>
-				<version>1.2.0.v20140128-1636</version>
+				<version>${equinox.region.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
