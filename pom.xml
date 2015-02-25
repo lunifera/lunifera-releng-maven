@@ -29,6 +29,7 @@
 		<module>lunifera-releng-maven-fpom-node</module>
 		<module>lunifera-releng-maven-fpom-itests</module>
 		<module>lunifera-releng-maven-fpom-mplugin</module>
+		<module>lunifera-releng-maven-fpom-equinox-mars</module>
 	</modules>
 
 	<inceptionYear>2012</inceptionYear>
@@ -176,15 +177,20 @@
 		<lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
 
 		<!-- Dependencies Version -->
+		<takari.version>1.11.0-SNAPSHOT</takari.version>
+		<lunifera.build.tools.version>0.2.1-SNAPSHOT</lunifera.build.tools.version>
+		<gogo.runtime.version>0.12.1</gogo.runtime.version>
+		<gogo.command.version>0.14.0</gogo.command.version>
+		<gogo.shell.version>0.11.0-SNAPSHOT</gogo.shell.version>
 		<eclipse.aether.version>1.0.0.v20140518</eclipse.aether.version>
 		<paxexam.version>4.4.0</paxexam.version>
-		<paxurl.version>2.1.0</paxurl.version>
+		<paxurl.version>2.3.0</paxurl.version>
 		<bundlerepository.version>2.0.3-SNAPSHOT</bundlerepository.version>
 		<junit.version>4.11</junit.version>
-		<mockito.version>1.9.5</mockito.version>
+		<mockito.version>1.10.19</mockito.version>
 		<osgi.testing.utils.version>1.3.0</osgi.testing.utils.version>
 		<guava.version>18.0</guava.version>
-		<osgi.version>5.0.0</osgi.version>
+		<osgi.core.version>6.0.0</osgi.core.version>
 		<slf4j.version>1.7.9</slf4j.version>
 		<logback.version>1.1.2</logback.version>
 		<shiro.version>1.2.3</shiro.version>
@@ -578,6 +584,7 @@
 								<skipAddThirdParty>${lunifera.build.ignore.license}</skipAddThirdParty>
 								<skipCheckLicense>${lunifera.build.ignore.license}</skipCheckLicense>
 								<verbose>false</verbose>
+								<acceptPomPackaging>true</acceptPomPackaging>
 								<generateBundle>true</generateBundle>
 								<deployMissingFile>false</deployMissingFile>
 								<useRepositoryMissingFiles>true</useRepositoryMissingFiles>
@@ -623,7 +630,7 @@
 								<skipUpdateProjectLicense>${license.skipUpdateProjectLicense}</skipUpdateProjectLicense>
 								<skipAddThirdParty>${license.skipAddThirdParty}</skipAddThirdParty>
 								<skipCheckLicense>${license.skipCheckLicense}</skipCheckLicense>
-								
+
 							</configuration>
 							<executions>
 								<execution>
@@ -1101,14 +1108,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.7</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven.source.version}</version>
 				</plugin>
@@ -1122,25 +1121,6 @@
 					<version>1.7</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.1</version>
-					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.5.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.5</version>
-				</plugin>
-				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>findbugs-maven-plugin</artifactId>
 					<version>3.0.0</version>
@@ -1149,14 +1129,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>2.13</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.2</version>
-					<configuration>
-						<skip>${lunifera.deploy.skip}</skip>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -1274,22 +1246,9 @@
 					<version>1.9</version>
 				</plugin>
 				<plugin>
-					<groupId>org.lunifera.tools.distribution</groupId>
-					<artifactId>org.lunifera.tools.distrib.maven.plugin.subsystems</artifactId>
-					<version>0.2.1-SNAPSHOT</version>
-				</plugin>
-				<plugin>
-					<groupId>org.lunifera.tools.distribution</groupId>
-					<artifactId>org.lunifera.tools.distrib.maven.plugin.repoindex</artifactId>
-					<version>0.2.1-SNAPSHOT</version>
-					<extensions>true</extensions>
-					<dependencies>
-						<dependency>
-							<groupId>org.osgi</groupId>
-							<artifactId>org.osgi.core</artifactId>
-							<version>6.0.0</version>
-						</dependency>
-					</dependencies>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.8</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -1404,17 +1363,46 @@
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.runtime</artifactId>
-				<version>0.12.1</version>
+				<version>${gogo.runtime.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.command</artifactId>
-				<version>0.14.0</version>
+				<version>${gogo.command.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>org.osgi.compendium</artifactId>
+						<groupId>org.osgi</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>org.osgi.core</artifactId>
+						<groupId>org.osgi</groupId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.bundlerepository</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.gogo.shell</artifactId>
-				<version>0.11.0-SNAPSHOT</version>
+				<version>${gogo.shell.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.bundlerepository</artifactId>
+				<version>2.0.3-SNAPSHOT</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.osgi</groupId>
+						<artifactId>org.osgi.core</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>easymock</artifactId>
+						<groupId>org.easymock</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.knowhowlab.osgi</groupId>
@@ -1456,13 +1444,13 @@
 			<dependency>
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.annotation</artifactId>
-				<version>6.0.0</version>
+				<version>${osgi.core.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.core</artifactId>
-				<version>6.0.0</version>
+				<version>${osgi.core.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -1483,11 +1471,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
