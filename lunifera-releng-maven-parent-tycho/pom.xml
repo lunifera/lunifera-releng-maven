@@ -172,8 +172,8 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.lunifera.tools.distribution</groupId>
-						<artifactId>org.lunifera.tools.distrib.maven.plugin.repoindex</artifactId>
+						<groupId>org.lunifera.tools.build</groupId>
+						<artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
 						<inherited>true</inherited>
 						<executions>
 							<execution>
@@ -824,8 +824,9 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.lunifera.tools.distribution</groupId>
-					<artifactId>org.lunifera.tools.distrib.maven.plugin.repoindex</artifactId>
+					<groupId>org.lunifera.tools.build</groupId>
+					<artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
+					<version>${lunifera.build.tools.version}</version>
 					<configuration>
 						<repositoryName>${lunifera.stage.p2.label}</repositoryName>
 						<rootDir>${lunifera.stage.p2.target.dir}</rootDir>
