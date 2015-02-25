@@ -39,7 +39,6 @@
 	</scm>
 
 	<profiles>
-
 		<profile>
 			<id>not-in-eclipse-mbp</id>
 			<!-- activated in normal Maven build only for bundle projects -->
@@ -70,6 +69,7 @@
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<build>
@@ -94,7 +94,6 @@
 						<plugin>
 							<groupId>org.apache.felix</groupId>
 							<artifactId>maven-scr-plugin</artifactId>
-							<version>${scr.version}</version>
 							<executions>
 								<execution>
 									<id>generate-scr-scrdescriptor</id>
@@ -107,11 +106,7 @@
 						<plugin>
 							<groupId>org.apache.felix</groupId>
 							<artifactId>maven-bundle-plugin</artifactId>
-							<version>${mbp.version}</version>
 							<extensions>true</extensions>
-							<configuration>
-								<obrRepository>NONE</obrRepository>
-							</configuration>
 							<executions>
 								<execution>
 									<id>bundle</id>
@@ -121,6 +116,7 @@
 									<inherited>true</inherited>
 									<configuration>
 										<instructions>
+											<Bundle-DocURL>${project.url}</Bundle-DocURL>
 											<Permissions>all-permissions</Permissions>
 											<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 											<Bundle-Name>${project.name}</Bundle-Name>
@@ -131,7 +127,7 @@
 											<Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
 											<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
 											<Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE.txt</Include-Resource>
-											<_removeheaders>Private-Package,Ignore-Package</_removeheaders>
+											<_removeheaders>Include-Resource,Private-Package,Ignore-Package</_removeheaders>
 										</instructions>
 									</configuration>
 								</execution>
@@ -195,6 +191,11 @@
 			</properties>
 			<dependencies>
 				<dependency>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
 					<groupId>org.hamcrest</groupId>
 					<artifactId>hamcrest-core</artifactId>
 					<scope>test</scope>
@@ -207,6 +208,7 @@
 				<dependency>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<build>
@@ -223,9 +225,17 @@
 				<pluginManagement>
 					<plugins>
 						<plugin>
+							<groupId>io.takari.maven.plugins</groupId>
+							<artifactId>takari-lifecycle-plugin</artifactId>
+							<extensions>true</extensions>
+							<configuration>
+								<accessRulesViolation>error</accessRulesViolation>
+								<compilerId>jdt</compilerId>
+							</configuration>
+						</plugin>
+						<plugin>
 							<groupId>org.apache.felix</groupId>
 							<artifactId>maven-scr-plugin</artifactId>
-							<version>${scr.version}</version>
 							<executions>
 								<execution>
 									<id>generate-scr-scrdescriptor</id>
@@ -241,7 +251,6 @@
 							<version>${mbp.version}</version>
 							<extensions>true</extensions>
 							<configuration>
-								<obrRepository>NONE</obrRepository>
 								<unpackBundle>true</unpackBundle>
 								<instructions>
 									<Permissions>all-permissions</Permissions>
@@ -262,10 +271,10 @@
 
 		<profile>
 			<id>whenIsOSGiRepository</id>
-			<!-- activated in normal Maven build only for bundle projects -->
+			<!-- activated in normal Maven build only for repository index projects -->
 			<activation>
 				<file>
-					<exists>.lunifera.releng.indexedRepository</exists>
+					<exists>.lunifera.releng.repoindex</exists>
 				</file>
 			</activation>
 			<properties>
@@ -277,8 +286,8 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.lunifera.tools.distribution</groupId>
-						<artifactId>org.lunifera.tools.distrib.maven.plugin.repoindex</artifactId>
+						<groupId>org.lunifera.tools.build</groupId>
+						<artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
 						<configuration>
 							<exportSourceDirectory>${project.build.directory}/repository</exportSourceDirectory>
 							<exportTargetDirectory>${lunifera.stage.repository.local.dir}</exportTargetDirectory>
@@ -291,6 +300,7 @@
 				</plugins>
 			</build>
 		</profile>
+
 		<profile>
 			<id>whenIsIntegrationTestsProject</id>
 			<activation>
@@ -722,6 +732,34 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-scr-plugin</artifactId>
+					<version>${scr.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>${mbp.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<obrRepository>NONE</obrRepository>
+						<supportedProjectTypes>
+							<supportedProjectType>bundle</supportedProjectType>
+							<supportedProjectType>takari-jar</supportedProjectType>
+						</supportedProjectTypes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>io.takari.maven.plugins</groupId>
+					<artifactId>takari-lifecycle-plugin</artifactId>
+					<extensions>true</extensions>
+					<version>${takari.version}</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${surefire.version}</version>
@@ -733,6 +771,12 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>io.takari.maven.plugins</groupId>
+				<artifactId>takari-lifecycle-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 	<dependencies>
 		<!-- those deps must only be used for unit tests. in order to run osgi 
@@ -740,11 +784,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
