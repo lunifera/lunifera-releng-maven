@@ -8,82 +8,83 @@
 <!--# Contributors: -->
 <!--# Cristiano Gavião (C4biz)- initial API and implementation -->
 <!--#======================================================================= -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.lunifera.releng.maven</groupId>
-		<artifactId>lunifera-releng-maven</artifactId>
-		<version>0.12.5-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+    <parent>
+        <groupId>org.lunifera.releng.maven</groupId>
+        <artifactId>lunifera-releng-maven</artifactId>
+        <version>0.12.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<artifactId>lunifera-releng-maven-licenses</artifactId>
-	<name>Lunifera Releng Maven - Licenses Repository Artifact</name>
-	<description>A jar containing artifacts needed to resolve dependency licensing at build using license-maven-plugin.</description>
+    <artifactId>lunifera-releng-maven-licenses</artifactId>
+    <name>Lunifera Releng Maven - Licenses Repository Artifact</name>
+    <description>A jar containing artifacts needed to resolve dependency licensing at build using license-maven-plugin.</description>
 
-	<scm>
-		<connection>${lunifera.scm.connection}</connection>
-		<developerConnection>${lunifera.scm.connection.dev}</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>${lunifera.scm.connection}</connection>
+        <developerConnection>${lunifera.scm.connection.dev}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
-	<dependencies>
-		<!-- All dependencies below are used to build the third-party missing license 
-			file. This file will be shared by all other lunifera project. -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-			<version>0.12.5-SNAPSHOT</version>
-			<scope>provided</scope>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.lunifera.releng.maven</groupId>
-			<artifactId>lunifera-releng-maven-fpom-node</artifactId>
-			<version>0.12.5-SNAPSHOT</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.annotation</artifactId>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>${report.license.version}</version>
-				<executions>
-					<execution>
-						<id>update-license-files</id>
-						<inherited>false</inherited>
-						<configuration>
-							<deployMissingFile>true</deployMissingFile>
-							<useMissingFile>true</useMissingFile>
-							<useRepositoryMissingFiles>false</useRepositoryMissingFiles>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <dependencies>
+        <!-- All dependencies below are used to build the third-party missing 
+            license file. This file will be shared by all other lunifera project. -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
+            <version>0.12.5-SNAPSHOT</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-node</artifactId>
+            <version>0.12.5-SNAPSHOT</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.annotation</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${report.license.version}</version>
+                <executions>
+                    <execution>
+                        <id>update-license-files</id>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <deployMissingFile>true</deployMissingFile>
+                            <useMissingFile>true</useMissingFile>
+                            <useRepositoryMissingFiles>false</useRepositoryMissingFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
