@@ -178,8 +178,10 @@
         <lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
 
         <!-- Dependencies Version -->
+		<incrementalbuild.version>0.11.0-SNAPSHOT</incrementalbuild.version>
+        <mavenPluginPlugin.version>3.4</mavenPluginPlugin.version>
         <takari.version>1.11.0-SNAPSHOT</takari.version>
-        <takari.test.version>2.2.0-SNAPSHOT</takari.test.version>
+        <takari.test.version>2.2.0</takari.test.version>
         <lunifera.build.tools.version>0.2.1-SNAPSHOT</lunifera.build.tools.version>
         <gogo.runtime.version>0.12.1</gogo.runtime.version>
         <gogo.command.version>0.14.0</gogo.command.version>
@@ -197,7 +199,7 @@
         <logback.version>1.1.2</logback.version>
         <shiro.version>1.2.3</shiro.version>
         <ecf.version>3.9.0</ecf.version>
-        <maven.version>3.2.5</maven.version>
+        <maven.version>3.3.1</maven.version>
         <powermock.version>1.6.0</powermock.version>
         <hamcrest.version>1.3</hamcrest.version>
         <aries.subsystems.version>1.0.1-SNAPSHOT</aries.subsystems.version>
@@ -224,7 +226,7 @@
         <license.canUpdateDescription>true</license.canUpdateDescription>
 
         <!-- maven plugins -->
-        <surefire.version>2.17</surefire.version>
+        <surefire.version>2.18</surefire.version>
         <maven.site.version>3.4</maven.site.version>
         <maven.source.version>2.3</maven.source.version>
         <sonar.maven.version>2.4</sonar.maven.version>

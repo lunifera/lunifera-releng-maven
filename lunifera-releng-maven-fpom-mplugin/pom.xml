@@ -56,7 +56,7 @@
             <dependency>
                 <groupId>io.takari</groupId>
                 <artifactId>incrementalbuild</artifactId>
-                <version>0.11.0-SNAPSHOT</version>
+                <version>${incrementalbuild.version}</version>
             </dependency>
             <!-- test-properties -->
             <dependency>
@@ -73,13 +73,13 @@
             <dependency>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-plugin-testing</artifactId>
-                <version>2.1.0</version>
+                <version>${takari.test.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-plugin-integration-testing</artifactId>
-                <version>2.1.0</version>
+                <version>${takari.test.version}</version>
                 <type>pom</type>
                 <scope>test</scope>
             </dependency>
@@ -94,9 +94,15 @@
                 <version>2.5.2</version>
             </dependency>
             <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>1</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-annotations</artifactId>
-                <version>3.3</version>
+                <version>${mavenPluginPlugin.version}</version>
                 <!-- annotations are not needed for plugin execution so you 
                     can remove this dependency for execution with using provided scope -->
                 <scope>provided</scope>
@@ -155,26 +161,35 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-archiver</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-utils</artifactId>
-                <version>3.0.17</version>
+                <version>3.0.21</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-archiver</artifactId>
-                <version>2.4.4</version>
+                <version>3.0</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-interpolation</artifactId>
-                <version>1.19</version>
+                <version>1.22</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-annotations</artifactId>
+                <version>1.6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>io.takari</groupId>
+            <artifactId>incrementalbuild</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.takari.m2e.workspace</groupId>
             <artifactId>org.eclipse.m2e.workspace.cli</artifactId>
@@ -186,18 +201,6 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-interpolation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.sonatype.plexus</groupId>
-            <artifactId>plexus-build-api</artifactId>
         </dependency>
     </dependencies>
 </project>
