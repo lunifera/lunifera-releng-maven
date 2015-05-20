@@ -109,7 +109,7 @@
 										<instructions>
 											<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 											<Bundle-Name>${project.name}</Bundle-Name>
-											<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+<!-- 											<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName> -->
 											<Bundle-Version>${bundle.full.version}</Bundle-Version>
 											<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 											<_snapshot>${osgi-version-qualifier}</_snapshot>
@@ -231,7 +231,7 @@
 								<instructions>
 									<Bundle-Vendor>Lunifera.org</Bundle-Vendor>
 									<Bundle-Name>${project.name}</Bundle-Name>
-									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+<!-- 									<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName> -->
 									<Bundle-Version>${bundle.full.version}</Bundle-Version>
 									<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 									<_snapshot>${osgi-version-qualifier}</_snapshot>
