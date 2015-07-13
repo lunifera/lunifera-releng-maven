@@ -34,8 +34,8 @@
     </pluginRepositories>
 
     <properties>
-        <tycho-version>0.23.0-SNAPSHOT</tycho-version>
-        <tychoExtrasVersion>0.23.0-SNAPSHOT</tychoExtrasVersion>
+        <tycho-version>0.21.0</tycho-version>
+        <tychoExtrasVersion>0.21.0</tychoExtrasVersion>
 
         <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit-site>
 
