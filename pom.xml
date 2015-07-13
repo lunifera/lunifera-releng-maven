@@ -178,7 +178,7 @@
         <lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
 
         <!-- Dependencies Version -->
-        <takari.version>1.11.0-SNAPSHOT</takari.version>
+        <takari.version>1.11.7</takari.version>
         <takari.test.version>2.2.0-SNAPSHOT</takari.test.version>
         <lunifera.build.tools.version>0.2.1-SNAPSHOT</lunifera.build.tools.version>
         <gogo.runtime.version>0.12.1</gogo.runtime.version>
