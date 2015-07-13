@@ -172,27 +172,27 @@
             </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.lunifera.tools.build</groupId>
-                        <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
-                        <inherited>true</inherited>
-                        <executions>
-                            <execution>
-                                <id>indexRepository</id>
-                                <goals>
-                                    <goal>generateIndex</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <inherited>true</inherited>
-                                <configuration>
-                                    <rootDir>${project.build.directory}/repository/</rootDir>
-                                    <includeFilePatterns>
-                                        <includeFilePattern>**/plugins/*.jar</includeFilePattern>
-                                    </includeFilePatterns>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                     <plugin> -->
+<!--                         <groupId>org.lunifera.tools.build</groupId> -->
+<!--                         <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId> -->
+<!--                         <inherited>true</inherited> -->
+<!--                         <executions> -->
+<!--                             <execution> -->
+<!--                                 <id>indexRepository</id> -->
+<!--                                 <goals> -->
+<!--                                     <goal>generateIndex</goal> -->
+<!--                                 </goals> -->
+<!--                                 <phase>package</phase> -->
+<!--                                 <inherited>true</inherited> -->
+<!--                                 <configuration> -->
+<!--                                     <rootDir>${project.build.directory}/repository/</rootDir> -->
+<!--                                     <includeFilePatterns> -->
+<!--                                         <includeFilePattern>**/plugins/*.jar</includeFilePattern> -->
+<!--                                     </includeFilePatterns> -->
+<!--                                 </configuration> -->
+<!--                             </execution> -->
+<!--                         </executions> -->
+<!--                     </plugin> -->
                     <plugin>
                         <groupId>org.eclipse.tycho</groupId>
                         <artifactId>target-platform-configuration</artifactId>
@@ -939,15 +939,15 @@
                         <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.lunifera.tools.build</groupId>
-                    <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
-                    <version>${lunifera.build.tools.version}</version>
-                    <configuration>
-                        <repositoryName>${lunifera.stage.p2.label}</repositoryName>
-                        <rootDir>${lunifera.stage.p2.target.dir}</rootDir>
-                    </configuration>
-                </plugin>
+<!--                 <plugin> -->
+<!--                     <groupId>org.lunifera.tools.build</groupId> -->
+<!--                     <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId> -->
+<!--                     <version>${lunifera.build.tools.version}</version> -->
+<!--                     <configuration> -->
+<!--                         <repositoryName>${lunifera.stage.p2.label}</repositoryName> -->
+<!--                         <rootDir>${lunifera.stage.p2.target.dir}</rootDir> -->
+<!--                     </configuration> -->
+<!--                 </plugin> -->
             </plugins>
         </pluginManagement>
     </build>
