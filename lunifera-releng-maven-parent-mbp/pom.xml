@@ -1,6 +1,6 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.lunifera.releng.maven</groupId>
         <artifactId>lunifera-releng-maven</artifactId>
-        <version>0.12.5-SNAPSHOT</version>
+        <version>0.20.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -26,8 +26,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <mbp.version>2.5.3</mbp.version>
-        <scr.version>1.20.0</scr.version>
+        <mbp.version>2.5.4</mbp.version>
         <license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
         <lunifera.build.platform.name>maven</lunifera.build.platform.name>
     </properties>
@@ -40,8 +39,10 @@
 
     <profiles>
         <profile>
-            <id>not-in-eclipse-mbp</id>
-            <!-- activated in normal Maven build only for bundle projects -->
+            <!-- profile used to setup a maven based bundle development projects -->
+            <!-- it is activated in normal Maven build (not inside eclipse 
+                IDE) -->
+            <id>when-bundle-out-of-eclipse</id>
             <activation>
                 <file>
                     <exists>.lunifera.releng.bundle</exists>
@@ -66,11 +67,6 @@
                     <artifactId>hamcrest-library</artifactId>
                     <scope>test</scope>
                 </dependency>
-                <dependency>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-                    <scope>provided</scope>
-                </dependency>
             </dependencies>
             <build>
                 <pluginManagement>
@@ -93,28 +89,19 @@
                         </plugin>
                         <plugin>
                             <groupId>org.apache.felix</groupId>
-                            <artifactId>maven-scr-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>generate-scr-scrdescriptor</id>
-                                    <goals>
-                                        <goal>scr</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.felix</groupId>
                             <artifactId>maven-bundle-plugin</artifactId>
                             <extensions>true</extensions>
+                            <inherited>true</inherited>
                             <executions>
                                 <execution>
-                                    <id>bundle</id>
+                                    <id>bundle-manifest</id>
                                     <goals>
-                                        <goal>bundle</goal>
+                                        <goal>manifest</goal>
                                     </goals>
-                                    <inherited>true</inherited>
+                                    <phase>process-classes</phase>
                                     <configuration>
+                                        <unpackBundle>true</unpackBundle>
+                                        <rebuildBundle>true</rebuildBundle>
                                         <instructions>
                                             <Bundle-DocURL>${project.url}</Bundle-DocURL>
                                             <Permissions>all-permissions</Permissions>
@@ -128,6 +115,7 @@
                                             <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
                                             <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE.txt</Include-Resource>
                                             <_removeheaders>Include-Resource,Private-Package,Ignore-Package</_removeheaders>
+                                            <_dsannotations>*</_dsannotations>
                                         </instructions>
                                     </configuration>
                                 </execution>
@@ -137,23 +125,33 @@
                                         <goal>baseline</goal>
                                     </goals>
                                     <configuration>
-                                        <skip>${lunifera.build.ignore.baseline}</skip>
+                                        <skip>${baseline.skip}</skip>
                                         <failOnWarning>${baseline.failOnWarning}</failOnWarning>
                                         <failOnError>${baseline.failOnError}</failOnError>
                                     </configuration>
                                 </execution>
                             </executions>
                         </plugin>
+                        <plugin>
+                            <groupId>io.takari.maven.plugins</groupId>
+                            <artifactId>takari-lifecycle-plugin</artifactId>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <archive>
+                                    <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                                </archive>
+                            </configuration>
+                        </plugin>
                     </plugins>
                 </pluginManagement>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-scr-plugin</artifactId>
+                        <artifactId>maven-bundle-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
+                        <groupId>io.takari.maven.plugins</groupId>
+                        <artifactId>takari-lifecycle-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -176,9 +174,10 @@
         </profile>
 
         <profile>
-            <id>in-eclipse-mbp</id>
-            <!-- activated only when running in m2e (eclipse) for bundle 
-                projects -->
+            <!-- profile used to setup a maven based bundle development projects -->
+            <!-- it is activated only when running m2e based build (inside 
+                eclipse IDE) -->
+            <id>when-bundle-inside-eclipse</id>
             <activation>
                 <file>
                     <exists>.lunifera.releng.bundle</exists>
@@ -210,53 +209,28 @@
                     <artifactId>hamcrest-library</artifactId>
                     <scope>test</scope>
                 </dependency>
-                <dependency>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
-                    <scope>provided</scope>
-                </dependency>
             </dependencies>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-scr-plugin</artifactId>
+                        <artifactId>maven-bundle-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
+                        <groupId>io.takari.maven.plugins</groupId>
+                        <artifactId>takari-lifecycle-plugin</artifactId>
                     </plugin>
                 </plugins>
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>io.takari.maven.plugins</groupId>
-                            <artifactId>takari-lifecycle-plugin</artifactId>
-                            <extensions>true</extensions>
-                            <configuration>
-                                <accessRulesViolation>error</accessRulesViolation>
-                                <compilerId>jdt</compilerId>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.felix</groupId>
-                            <artifactId>maven-scr-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>generate-scr-scrdescriptor</id>
-                                    <goals>
-                                        <goal>scr</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
                             <groupId>org.apache.felix</groupId>
                             <artifactId>maven-bundle-plugin</artifactId>
-                            <version>${mbp.version}</version>
                             <extensions>true</extensions>
+                            <inherited>true</inherited>
                             <configuration>
                                 <unpackBundle>true</unpackBundle>
+                                <rebuildBundle>true</rebuildBundle>
                                 <instructions>
                                     <Permissions>all-permissions</Permissions>
                                     <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
@@ -266,7 +240,29 @@
                                     <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
                                     <_snapshot>${osgi-version-qualifier}</_snapshot>
                                     <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+                                    <_dsannotations>*</_dsannotations>
                                 </instructions>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>bundle-manifest</id>
+                                    <phase>process-classes</phase>
+                                    <goals>
+                                        <goal>manifest</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>io.takari.maven.plugins</groupId>
+                            <artifactId>takari-lifecycle-plugin</artifactId>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <accessRulesViolation>error</accessRulesViolation>
+                                <compilerId>jdt</compilerId>
+                                <archive>
+                                    <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                                </archive>
                             </configuration>
                         </plugin>
                     </plugins>
@@ -275,9 +271,11 @@
         </profile>
 
         <profile>
+            <!-- profile used to setup projects that are aimed to generate 
+                an OSGi repository -->
+            <!-- it will be activated only when the project holds a .lunifera.releng.repoindex 
+                file -->
             <id>whenIsOSGiRepository</id>
-            <!-- activated in normal Maven build only for repository index 
-                projects -->
             <activation>
                 <file>
                     <exists>.lunifera.releng.repoindex</exists>
@@ -287,13 +285,12 @@
                 <jacoco.skip>true</jacoco.skip>
                 <license.skipAddThirdParty>true</license.skipAddThirdParty>
                 <license.skipCheckLicense>true</license.skipCheckLicense>
-                <license.skipCheckLicense>true</license.skipCheckLicense>
             </properties>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.lunifera.tools.build</groupId>
-                        <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
+                        <groupId>org.lunifera.maven</groupId>
+                        <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
                         <configuration>
                             <exportSourceDirectory>${project.build.directory}/repository</exportSourceDirectory>
                             <exportTargetDirectory>${lunifera.stage.repository.local.dir}</exportTargetDirectory>
@@ -308,24 +305,33 @@
         </profile>
 
         <profile>
+            <!-- profile used to setup projects for OSGi bundle integration 
+                tests based on Pax-Exam -->
+            <!-- it will be activated only when the project holds a .lunifera.releng.itests 
+                file and requires that a lunifera.itests.framework property be explicitly 
+                declared -->
+
             <id>whenIsIntegrationTestsProject</id>
             <activation>
                 <file>
                     <exists>.lunifera.releng.itests</exists>
                 </file>
+                <property>
+                    <name>lunifera.itests.framework</name>
+                </property>
             </activation>
             <dependencyManagement>
                 <dependencies>
                     <dependency>
                         <groupId>org.lunifera.releng.maven</groupId>
                         <artifactId>lunifera-releng-maven-fpom-node</artifactId>
-                        <version>0.12.5-SNAPSHOT</version>
+                        <version>${lunifera.releng.version}</version>
                         <type>pom</type>
                     </dependency>
                     <dependency>
                         <groupId>org.lunifera.releng.maven</groupId>
                         <artifactId>lunifera-releng-maven-fpom-itests</artifactId>
-                        <version>0.12.5-SNAPSHOT</version>
+                        <version>${lunifera.releng.version}</version>
                         <type>pom</type>
                     </dependency>
                 </dependencies>
@@ -469,89 +475,15 @@
         </profile>
 
         <profile>
-            <id>whenIsIntegrationTestsProjectWithNoDefaultFramework</id>
-            <activation>
-                <file>
-                    <exists>.lunifera.releng.itests</exists>
-                </file>
-                <property>
-                    <name>!lunifera.itests.framework</name>
-                </property>
-            </activation>
-            <properties>
-                <lunifera.itests.framework>equinox_luna</lunifera.itests.framework>
-            </properties>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.lunifera.releng.maven</groupId>
-                        <artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-                        <version>0.12.5-SNAPSHOT</version>
-                        <type>pom</type>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-            <dependencies>
-                <dependency>
-                    <groupId>org.lunifera.releng.maven</groupId>
-                    <artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-                    <type>pom</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>whenIsIntegrationTestsProject.felix</id>
-            <activation>
-                <property>
-                    <name>lunifera.itests.framework</name>
-                    <value>felix</value>
-                </property>
-                <file>
-                    <exists>.lunifera.releng.itests</exists>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.lunifera.releng.maven</groupId>
-                    <artifactId>lunifera-releng-maven-fpom-felix</artifactId>
-                    <version>0.12.5-SNAPSHOT</version>
-                    <type>pom</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>whenIsIntegrationTestsProject.equinox.luna</id>
-            <!-- LUNA 3.10 -->
-            <activation>
-                <property>
-                    <name>lunifera.itests.framework</name>
-                    <value>equinox_luna</value>
-                </property>
-                <file>
-                    <exists>.lunifera.releng.itests</exists>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.lunifera.releng.maven</groupId>
-                    <artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-                    <version>0.12.5-SNAPSHOT</version>
-                    <type>pom</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
+            <!-- profile used to generate JAVADOC for OSGi bundle projects -->
             <id>javadoc</id>
             <activation>
                 <property>
                     <name>lunifera.build.full</name>
                 </property>
+                <file>
+                    <exists>.lunifera.releng.bundle</exists>
+                </file>
             </activation>
             <reporting>
                 <plugins>
@@ -612,11 +544,16 @@
         </profile>
 
         <profile>
-            <id>sources</id>
+            <!-- profile used to generate source artifacts for bundles It 
+                is activated only for full buildings -->
+            <id>bundle-sources</id>
             <activation>
                 <property>
                     <name>lunifera.build.full</name>
                 </property>
+                <file>
+                    <exists>.lunifera.releng.bundle</exists>
+                </file>
             </activation>
             <build>
                 <plugins>
@@ -651,28 +588,13 @@
                             </archive>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${surefire.version}</version>
-                        <configuration>
-                            <argLine>${jacoco.agent.ut.arg}</argLine>
-                            <!-- Specific to generate mapping between tests 
-                                and covered code -->
-                            <properties>
-                                <property>
-                                    <name>listener</name>
-                                    <value>org.sonar.java.jacoco.JUnitListener</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
 
         <profile>
-            <id>pre-release</id>
+            <!-- profile used to setup the build of a release -->
+            <id>setup-release</id>
             <activation>
                 <property>
                     <name>lunifera.build.release</name>
@@ -705,6 +627,9 @@
                                                 <!--<file>changelog.txt</file> -->
                                             </files>
                                         </requireFilesExist>
+                                        <requireActiveProfile>
+                                            <profiles>full-project-info-report,check-license,bundle-sources,javadoc,codeCoverage,sign</profiles>
+                                        </requireActiveProfile>
                                     </rules>
                                     <ignoreCache>true</ignoreCache>
                                     <failFast>true</failFast>
@@ -720,27 +645,104 @@
                             </dependency>
                         </dependencies>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
 
-                    <!-- Checks compatibility with Java API -->
+        <profile>
+            <!-- This profile is used to setup a code coverage using Jacoco 
+                that will be sent for Sonar. -->
+            <id>codeCoverage</id>
+            <activation>
+                <file>
+                    <missing>.lunifera.releng.root</missing>
+                </file>
+                <property>
+                    <name>lunifera.build.coverage</name>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>${surefire.version}</version>
+                            <configuration>
+                                <argLine>${jacoco.agent.ut.arg}
+                                    -Xmx1024m -XX:MaxPermSize=256m</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>${surefire.version}</version>
+                            <inherited>true</inherited>
+                            <configuration>
+                                <argLine>${jacoco.agent.it.arg}
+                                    -Xmx1024m
+                                    -XX:MaxPermSize=256m</argLine>
+                                <failIfNoTests>false</failIfNoTests>
+                                <systemPropertyVariables>
+                                    <jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg>
+                                    <lunifera.itests.framework>${lunifera.itests.framework}</lunifera.itests.framework>
+                                    <project.version>${project.version}</project.version>
+                                    <paxexam.version>${paxexam.version}</paxexam.version>
+                                </systemPropertyVariables>
+                                <!-- Specific to generate mapping between 
+                                    tests and covered code -->
+                                <properties>
+                                    <property>
+                                        <name>lunifera.itests.framework</name>
+                                        <value>${lunifera.itests.framework}</value>
+                                    </property>
+                                    <property>
+                                        <name>listener</name>
+                                        <value>org.sonar.java.jacoco.JUnitListener</value>
+                                    </property>
+                                </properties>
+                                <!-- Let's put failsafe reports with surefire 
+                                    to have access to tests failures/success reports in sonar -->
+                                <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>integration-test</id>
+                                    <goals>
+                                        <goal>integration-test</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>verify</id>
+                                    <goals>
+                                        <goal>verify</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>animal-sniffer-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>enforce-java-api-compatibility</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <signature>
-                                        <groupId>org.codehaus.mojo.signature</groupId>
-                                        <artifactId>java17</artifactId>
-                                        <version>1.0</version>
-                                    </signature>
-                                </configuration>
-                            </execution>
-                        </executions>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>run-its</id>
+            <activation>
+                <property>
+                    <name>lunifera.build.coverage</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -757,24 +759,38 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources-filtered</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-scr-plugin</artifactId>
-                    <version>${scr.version}</version>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>${mbp.version}</version>
                     <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <id>bundle-manifest</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>manifest</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                     <configuration>
                         <obrRepository>NONE</obrRepository>
                         <supportedProjectTypes>
                             <supportedProjectType>bundle</supportedProjectType>
                             <supportedProjectType>takari-jar</supportedProjectType>
                         </supportedProjectTypes>
+                        <_dsannotations>*</_dsannotations>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -783,6 +799,7 @@
                     <extensions>true</extensions>
                     <version>${takari.version}</version>
                     <configuration>
+                        <proc>none</proc>
                         <source>1.7</source>
                         <target>1.7</target>
                     </configuration>
@@ -791,20 +808,34 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*UnitTest.java</include>
+                            <include>**/*UT.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*IntegrationTest.java</exclude>
+                            <exclude>**/*IT.java</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${surefire.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*IntegrationTest.java</include>
+                            <include>**/*IT.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*UnitTest.java</exclude>
+                            <exclude>**/*UT.java</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>io.takari.maven.plugins</groupId>
-                <artifactId>takari-lifecycle-plugin</artifactId>
-            </plugin>
-        </plugins>
     </build>
     <dependencies>
         <!-- those deps must only be used for unit tests. in order to run 
@@ -815,11 +846,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.lunifera.releng.maven</groupId>
             <artifactId>lunifera-releng-maven-licenses</artifactId>
             <classifier>third-party</classifier>
             <type>properties</type>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 </project>

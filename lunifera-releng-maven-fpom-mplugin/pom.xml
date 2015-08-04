@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -15,7 +16,7 @@
     <parent>
         <groupId>org.lunifera.releng.maven</groupId>
         <artifactId>lunifera-releng-maven</artifactId>
-        <version>0.12.5-SNAPSHOT</version>
+        <version>0.20.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -29,6 +30,13 @@
         <developerConnection>${lunifera.scm.connection.dev}</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
+    <properties>
+        <incrementalbuild.version>0.20.3</incrementalbuild.version>
+        <maven.version>3.3.3</maven.version>
+        <mavenPluginPlugin.version>3.4</mavenPluginPlugin.version>
+        <takari.test.version>2.6.0</takari.test.version>
+    </properties>
 
     <build>
         <plugins>
@@ -60,28 +68,20 @@
             </dependency>
             <!-- test-properties -->
             <dependency>
-                <groupId>io.takari.m2e.workspace</groupId>
-                <artifactId>org.eclipse.m2e.workspace.cli</artifactId>
-                <version>0.3.0</version>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-plugin-testing</artifactId>
                 <version>${takari.test.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-plugin-integration-testing</artifactId>
                 <version>${takari.test.version}</version>
                 <type>pom</type>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -98,14 +98,13 @@
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-annotations</artifactId>
                 <version>${mavenPluginPlugin.version}</version>
                 <!-- annotations are not needed for plugin execution so you 
                     can remove this dependency for execution with using provided scope -->
-                <scope>provided</scope>
+                <!-- <scope>provided</scope> -->
                 <exclusions>
                     <exclusion>
                         <artifactId>maven-artifact</artifactId>
@@ -138,11 +137,11 @@
                 <artifactId>maven-artifact</artifactId>
                 <version>${maven.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-project</artifactId>
-                <version>2.2.1</version>
-            </dependency>
+<!--             <dependency> -->
+<!--                 <groupId>org.apache.maven</groupId> -->
+<!--                 <artifactId>maven-project</artifactId> -->
+<!--                 <version>2.2.1</version> -->
+<!--             </dependency> -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-artifact-management</artifactId>
@@ -183,24 +182,11 @@
                 <artifactId>plexus-component-annotations</artifactId>
                 <version>1.6</version>
             </dependency>
+            <dependency>
+                <groupId>io.takari</groupId>
+                <artifactId>takari-hash</artifactId>
+                <version>0.0.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>io.takari</groupId>
-            <artifactId>incrementalbuild</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.takari.m2e.workspace</groupId>
-            <artifactId>org.eclipse.m2e.workspace.cli</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-        </dependency>
-    </dependencies>
 </project>

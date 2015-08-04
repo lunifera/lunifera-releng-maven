@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -15,7 +16,7 @@
     <parent>
         <groupId>org.lunifera.releng.maven</groupId>
         <artifactId>lunifera-releng-maven</artifactId>
-        <version>0.12.5-SNAPSHOT</version>
+        <version>0.20.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -31,7 +32,7 @@
     </scm>
 
     <properties>
-        <paxexam.felix.version>4.4.1</paxexam.felix.version>
+        <felix.version>5.0.1</felix.version>
     </properties>
 
     <build>
@@ -59,58 +60,27 @@
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.main</artifactId>
-                <version>${paxexam.felix.version}</version>
+                <version>${felix.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.framework</artifactId>
-                <version>${paxexam.felix.version}</version>
+                <version>${felix.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.eventadmin</artifactId>
-                <version>1.3.2</version>
+                <version>1.4.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.configadmin</artifactId>
-                <version>1.8.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.runtime</artifactId>
-                <version>${gogo.runtime.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.command</artifactId>
-                <version>${gogo.command.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>org.osgi.core</artifactId>
-                        <groupId>org.osgi</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>org.osgi.compendium</artifactId>
-                        <groupId>org.osgi</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>
-						org.apache.felix.bundlerepository
-					</artifactId>
-                        <groupId>org.apache.felix</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.shell</artifactId>
-                <version>${gogo.shell.version}</version>
+                <version>1.8.6</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.fileinstall</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -151,12 +121,12 @@
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.metatype</artifactId>
-                <version>1.0.10</version>
+                <version>1.0.12</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.resolver</artifactId>
-                <version>1.0.0</version>
+                <version>1.2.0</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>org.osgi.core</artifactId>
@@ -166,6 +136,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.felix</groupId>
@@ -178,18 +149,6 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.configadmin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.command</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.shell</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>

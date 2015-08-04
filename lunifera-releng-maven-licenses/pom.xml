@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -15,7 +16,7 @@
     <parent>
         <groupId>org.lunifera.releng.maven</groupId>
         <artifactId>lunifera-releng-maven</artifactId>
-        <version>0.12.5-SNAPSHOT</version>
+        <version>0.20.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,15 +46,43 @@
         </dependency>
         <dependency>
             <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-equinox-mars</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
             <artifactId>lunifera-releng-maven-fpom-equinox-luna</artifactId>
-            <version>0.12.5-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-felix</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-mplugin</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-itests</artifactId>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.lunifera.releng.maven</groupId>
             <artifactId>lunifera-releng-maven-fpom-node</artifactId>
-            <version>0.12.5-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
@@ -66,25 +95,40 @@
             <artifactId>org.osgi.annotation</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>${report.license.version}</version>
-                <executions>
-                    <execution>
-                        <id>update-license-files</id>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <deployMissingFile>true</deployMissingFile>
-                            <useMissingFile>true</useMissingFile>
-                            <useRepositoryMissingFiles>false</useRepositoryMissingFiles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+
+    <profiles>
+        <profile>
+            <id>in-eclipse-mbp</id>
+            <!-- activated only when not running in m2e (eclipse) -->
+            <activation>
+                <property>
+                    <name>!m2e.version</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>${report.license.version}</version>
+                        <executions>
+                            <execution>
+                                <id>generate-license-bundle</id>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <deployMissingFile>true</deployMissingFile>
+                                    <useMissingFile>true</useMissingFile>
+                                    <useRepositoryMissingFiles>false</useRepositoryMissingFiles>
+                                </configuration>
+                                <goals>
+                                    <goal>add-third-party</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

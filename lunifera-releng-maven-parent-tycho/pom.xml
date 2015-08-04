@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2014 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.lunifera.releng.maven</groupId>
         <artifactId>lunifera-releng-maven</artifactId>
-        <version>0.12.5-SNAPSHOT</version>
+        <version>0.20.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -25,17 +25,9 @@
     <description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho.</description>
     <packaging>pom</packaging>
 
-    <!-- temporary stuff in order to test tycho 0.23.0-SNAPSHOT -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>tycho-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <properties>
-        <tycho-version>0.23.0-SNAPSHOT</tycho-version>
-        <tychoExtrasVersion>0.23.0-SNAPSHOT</tychoExtrasVersion>
+        <tycho-version>0.23.0</tycho-version>
+        <tychoExtrasVersion>0.23.0</tychoExtrasVersion>
 
         <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit-site>
 
@@ -173,8 +165,8 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.lunifera.tools.build</groupId>
-                        <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
+                        <groupId>org.lunifera.maven</groupId>
+                        <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
                         <inherited>true</inherited>
                         <executions>
                             <execution>
@@ -331,14 +323,17 @@
                                             </then>
                                         </if>
                                         <groovy>
-                                            ant.echo "Extracted building templates..."
+                                            ant.echo "Extracted
+                                            building templates..."
 
                                             def
                                             separator =
                                             "${properties['file.separator']}"
                                             def directory =
-                                            "${properties['project.build.directory']}" + separator +
-                                            "templates" + separator
+                                            "${properties['project.build.directory']}"
+                                            + separator +
+                                            "templates" +
+                                            separator
 
                                             new
                                             File(directory).mkdir()
@@ -353,11 +348,15 @@
                                             encodedCompositeContent =
                                             "${properties['encoded.compositeContent']}"
 
-                                            properties.p2indexFile = directory + "p2.index"
-                                            properties.compositeArtifactsFile = directory +
+                                            properties.p2indexFile =
+                                            directory + "p2.index"
+                                            properties.compositeArtifactsFile
+                                            = directory +
                                             "compositeArtifacts.xml"
-                                            properties.compositeContentFile =
-                                            directory + "compositeContent.xml"
+                                            properties.compositeContentFile
+                                            =
+                                            directory +
+                                            "compositeContent.xml"
 
                                             new
                                             FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
@@ -838,6 +837,58 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <!-- This profile is used to setup a code coverage using Jacoco 
+                that will be sent for Sonar. -->
+            <id>codeCoverage</id>
+            <activation>
+                <file>
+                    <missing>.lunifera.releng.root</missing>
+                </file>
+                <property>
+                    <name>lunifera.build.coverage</name>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>tycho-surefire-plugin</artifactId>
+                            <version>${tycho-version}</version>
+                            <configuration>
+                                <showEclipseLog>true</showEclipseLog>
+                                <useUIHarness>false</useUIHarness>
+                                <useUIThread>false</useUIThread>
+                                <failIfNoTests>false</failIfNoTests>
+                                <!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
+                                <argLine>${jacoco.agent.it.arg}</argLine>
+                                <!-- Kill test JVM if tests take more than 
+                                    10 minutes (600 seconds) to finish -->
+                                <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>run-its</id>
+            <activation>
+                <property>
+                    <name>lunifera.build.coverage</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <repositories>
@@ -875,6 +926,11 @@
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
             </plugin>
         </plugins>
 
@@ -926,23 +982,41 @@
                     <version>${tycho-version}</version>
                     <configuration>
                         <includes>
-                            <include>**/*Tests.java</include>
+                            <include>**/*UnitTest.java</include>
+                            <include>**/*UT.java</include>
                         </includes>
+                        <excludes>
+                            <exclude>**/*IntegrationTest.java</exclude>
+                            <exclude>**/*IT.java</exclude>
+                        </excludes>
                         <showEclipseLog>true</showEclipseLog>
                         <useUIHarness>false</useUIHarness>
                         <useUIThread>false</useUIThread>
                         <failIfNoTests>false</failIfNoTests>
-                        <!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
-                        <argLine>${jacoco.agent.it.arg}</argLine>
                         <!-- Kill test JVM if tests take more than 10 minutes 
                             (600 seconds) to finish -->
                         <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.lunifera.tools.build</groupId>
-                    <artifactId>org.lunifera.tools.build.maven.plugin.repoindex</artifactId>
-                    <version>${lunifera.build.tools.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${surefire.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*IntegrationTest.java</include>
+                            <include>**/*IT.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*UnitTest.java</exclude>
+                            <exclude>**/*UT.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.lunifera.maven</groupId>
+                    <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
+                    <version>0.2.1-SNAPSHOT</version>
                     <configuration>
                         <repositoryName>${lunifera.stage.p2.label}</repositoryName>
                         <rootDir>${lunifera.stage.p2.target.dir}</rootDir>
