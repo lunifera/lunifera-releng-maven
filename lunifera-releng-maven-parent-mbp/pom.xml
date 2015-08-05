@@ -812,6 +812,7 @@
                         <includes>
                             <include>**/*UnitTest.java</include>
                             <include>**/*UT.java</include>
+                            <include>**/*Test.java</include>
                         </includes>
                         <excludes>
                             <exclude>**/*IntegrationTest.java</exclude>
