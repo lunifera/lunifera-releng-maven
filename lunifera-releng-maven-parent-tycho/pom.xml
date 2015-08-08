@@ -840,13 +840,13 @@
         <profile>
             <!-- This profile is used to setup a code coverage using Jacoco 
                 that will be sent for Sonar. -->
-            <id>codeCoverage</id>
+            <id>codeCoverage-tycho</id>
             <activation>
                 <file>
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.build.coverage</name>
+                    <name>lunifera.test.coverage</name>
                 </property>
             </activation>
             <build>
@@ -862,7 +862,7 @@
                                 <useUIThread>false</useUIThread>
                                 <failIfNoTests>false</failIfNoTests>
                                 <!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
-                                <argLine>${jacoco.agent.it.arg}</argLine>
+                                <argLine>${tycho.testArgLine}</argLine>
                                 <!-- Kill test JVM if tests take more than 
                                     10 minutes (600 seconds) to finish -->
                                 <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
@@ -877,7 +877,7 @@
             <id>run-its</id>
             <activation>
                 <property>
-                    <name>lunifera.build.coverage</name>
+                    <name>lunifera.test.coverage</name>
                 </property>
             </activation>
             <build>

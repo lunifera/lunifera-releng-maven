@@ -220,7 +220,7 @@
 
         <!-- The Sonar Jacoco Listener for JUnit to extract coverage details 
             per test -->
-        <sonar-jacoco-listeners.version>3.4</sonar-jacoco-listeners.version>
+        <sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
 
         <!-- the base for CI URL -->
         <lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
@@ -629,7 +629,7 @@
                 </file>            
             </activation>
             <properties>
-                <jacoco.outputDir>${env.WORKSPACE}/target/</jacoco.outputDir>
+                <jacoco.outputDir>${env.WORKSPACE}/target/jacoco</jacoco.outputDir>
             </properties>
             <build>
                 <plugins>
@@ -644,8 +644,8 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <echo>Setting 'jacoco.outputDir' property to work with Jenkins</echo>
-                                        <echo>[jacoco]${jacoco.outputDir}</echo>
+                                        <echo>Setting up jacoco to work inside Jenkins</echo>
+                                        <echo>[jacoco.outputDir]:${jacoco.outputDir}</echo>
                                     </target>
                                 </configuration>
                             </execution>
@@ -666,7 +666,7 @@
                 </file>            
             </activation>
             <properties>
-                <jacoco.outputDir>${project.basedir}/../target/</jacoco.outputDir>
+                <jacoco.outputDir>${project.basedir}/../target/jacoco</jacoco.outputDir>
             </properties>
             <build>
                 <plugins>
@@ -681,8 +681,8 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <echo>Setting 'jacoco.outputDir' property to work out of Jenkins</echo>
-                                        <echo>[jacoco]${jacoco.outputDir}</echo>
+                                        <echo>Setting up jacoco to work outside of Jenkins</echo>
+                                        <echo>[jacoco.outputDir]:${jacoco.outputDir}</echo>
                                     </target>
                                 </configuration>
                             </execution>
@@ -695,22 +695,25 @@
         <profile>
             <!-- This profile is used to setup a code coverage using Jacoco 
                 that will be sent for Sonar. -->
+            <!-- Sonar/Jacoco integration. The sonar.host.url must be defined in 
+                 a profile inside setting.xml. Note that you need to call both profiles when 
+                 to execute sonar using: 'mvn sonar:sonar -Dlunifera.test.coverage'. 
+                 <sonar.host.url>http://localhost:9000/</sonar.host.url> -->
             <id>codeCoverage</id>
             <activation>
                 <file>
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.build.coverage</name>
+                    <name>lunifera.test.coverage</name>
                 </property>
             </activation>
             <properties>
+                <argLine>-Xmx1024m</argLine>
+                
+                <sonar.jacoco.reportMissing.force.zero>true</sonar.jacoco.reportMissing.force.zero>
+            
                 <lunifera.jacoco.include>*/**</lunifera.jacoco.include>
-
-                <!-- Sonar/Jacoco integration. The sonar.host.url must be 
-                    defined in a profile inside setting.xml. Note that you need to call both 
-                    profiles when to execute sonar using: 'mvn sonar:sonar -Dlunifera.build.coverage'. 
-                    <sonar.host.url>http://localhost:9000/</sonar.host.url> -->
 
                 <!-- Tells Sonar to use jacoco for coverage results -->
                 <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -733,6 +736,10 @@
                 <sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
 
                 <sonar.language>java</sonar.language>
+                
+                <jacoco.utReportDir>${jacoco.outputDir}/reports-ut-test</jacoco.utReportDir>
+                
+                <jacoco.itReportDir>${jacoco.outputDir}/reports-it-test</jacoco.itReportDir>
             </properties>
             <reporting>
                 <plugins>
@@ -770,37 +777,18 @@
                             <version>${jacoco.version}</version>
                             <configuration>
                                 <skip>${jacoco.skip}</skip>
+                                <append>true</append>
                             </configuration>
                             <executions>
                                 <!-- Prepares a variable, jacoco.agent.ut.arg, 
                                     that contains the info to be passed to the JVM hosting the code being tested. -->
                                 <execution>
                                     <id>prepare-ut-agent</id>
-                                    <phase>process-test-classes</phase>
                                     <goals>
                                         <goal>prepare-agent</goal>
                                     </goals>
                                     <configuration>
                                         <destFile>${sonar.jacoco.reportPath}</destFile>
-                                        <propertyName>jacoco.agent.ut.arg</propertyName>
-                                        <append>true</append>
-                                        <includes>
-                                            <include>${lunifera.jacoco.include}</include>
-                                        </includes>
-                                    </configuration>
-                                </execution>
-                                <!-- Prepares a variable, jacoco.agent.it.arg, 
-                                    that contains the info to be passed to the JVM hosting the code being tested. -->
-                                <execution>
-                                    <id>prepare-it-agent</id>
-                                    <phase>pre-integration-test</phase>
-                                    <goals>
-                                        <goal>prepare-agent-integration</goal>
-                                    </goals>
-                                    <configuration>
-                                        <destFile>${sonar.jacoco.itReportPath}</destFile>
-                                        <propertyName>jacoco.agent.it.arg</propertyName>
-                                        <append>true</append>
                                     </configuration>
                                 </execution>
                                 <execution>
@@ -810,6 +798,17 @@
                                     </goals>
                                     <configuration>
                                         <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <!-- Prepares a variable, jacoco.agent.it.arg, 
+                                         that contains the info to be passed to the JVM hosting the code being tested. -->
+                                    <id>prepare-it-agent</id>
+                                    <goals>
+                                        <goal>prepare-agent-integration</goal>
+                                    </goals>
+                                    <configuration>
+                                        <destFile>${sonar.jacoco.itReportPath}</destFile>
                                     </configuration>
                                 </execution>
                                 <execution>
@@ -835,12 +834,11 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
                     </plugin>
-
                 </plugins>
             </build>
             <dependencies>
                 <dependency>
-                    <groupId>org.sonarsource.java</groupId>
+                    <groupId>org.codehaus.sonar-plugins.java</groupId>
                     <artifactId>sonar-jacoco-listeners</artifactId>
                     <version>${sonar-jacoco-listeners.version}</version>
                     <scope>test</scope>
@@ -930,6 +928,7 @@
                             <failIfWarning>true</failIfWarning>
                             <useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:${lunifera.releng.license.repo}</useAsMissingFileRepository>
                             <failOnMissingHeader>true</failOnMissingHeader>
+                            <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
                             <roots>
                                 <root>src/main/java</root>
                                 <root>src/test/java</root>

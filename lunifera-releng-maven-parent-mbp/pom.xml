@@ -102,6 +102,7 @@
                                     <configuration>
                                         <unpackBundle>true</unpackBundle>
                                         <rebuildBundle>true</rebuildBundle>
+                                        <obrRepository>NONE</obrRepository>
                                         <instructions>
                                             <Bundle-DocURL>${project.url}</Bundle-DocURL>
                                             <Permissions>all-permissions</Permissions>
@@ -117,6 +118,10 @@
                                             <_removeheaders>Include-Resource,Private-Package,Ignore-Package</_removeheaders>
                                             <_dsannotations>*</_dsannotations>
                                         </instructions>
+                                        <supportedProjectTypes>
+                                            <supportedProjectType>bundle</supportedProjectType>
+                                            <supportedProjectType>takari-jar</supportedProjectType>
+                                        </supportedProjectTypes>
                                     </configuration>
                                 </execution>
                                 <execution>
@@ -231,6 +236,7 @@
                             <configuration>
                                 <unpackBundle>true</unpackBundle>
                                 <rebuildBundle>true</rebuildBundle>
+                                <obrRepository>NONE</obrRepository>
                                 <instructions>
                                     <Permissions>all-permissions</Permissions>
                                     <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
@@ -242,6 +248,10 @@
                                     <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
                                     <_dsannotations>*</_dsannotations>
                                 </instructions>
+                                <supportedProjectTypes>
+                                    <supportedProjectType>bundle</supportedProjectType>
+                                    <supportedProjectType>takari-jar</supportedProjectType>
+                                </supportedProjectTypes>
                             </configuration>
                             <executions>
                                 <execution>
@@ -650,15 +660,32 @@
         </profile>
 
         <profile>
+            <id>run-its</id>
+            <activation>
+                <property>
+                    <name>lunifera.test.coverage</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <!-- This profile is used to setup a code coverage using Jacoco 
                 that will be sent for Sonar. -->
-            <id>codeCoverage</id>
+            <id>codeCoverage-mbp</id>
             <activation>
                 <file>
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.build.coverage</name>
+                    <name>lunifera.test.coverage</name>
                 </property>
             </activation>
             <build>
@@ -668,9 +695,15 @@
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-surefire-plugin</artifactId>
                             <version>${surefire.version}</version>
+                            <inherited>true</inherited>
                             <configuration>
-                                <argLine>${jacoco.agent.ut.arg}
-                                    -Xmx1024m -XX:MaxPermSize=256m</argLine>
+                                <runOrder>ramdom</runOrder>
+                                <properties>
+                                    <property>
+                                        <name>listener</name>
+                                        <value>org.sonar.java.jacoco.JUnitListener</value>
+                                    </property>
+                                </properties>
                             </configuration>
                         </plugin>
                         <plugin>
@@ -679,12 +712,9 @@
                             <version>${surefire.version}</version>
                             <inherited>true</inherited>
                             <configuration>
-                                <argLine>${jacoco.agent.it.arg}
-                                    -Xmx1024m
-                                    -XX:MaxPermSize=256m</argLine>
                                 <failIfNoTests>false</failIfNoTests>
                                 <systemPropertyVariables>
-                                    <jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg>
+                                    <!-- <jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg> -->
                                     <lunifera.itests.framework>${lunifera.itests.framework}</lunifera.itests.framework>
                                     <project.version>${project.version}</project.version>
                                     <paxexam.version>${paxexam.version}</paxexam.version>
@@ -701,9 +731,10 @@
                                         <value>org.sonar.java.jacoco.JUnitListener</value>
                                     </property>
                                 </properties>
+                                <summaryFile></summaryFile>
                                 <!-- Let's put failsafe reports with surefire 
                                     to have access to tests failures/success reports in sonar -->
-                                <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                                <!-- <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory> -->
                             </configuration>
                             <executions>
                                 <execution>
@@ -722,29 +753,6 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>run-its</id>
-            <activation>
-                <property>
-                    <name>lunifera.build.coverage</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
     </profiles>
@@ -775,23 +783,6 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>${mbp.version}</version>
                     <extensions>true</extensions>
-                    <executions>
-                        <execution>
-                            <id>bundle-manifest</id>
-                            <phase>process-classes</phase>
-                            <goals>
-                                <goal>manifest</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <obrRepository>NONE</obrRepository>
-                        <supportedProjectTypes>
-                            <supportedProjectType>bundle</supportedProjectType>
-                            <supportedProjectType>takari-jar</supportedProjectType>
-                        </supportedProjectTypes>
-                        <_dsannotations>*</_dsannotations>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>io.takari.maven.plugins</groupId>
@@ -809,6 +800,9 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.version}</version>
                     <configuration>
+                        <!-- Skips unit tests if the value of skip.unit.tests 
+                            property is true -->
+                        <skipTests>${skip.unit.tests}</skipTests>
                         <includes>
                             <include>**/*UnitTest.java</include>
                             <include>**/*UT.java</include>
@@ -825,6 +819,9 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${surefire.version}</version>
                     <configuration>
+                        <!-- Skips integration tests if the value of skip.integration.tests 
+                            property is true -->
+                        <skipTests>${skip.integration.tests}</skipTests>
                         <includes>
                             <include>**/*IntegrationTest.java</include>
                             <include>**/*IT.java</include>
@@ -837,6 +834,12 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
     <dependencies>
         <!-- those deps must only be used for unit tests. in order to run 
