@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -21,8 +21,8 @@
     </parent>
 
     <artifactId>lunifera-releng-maven-parent-tycho</artifactId>
-    <name>Lunifera Releng Maven - Parent Tycho POM for Manifest-First Bundles and Fragments</name>
-    <description>A parent POM aimed to set up the build of manifest-first based bundles and fragments projects using Eclipse Tycho.</description>
+    <name>Parent POM for Tycho Manifest-First Bundles and Fragments</name>
+    <description>A parent POM that is aimed to be extended by manifest-first bundle or fragments projects based on Eclipse Tycho tool.</description>
     <packaging>pom</packaging>
 
     <properties>
@@ -166,7 +166,7 @@
                 <plugins>
                     <plugin>
                         <groupId>org.lunifera.maven</groupId>
-                        <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
+                        <artifactId>repoindex-maven-plugin</artifactId>
                         <inherited>true</inherited>
                         <executions>
                             <execution>
@@ -1001,7 +1001,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven.surefire.version}</version>
                     <configuration>
                         <includes>
                             <include>**/*IntegrationTest.java</include>
@@ -1015,12 +1015,17 @@
                 </plugin>
                 <plugin>
                     <groupId>org.lunifera.maven</groupId>
-                    <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
+                    <artifactId>repoindex-maven-plugin</artifactId>
                     <version>0.2.1-SNAPSHOT</version>
                     <configuration>
                         <repositoryName>${lunifera.stage.p2.label}</repositoryName>
                         <rootDir>${lunifera.stage.p2.target.dir}</rootDir>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.xtend</groupId>
+                    <artifactId>xtend-maven-plugin</artifactId>
+                    <version>2.7.3</version>
                 </plugin>
             </plugins>
         </pluginManagement>

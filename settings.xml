@@ -10,276 +10,327 @@
 <!--#======================================================================= -->
 
 <settings>
-	<pluginGroups>
-		<pluginGroup>org.lunifera</pluginGroup>
-		<pluginGroup>org.sonatype.plugins</pluginGroup>
-	</pluginGroups>
-	<profiles>
-		<profile>
-			<!-- Required for dependencies of Xtend module -->
-			<id>xtend</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<repositories>
-				<repository>
-					<id>xtend</id>
-					<url>http://build.eclipse.org/common/xtend/maven/</url>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>xtend</id>
-					<url>http://build.eclipse.org/common/xtend/maven/</url>
-				</pluginRepository>
-				<pluginRepository>
-					<id>fornax</id>
-					<url>http://www.fornax-platform.org/m2/repository</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-		<profile>
-			<!-- Required for dependencies of JBoss module -->
-			<id>jboss</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<repositories>
-				<repository>
-					<id>jboss-public-repository-group</id>
-					<name>JBoss Public Repository Group</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-				</repository>
-			</repositories>
-		</profile>
-		<profile>
-			<!-- Required for dependencies of Lunifera -->
-			<id>lunifera-dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>lunifera-nexus-release</id>
-					<name>Lunifera Nexus Release</name>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
-					</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>lunifera thirdparty</id>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/thirdparty/
-					</url>
-				</pluginRepository>
-				<pluginRepository>
-					<id>codehaus-public-repository-group</id>
-					<name>Codehaus Public Repository Group</name>
-					<url>https://nexus.codehaus.org/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>atlassian</id>
-					<url>http://maven.atlassian.com/public</url>
-				</pluginRepository>
-				<pluginRepository>
-					<id>apache-nexus-snapshots</id>
-					<name>Apache Nexus Snapshots</name>
-					<url>https://repository.apache.org/content/repositories/snapshots
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>lunifera-snapshots</id>
-					<name>Lunifera Snapshots</name>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-			<repositories>
-				<repository>
-					<id>lunifera-vaadin-371</id>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731
-					</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>lunifera-third</id>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731
-					</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>codehaus-public-repository-group</id>
-					<name>Codehaus Public Repository Group</name>
-					<url>https://nexus.codehaus.org/content/groups/public/</url>
-					<layout>default</layout>
-					<releases>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>jboss-public-repository-group</id>
-					<name>JBoss Public Repository Group</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-				</repository>
-				<repository>
-					<id>ecf-maven</id>
-					<url>http://build.ecf-project.org/maven</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<!-- <repository> -->
-				<!-- <id>ecf-jms</id> -->
-				<!-- <url>http://download.ecf-project.org/repo/C-HEAD-jms.feature/lastSuccessful/archive/site.p2/ -->
-				<!-- </url> -->
-				<!-- <layout>p2</layout> -->
-				<!-- </repository> -->
-				<repository>
-					<id>oss.sonatype.org-snapshot</id>
-					<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>atlassian</id>
-					<url>http://maven.atlassian.com/public</url>
-				</repository>
-				<repository>
-					<id>vaadin-snapshots</id>
-					<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>lunifera-nexus-snapshots</id>
-					<name>Lunifera Nexus Snapshots</name>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>lunifera-nexus-release</id>
-					<name>Lunifera Nexus Release</name>
-					<url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
-					</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>ops4j-deps-snapshots</id>
-					<name>OPS4j Snapshots</name>
-					<url>http://oss.sonatype.org/content/repositories/ops4j-snapshots/
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>jetty-8x</id>
-					<url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.15.v20140411
-					</url>
-					<layout>p2</layout>
-				</repository>
-				<repository>
-					<id>ecview</id>
-					<url>http://lun.lunifera.org/downloads/p2/ecview/nightly/
-					</url>
-					<layout>p2</layout>
-				</repository>
-				<repository>
-					<id>xtext</id>
-					<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
-					</url>
-					<layout>p2</layout>
-				</repository>
-				<repository>
-					<id>apache-deps-snapshots</id>
-					<name>Apache Nexus Snapshots</name>
-					<url>https://repository.apache.org/content/repositories/snapshots
-					</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<updatePolicy>always</updatePolicy>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-		</profile>
-	</profiles>
+    <pluginGroups>
+        <pluginGroup>org.lunifera</pluginGroup>
+        <pluginGroup>org.sonatype.plugins</pluginGroup>
+    </pluginGroups>
+    <profiles>
+        <profile>
+            <!-- Required for dependencies of Xtend module -->
+            <id>xtend</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>xtend</id>
+                    <url>http://build.eclipse.org/common/xtend/maven/
+                    </url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>xtend</id>
+                    <url>http://build.eclipse.org/common/xtend/maven/
+                    </url>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>fornax</id>
+                    <url>http://www.fornax-platform.org/m2/repository
+                    </url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+        <profile>
+            <!-- Required for dependencies of JBoss module -->
+            <id>jboss</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>jboss-public-repository-group</id>
+                    <name>JBoss Public Repository Group</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public/
+                    </url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>apache</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>apache-nexus-snapshots</id>
+                    <name>Apache Nexus Snapshots</name>
+                    <url>https://repository.apache.org/content/repositories/snapshots
+                    </url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>apache-nexus-releases</id>
+                    <name>Apache Nexus Release</name>
+                    <url>https://repository.apache.org/content/repositories/releases
+                    </url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+            <repositories>
+                <repository>
+                    <id>apache-nexus-snapshots</id>
+                    <name>Apache Nexus Snapshots</name>
+                    <url>https://repository.apache.org/content/repositories/snapshots/
+                    </url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>sonatype</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>sonatype-releases</id>
+                    <url>http://oss.sonatype.org/service/local/staging/deploy/maven2
+                    </url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>sonatype-snapshots</id>
+                    <url>http://oss.sonatype.org/content/repositories/snapshots
+                    </url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <!-- Required for dependencies of Google module -->
+            <id>atlassian</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>atlassian</id>
+                    <url>http://maven.atlassian.com/public</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>atlassian</id>
+                    <url>http://maven.atlassian.com/public</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+        <profile>
+            <id>vaadin</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>vaadin-snapshots</id>
+                    <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/
+                    </url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>xtext-p2</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>xtext</id>
+                    <url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
+                    </url>
+                    <layout>p2</layout>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>ebr</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>ebr-release</id>
+                    <name>SpringSource Enterprise Bundle Repository -
+                        SpringSource Bundle Releases
+                    </name>
+                    <url>http://repository.springsource.com/maven/bundles/release
+                    </url>
+                </repository>
+                <repository>
+                    <id>com.springsource.repository.bundles.external
+                    </id>
+                    <name>SpringSource Enterprise Bundle Repository -
+                        External Bundle Releases</name>
+                    <url>http://repository.springsource.com/maven/bundles/external
+                    </url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>ebr-external</id>
+                    <name>SpringSource Enterprise Bundle Repository -
+                        External Bundle Releases
+                    </name>
+                    <url>http://repository.springsource.com/maven/bundles/external
+                    </url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+        <profile>
+            <!-- Required for dependencies of Lunifera -->
+            <id>lunifera-dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>lunifera-nexus-release</id>
+                    <name>Lunifera Nexus Release</name>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
+                    </url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>lunifera thirdparty</id>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/thirdparty/
+                    </url>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>lunifera-snapshots</id>
+                    <name>Lunifera Snapshots</name>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
+                    </url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+            <repositories>
+                <repository>
+                    <id>jetty-8x</id>
+                    <url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.15.v20140411
+                    </url>
+                    <layout>p2</layout>
+                </repository>
+                <repository>
+                    <id>lunifera-nexus-release</id>
+                    <name>Lunifera Nexus Release</name>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/releases/
+                    </url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+<!--                 <repository> -->
+<!--                     <id>lunifera-vaadin-371</id> -->
+<!--                     <url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731 -->
+<!--                     </url> -->
+<!--                     <releases> -->
+<!--                         <enabled>true</enabled> -->
+<!--                     </releases> -->
+<!--                     <snapshots> -->
+<!--                         <enabled>false</enabled> -->
+<!--                     </snapshots> -->
+<!--                 </repository> -->
+                <repository>
+                    <id>lunifera-nexus-snapshots</id>
+                    <name>Lunifera Nexus Snapshots</name>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/snapshots/
+                    </url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>lunifera-nexus-thirdparty</id>
+                    <name>Lunifera Nexus thirdparty</name>
+                    <url>http://maven.lunifera.org:8086/nexus/content/repositories/thirdparty/
+                    </url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <updatePolicy>always</updatePolicy>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </settings>

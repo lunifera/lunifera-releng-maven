@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -21,8 +21,9 @@
     </parent>
 
     <artifactId>lunifera-releng-maven-fpom-node</artifactId>
-    <name>Lunifera Releng Maven - Fragment POM for dependencies of a Lunifera Node.</name>
-    <description>A POM aimed to group all dependencies needed for integration tests based on Lunifera Kernel container.</description>
+    <name>Fragment POM for dependencies of a Lunifera Node.</name>
+    <description>A fragment POM that groups common dependencies needed by a node with Lunifera OSGi Subsystems. 
+    It is aimed to be imported by integration tests or distribution projects POMs.</description>
     <packaging>pom</packaging>
 
     <scm>
@@ -34,14 +35,10 @@
     <properties>
         <aries.subsystems.api.version>2.0.2</aries.subsystems.api.version>
         <aries.subsystems.core.version>2.0.2</aries.subsystems.core.version>
-        <aries.version>1.1.0</aries.version>
-        <bundlerepository.version>2.0.4</bundlerepository.version>
-        <gogo.runtime.version>0.16.2</gogo.runtime.version>
-        <gogo.command.version>0.14.0</gogo.command.version>
-        <gogo.shell.version>0.11.0-SNAPSHOT</gogo.shell.version>
+        <aries.util.version>1.1.1</aries.util.version>
         <ecf.version>3.9.0</ecf.version>
         <equinox.region.version>1.2.100.v20141023-1537</equinox.region.version>
-
+        <paxurl.version>2.4.1</paxurl.version>
     </properties>
 
     <build>
@@ -66,9 +63,18 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.scr</artifactId>
-                <version>1.8.3-SNAPSHOT</version>
+                <groupId>org.lunifera.releng.maven</groupId>
+                <artifactId>lunifera-releng-maven-fpom-logging</artifactId>
+                <version>${lunifera.releng.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.lunifera.releng.maven</groupId>
+                <artifactId>lunifera-releng-maven-fpom-felix</artifactId>
+                <version>${lunifera.releng.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.apache.aries.subsystem</groupId>
@@ -106,38 +112,23 @@
             <dependency>
                 <groupId>org.apache.aries</groupId>
                 <artifactId>org.apache.aries.util</artifactId>
-                <version>${aries.version}</version>
+                <version>${aries.util.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.lunifera.osgi</groupId>
                 <artifactId>org.eclipse.equinox.region</artifactId>
                 <version>${equinox.region.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.bundlerepository</artifactId>
-                <version>2.0.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.runtime</artifactId>
-                <version>${gogo.runtime.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.command</artifactId>
-                <version>${gogo.command.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.gogo.shell</artifactId>
-                <version>${gogo.shell.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <!-- IP DEPENDENCIES -->
+        <dependency>
+            <groupId>org.lunifera.releng.maven</groupId>
+            <artifactId>lunifera-releng-maven-fpom-logging</artifactId>
+            <version>${lunifera.releng.version}</version>
+            <type>pom</type>
+        </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.gogo.runtime</artifactId>
@@ -158,24 +149,22 @@
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-aether</artifactId>
             <version>${paxurl.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Common Dependencies -->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>javax.persistence</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -190,10 +179,30 @@
         <dependency>
             <groupId>org.apache.aries.subsystem</groupId>
             <artifactId>org.apache.aries.subsystem.core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org.apache.aries.util</artifactId>
+                    <groupId>org.apache.aries</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.aries.subsystem</groupId>
             <artifactId>org.apache.aries.subsystem.api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org.apache.aries.util</artifactId>
+                    <groupId>org.apache.aries</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.osgi.annotation</artifactId>
+                    <groupId>org.osgi</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.aries</groupId>

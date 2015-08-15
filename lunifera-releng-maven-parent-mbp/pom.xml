@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -21,8 +21,8 @@
     </parent>
 
     <artifactId>lunifera-releng-maven-parent-mbp</artifactId>
-    <name>Lunifera Releng Maven - Parent POM for Pom-First Bundles and Fragments</name>
-    <description>A parent POM aimed to set up the build of bundle projects using Maven-Bundle-Plugin/Bnd.</description>
+    <name>Parent POM for Pom-First Bundles and Fragments</name>
+    <description>A parent POM that is aimed to be extended by POM-first bundle and fragments projects based on Maven-Bundle-Plugin/Bnd tool.</description>
     <packaging>pom</packaging>
 
     <properties>
@@ -160,22 +160,22 @@
                     </plugin>
                 </plugins>
             </build>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
-                        <reportSets>
-                            <reportSet>
-                                <id>baseline-report</id>
-                                <reports>
-                                    <report>baseline-report</report>
-                                </reports>
-                            </reportSet>
-                        </reportSets>
-                    </plugin>
-                </plugins>
-            </reporting>
+            <!-- <reporting> -->
+            <!-- <plugins> -->
+            <!-- <plugin> -->
+            <!-- <groupId>org.apache.felix</groupId> -->
+            <!-- <artifactId>maven-bundle-plugin</artifactId> -->
+            <!-- <reportSets> -->
+            <!-- <reportSet> -->
+            <!-- <id>baseline-report</id> -->
+            <!-- <reports> -->
+            <!-- <report>baseline-report</report> -->
+            <!-- </reports> -->
+            <!-- </reportSet> -->
+            <!-- </reportSets> -->
+            <!-- </plugin> -->
+            <!-- </plugins> -->
+            <!-- </reporting> -->
         </profile>
 
         <profile>
@@ -281,6 +281,55 @@
         </profile>
 
         <profile>
+            <!-- profile used to sign artifacts that will be released and 
+                deployed -->
+            <id>sign-bundle</id>
+            <activation>
+                <file>
+                    <missing>.lunifera.releng.root</missing>
+                </file>
+                <property>
+                    <name>lunifera.build.release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jarsigner-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <!-- profile used to setup projects that are aimed to generate 
                 an OSGi repository -->
             <!-- it will be activated only when the project holds a .lunifera.releng.repoindex 
@@ -300,7 +349,7 @@
                 <plugins>
                     <plugin>
                         <groupId>org.lunifera.maven</groupId>
-                        <artifactId>org.lunifera.maven.plugin.repoindex</artifactId>
+                        <artifactId>repoindex-maven-plugin</artifactId>
                         <configuration>
                             <exportSourceDirectory>${project.build.directory}/repository</exportSourceDirectory>
                             <exportTargetDirectory>${lunifera.stage.repository.local.dir}</exportTargetDirectory>
@@ -330,6 +379,9 @@
                     <name>lunifera.itests.framework</name>
                 </property>
             </activation>
+            <properties>
+                <argLine>-Xmx1024m</argLine>
+            </properties>
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -380,17 +432,11 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-failsafe-plugin</artifactId>
-                            <version>${surefire.version}</version>
+                            <version>${maven.surefire.version}</version>
                             <inherited>true</inherited>
                             <configuration>
-                                <argLine>${jacoco.agent.it.arg}
-                                    -Xmx1024m -XX:MaxPermSize=256m</argLine>
                                 <failIfNoTests>false</failIfNoTests>
-                                <includes>
-                                    <include>**/*IntegrationTest.java</include>
-                                </includes>
                                 <systemPropertyVariables>
-                                    <jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg>
                                     <lunifera.itests.framework>${lunifera.itests.framework}</lunifera.itests.framework>
                                     <project.version>${project.version}</project.version>
                                     <paxexam.version>${paxexam.version}</paxexam.version>
@@ -486,54 +532,42 @@
 
         <profile>
             <!-- profile used to generate JAVADOC for OSGi bundle projects -->
-            <id>javadoc</id>
+            <id>bundle-javadoc</id>
             <activation>
-                <property>
-                    <name>lunifera.build.full</name>
-                </property>
                 <file>
-                    <exists>.lunifera.releng.bundle</exists>
+                    <missing>.lunifera.releng.root</missing>
                 </file>
+                <property>
+                    <name>lunifera.build.release</name>
+                </property>
+<!--                 <file> -->
+<!--                     <exists>.lunifera.releng.bundle</exists> -->
+<!--                 </file> -->
             </activation>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${report.javadoc.version}</version>
-                        <configuration>
-                            <skip>${maven.javadoc.skip}</skip>
-                            <quiet>${maven.javadoc.quiet}</quiet>
-                            <charset>${project.reporting.outputEncoding}</charset>
-                            <links>
-                                <link>http://docs.oracle.com/javase/${javadocJreApiVersion}/docs/api/</link>
-                            </links>
-                            <!--<excludePackageNames>${maven.javadoc.excludePackageNames}</excludePackageNames> -->
-                            <tagletArtifacts>
-                                <tagletArtifact>
-                                    <groupId>org.apache.maven.plugin-tools</groupId>
-                                    <artifactId>maven-plugin-tools-javadoc</artifactId>
-                                    <version>3.3</version>
-                                </tagletArtifact>
-                                <tagletArtifact>
-                                    <groupId>org.codehaus.plexus</groupId>
-                                    <artifactId>plexus-component-javadoc</artifactId>
-                                    <version>1.5.5</version>
-                                </tagletArtifact>
-                            </tagletArtifacts>
-                        </configuration>
-                        <reportSets>
-                            <reportSet>
-                                <id>non-aggregate</id>
-                                <reports>
-                                    <report>javadoc</report>
-                                    <!-- <report>test-javadoc</report> -->
-                                </reports>
-                            </reportSet>
-                        </reportSets>
-                    </plugin>
-                </plugins>
-            </reporting>
+<!--             <reporting> -->
+<!--                 <plugins> -->
+<!--                     <plugin> -->
+<!--                         <groupId>org.apache.maven.plugins</groupId> -->
+<!--                         <artifactId>maven-javadoc-plugin</artifactId> -->
+<!--                         <version>${report.javadoc.version}</version> -->
+<!--                         <configuration> -->
+<!--                             <links> -->
+<!--                                 <link>http://docs.oracle.com/javase/${javadocJreApiVersion}/docs/api/</link> -->
+<!--                             </links> -->
+<!--                             <excludePackageNames>${maven.javadoc.excludePackageNames}</excludePackageNames> -->
+<!--                         </configuration> -->
+<!--                         <reportSets> -->
+<!--                             <reportSet> -->
+<!--                                 <id>non-aggregate</id> -->
+<!--                                 <reports> -->
+<!--                                     <report>javadoc</report> -->
+<!--                                     <report>test-javadoc</report> -->
+<!--                                 </reports> -->
+<!--                             </reportSet> -->
+<!--                         </reportSets> -->
+<!--                     </plugin> -->
+<!--                 </plugins> -->
+<!--             </reporting> -->
             <build>
                 <plugins>
                     <!-- Generates Javadoc -->
@@ -556,14 +590,17 @@
         <profile>
             <!-- profile used to generate source artifacts for bundles It 
                 is activated only for full buildings -->
-            <id>bundle-sources</id>
+            <id>bundle-source</id>
             <activation>
-                <property>
-                    <name>lunifera.build.full</name>
-                </property>
                 <file>
-                    <exists>.lunifera.releng.bundle</exists>
+                    <missing>.lunifera.releng.root</missing>
                 </file>
+                <property>
+                    <name>lunifera.build.release</name>
+                </property>
+<!--                 <file> -->
+<!--                     <exists>.lunifera.releng.bundle</exists> -->
+<!--                 </file> -->
             </activation>
             <build>
                 <plugins>
@@ -597,63 +634,6 @@
                                 </manifestEntries>
                             </archive>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- profile used to setup the build of a release -->
-            <id>setup-release</id>
-            <activation>
-                <property>
-                    <name>lunifera.build.release</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <failFast>true</failFast>
-                            <fail>true</fail>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>check-project-files</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <phase>initialize</phase>
-                                <configuration>
-                                    <rules>
-                                        <requireFilesExist>
-                                            <files>
-                                                <file>LICENSE.txt</file>
-                                                <!-- <file>NOTICE.txt</file> -->
-                                                <!-- <file>README.txt</file> -->
-                                                <!--<file>changelog.txt</file> -->
-                                            </files>
-                                        </requireFilesExist>
-                                        <requireActiveProfile>
-                                            <profiles>full-project-info-report,check-license,bundle-sources,javadoc,codeCoverage,sign</profiles>
-                                        </requireActiveProfile>
-                                    </rules>
-                                    <ignoreCache>true</ignoreCache>
-                                    <failFast>true</failFast>
-                                    <fail>true</fail>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>extra-enforcer-rules</artifactId>
-                                <version>1.0-beta-2</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
@@ -694,10 +674,10 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-surefire-plugin</artifactId>
-                            <version>${surefire.version}</version>
+                            <version>${maven.surefire.version}</version>
                             <inherited>true</inherited>
                             <configuration>
-                                <runOrder>ramdom</runOrder>
+                                <runOrder>random</runOrder>
                                 <properties>
                                     <property>
                                         <name>listener</name>
@@ -709,7 +689,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-failsafe-plugin</artifactId>
-                            <version>${surefire.version}</version>
+                            <version>${maven.surefire.version}</version>
                             <inherited>true</inherited>
                             <configuration>
                                 <failIfNoTests>false</failIfNoTests>
@@ -798,7 +778,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven.surefire.version}</version>
                     <configuration>
                         <!-- Skips unit tests if the value of skip.unit.tests 
                             property is true -->
@@ -817,7 +797,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven.surefire.version}</version>
                     <configuration>
                         <!-- Skips integration tests if the value of skip.integration.tests 
                             property is true -->
@@ -841,9 +821,30 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.lunifera.releng.maven</groupId>
+                <artifactId>lunifera-releng-maven-fpom-utests</artifactId>
+                <version>${lunifera.releng.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.lunifera.releng.maven</groupId>
+                <artifactId>lunifera-releng-maven-fpom-logging</artifactId>
+                <version>${lunifera.releng.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
-        <!-- those deps must only be used for unit tests. in order to run 
-            osgi it tests you must use the proper bundle from org.lunifera.osgi group -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -865,10 +866,6 @@
             <classifier>third-party</classifier>
             <type>properties</type>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 </project>

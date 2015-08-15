@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 C4biz Softwares ME, Loetz KG. -->
+<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -21,8 +21,9 @@
     </parent>
 
     <artifactId>lunifera-releng-maven-fpom-mplugin</artifactId>
-    <name>Lunifera Releng Maven - Fragment POM for Maven Plugin projects.</name>
-    <description>A POM aimed to group the basic dependencies needed for a Maven plugin project.</description>
+    <name>Fragment POM for Maven Plugin projects.</name>
+    <description>A fragment POM that groups dependencies needed by Maven plugin projects. 
+    It is aimed to be imported by Maven plugin projects POMs.</description>
     <packaging>pom</packaging>
 
     <scm>
@@ -32,7 +33,7 @@
     </scm>
 
     <properties>
-        <incrementalbuild.version>0.20.3</incrementalbuild.version>
+        <incrementalbuild.version>0.20.4</incrementalbuild.version>
         <maven.version>3.3.3</maven.version>
         <mavenPluginPlugin.version>3.4</mavenPluginPlugin.version>
         <takari.test.version>2.7.0</takari.test.version>
@@ -60,6 +61,14 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.lunifera.releng.maven</groupId>
+                <artifactId>lunifera-releng-maven-fpom-logging</artifactId>
+                <version>${lunifera.releng.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
             <!-- Build Avoidance -->
             <dependency>
                 <groupId>io.takari</groupId>
@@ -67,11 +76,6 @@
                 <version>${incrementalbuild.version}</version>
             </dependency>
             <!-- test-properties -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-plugin-testing</artifactId>
@@ -92,11 +96,6 @@
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-classworlds</artifactId>
                 <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
@@ -123,11 +122,6 @@
                 <version>${maven.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.maven.shared</groupId>
-                <artifactId>maven-dependency-tree</artifactId>
-                <version>2.1</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-model</artifactId>
                 <version>${maven.version}</version>
@@ -137,30 +131,10 @@
                 <artifactId>maven-artifact</artifactId>
                 <version>${maven.version}</version>
             </dependency>
-<!--             <dependency> -->
-<!--                 <groupId>org.apache.maven</groupId> -->
-<!--                 <artifactId>maven-project</artifactId> -->
-<!--                 <version>2.2.1</version> -->
-<!--             </dependency> -->
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-artifact-management</artifactId>
-                <version>${maven.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-plugin-registry</artifactId>
-                <version>2.2.1</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-settings</artifactId>
                 <version>${maven.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-archiver</artifactId>
-                <version>2.6</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>

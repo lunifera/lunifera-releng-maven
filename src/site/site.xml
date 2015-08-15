@@ -21,7 +21,7 @@
 		<name>logo</name>
 		<src>${lunifera.site.repository.url}/images/141x102_Lunifera_Org_Logo+Schriftzug_RGB.png
 		</src>
-		<href>${lunifera.site.repository.url}</href>
+		<href>${lunifera.site.repository.url}/index.html</href>
 	</bannerLeft>
 
 	<body>
@@ -38,13 +38,12 @@
 		<menu ref="reports" inherit="top" />
 
 		<menu name="Other Lunifera Sub-Projects" inherit="bottom">
-			<item name="Runtime Utilities" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-utils/index.html" />
-			<item name="Runtime Kernel" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-kernel/index.html" />
-			<item name="Runtime Add-ons" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
-			<item name="Runtime Installer" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
-			<item name="Maven Tools" href="lunifera-releng-maven-parent-mbp/lunifera-runtime-addons/index.html" />
-			<item name="Pom-First Dependecies" href="lunifera-releng-maven-parent-mbp/lunifera-dependencies-mbp/index.html" />
-			<item name="Manifest-First Dependencies" href="lunifera-releng-maven-parent-tycho/lunifera-dependencies/index.html" />
+			<item name="Maven Tools" href="/${lunifera.site.root.url}/lunifera-maven-tools/index.html" />
+			<item name="Runtime Kernel" href="/${lunifera.site.root.url}/lunifera-runtime-kernel/index.html" />
+			<item name="Runtime Add-ons" href="/${lunifera.site.root.url}/lunifera-runtime-addons/index.html" />
+			<item name="Pom-First Dependecies" href="/${lunifera.site.root.url}/lunifera-dependencies-mbp/index.html" />
+			<item name="Manifest-First Dependencies" href="/${lunifera.site.root.url}/lunifera-dependencies/index.html" />
+			<item name="Runtime Utilities" href="/${lunifera.site.root.url}/lunifera-runtime-utils/index.html" />
 		</menu>
 
 		<links>
