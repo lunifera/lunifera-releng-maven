@@ -41,9 +41,6 @@
         <lunifera.build.local.federated.p2.url>file://${lunifera.build.local.federated.p2.dir}</lunifera.build.local.federated.p2.url>
         <lunifera.build.remote.federated.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.federated.p2.url>
 
-        <!-- this property is calculated based on the aggregator pom's version -->
-        <lunifera.stage.artifact.version>none</lunifera.stage.artifact.version>
-
     </properties>
 
     <scm>
@@ -172,15 +169,13 @@
                             <execution>
                                 <id>indexRepository</id>
                                 <goals>
-                                    <goal>generateIndex</goal>
+                                    <goal>generateIndexFromFilesets</goal>
                                 </goals>
                                 <phase>package</phase>
                                 <inherited>true</inherited>
                                 <configuration>
                                     <rootDir>${project.build.directory}/repository/</rootDir>
-                                    <includeFilePatterns>
-                                        <includeFilePattern>**/plugins/*.jar</includeFilePattern>
-                                    </includeFilePatterns>
+                                    <fileSets>${project.build.directory}/repository/:**/plugins/*.jar</fileSets>
                                 </configuration>
                             </execution>
                         </executions>
@@ -323,47 +318,24 @@
                                             </then>
                                         </if>
                                         <groovy>
-                                            ant.echo "Extracted
-                                            building templates..."
+                                            ant.echo "Extracted building templates..."
 
-                                            def
-                                            separator =
-                                            "${properties['file.separator']}"
-                                            def directory =
-                                            "${properties['project.build.directory']}"
-                                            + separator +
-                                            "templates" +
-                                            separator
+                                            def separator = "${properties['file.separator']}"
+                                            def directory = "${properties['project.build.directory']}" + separator + "templates" + separator
 
-                                            new
-                                            File(directory).mkdir()
+                                            new File(directory).mkdir()
 
-                                            def
-                                            encodedP2index =
-                                            "${properties['encoded.p2index']}"
-                                            def
-                                            encodedCompositeArtifacts =
-                                            "${properties['encoded.compositeArtifacts']}"
-                                            def
-                                            encodedCompositeContent =
-                                            "${properties['encoded.compositeContent']}"
+                                            def encodedP2index = "${properties['encoded.p2index']}"
+                                            def encodedCompositeArtifacts = "${properties['encoded.compositeArtifacts']}"
+                                            def encodedCompositeContent = "${properties['encoded.compositeContent']}"
 
-                                            properties.p2indexFile =
-                                            directory + "p2.index"
-                                            properties.compositeArtifactsFile
-                                            = directory +
-                                            "compositeArtifacts.xml"
-                                            properties.compositeContentFile
-                                            =
-                                            directory +
-                                            "compositeContent.xml"
+                                            properties.p2indexFile = directory + "p2.index"
+                                            properties.compositeArtifactsFile = directory + "compositeArtifacts.xml"
+                                            properties.compositeContentFile = directory + "compositeContent.xml"
 
-                                            new
-                                            FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
-                                            new
-                                            FileOutputStream(properties.compositeArtifactsFile).write(encodedCompositeArtifacts.decodeBase64())
-                                            new
-                                            FileOutputStream(properties.compositeContentFile).write(encodedCompositeContent.decodeBase64())
+                                            new FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
+                                            new FileOutputStream(properties.compositeArtifactsFile).write(encodedCompositeArtifacts.decodeBase64())
+                                            new FileOutputStream(properties.compositeContentFile).write(encodedCompositeContent.decodeBase64())
 
                                         </groovy>
                                         <echo
@@ -846,9 +818,12 @@
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.test.coverage</name>
+                    <name>lunifera.build.test.coverage</name>
                 </property>
             </activation>
+            <properties>
+                <argLine>-Xmx1024m</argLine>
+            </properties>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -862,11 +837,22 @@
                                 <useUIThread>false</useUIThread>
                                 <failIfNoTests>false</failIfNoTests>
                                 <!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
-                                <argLine>${tycho.testArgLine}</argLine>
                                 <!-- Kill test JVM if tests take more than 
                                     10 minutes (600 seconds) to finish -->
                                 <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+                                <providerProperties>
+                                    <!-- <listener>org.sonar.java.jacoco.JUnitListener</listener> -->
+                                </providerProperties>
                             </configuration>
+                            <dependencies>
+                                <!-- TODO - this listener is not a bundle, 
+                                    so it can't run inside the Equinox -->
+                                <!-- <dependency> -->
+                                <!-- <groupId>org.codehaus.sonar-plugins.java</groupId> -->
+                                <!-- <artifactId>sonar-jacoco-listeners</artifactId> -->
+                                <!-- <version>${sonar-jacoco-listeners.version}</version> -->
+                                <!-- </dependency> -->
+                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -877,7 +863,7 @@
             <id>run-its</id>
             <activation>
                 <property>
-                    <name>lunifera.test.coverage</name>
+                    <name>lunifera.build.test.coverage</name>
                 </property>
             </activation>
             <build>

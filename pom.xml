@@ -274,10 +274,6 @@
                     and exported by old buildings do not be touched. -->
                 <lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
             </properties>
-            <build>
-                <plugins>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
@@ -294,10 +290,6 @@
                 <lunifera.stage.artifact.version>M${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.stage.artifact.version>
                 <lunifera.stage.repository.keep.old>true</lunifera.stage.repository.keep.old>
             </properties>
-            <build>
-                <plugins>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
@@ -314,10 +306,6 @@
                 <lunifera.stage.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</lunifera.stage.artifact.version>
                 <lunifera.stage.repository.keep.old>true</lunifera.stage.repository.keep.old>
             </properties>
-            <build>
-                <plugins>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
@@ -601,7 +589,7 @@
                                         </requireFilesExist>
                                         <requireProperty>
                                             <property>lunifera.build.release</property>
-                                            <property>lunifera.test.coverage</property>
+                                            <property>lunifera.build.test.coverage</property>
                                         </requireProperty>
                                     </rules>
                                     <ignoreCache>true</ignoreCache>
@@ -642,7 +630,7 @@
         </profile>
 
         <profile>
-            <id>coverage_in_jenkins</id>
+            <id>SetTestCodeCoverageInsideJenkins</id>
             <activation>
                 <property>
                     <name>env.WORKSPACE</name>
@@ -680,7 +668,7 @@
         </profile>
 
         <profile>
-            <id>coverage_out_jenkins</id>
+            <id>SetTestCodeCoverageOutJenkins</id>
             <activation>
                 <property>
                     <name>!env.WORKSPACE</name>
@@ -734,15 +722,15 @@
                 that will be sent for Sonar. -->
             <!-- Sonar/Jacoco integration. The sonar.host.url must be defined 
                 in a profile inside setting.xml. Note that you need to call both profiles 
-                when to execute sonar using: 'mvn sonar:sonar -Dlunifera.test.coverage'. 
+                when to execute sonar using: 'mvn sonar:sonar -Dlunifera.build.test.coverage'. 
                 <sonar.host.url>http://localhost:9000/</sonar.host.url> -->
-            <id>codeCoverage</id>
+            <id>withTestCodeCoverage</id>
             <activation>
                 <file>
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.test.coverage</name>
+                    <name>lunifera.build.test.coverage</name>
                 </property>
             </activation>
             <properties>
@@ -875,14 +863,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.codehaus.sonar-plugins.java</groupId>
-                    <artifactId>sonar-jacoco-listeners</artifactId>
-                    <version>${sonar-jacoco-listeners.version}</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
@@ -1159,6 +1139,20 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <!-- to be executed only for this POM -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -1174,20 +1168,6 @@
                         <goals>
                             <goal>attach-descriptor</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>parse-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>

@@ -540,34 +540,34 @@
                 <property>
                     <name>lunifera.build.release</name>
                 </property>
-<!--                 <file> -->
-<!--                     <exists>.lunifera.releng.bundle</exists> -->
-<!--                 </file> -->
+                <!-- <file> -->
+                <!-- <exists>.lunifera.releng.bundle</exists> -->
+                <!-- </file> -->
             </activation>
-<!--             <reporting> -->
-<!--                 <plugins> -->
-<!--                     <plugin> -->
-<!--                         <groupId>org.apache.maven.plugins</groupId> -->
-<!--                         <artifactId>maven-javadoc-plugin</artifactId> -->
-<!--                         <version>${report.javadoc.version}</version> -->
-<!--                         <configuration> -->
-<!--                             <links> -->
-<!--                                 <link>http://docs.oracle.com/javase/${javadocJreApiVersion}/docs/api/</link> -->
-<!--                             </links> -->
-<!--                             <excludePackageNames>${maven.javadoc.excludePackageNames}</excludePackageNames> -->
-<!--                         </configuration> -->
-<!--                         <reportSets> -->
-<!--                             <reportSet> -->
-<!--                                 <id>non-aggregate</id> -->
-<!--                                 <reports> -->
-<!--                                     <report>javadoc</report> -->
-<!--                                     <report>test-javadoc</report> -->
-<!--                                 </reports> -->
-<!--                             </reportSet> -->
-<!--                         </reportSets> -->
-<!--                     </plugin> -->
-<!--                 </plugins> -->
-<!--             </reporting> -->
+            <!-- <reporting> -->
+            <!-- <plugins> -->
+            <!-- <plugin> -->
+            <!-- <groupId>org.apache.maven.plugins</groupId> -->
+            <!-- <artifactId>maven-javadoc-plugin</artifactId> -->
+            <!-- <version>${report.javadoc.version}</version> -->
+            <!-- <configuration> -->
+            <!-- <links> -->
+            <!-- <link>http://docs.oracle.com/javase/${javadocJreApiVersion}/docs/api/</link> -->
+            <!-- </links> -->
+            <!-- <excludePackageNames>${maven.javadoc.excludePackageNames}</excludePackageNames> -->
+            <!-- </configuration> -->
+            <!-- <reportSets> -->
+            <!-- <reportSet> -->
+            <!-- <id>non-aggregate</id> -->
+            <!-- <reports> -->
+            <!-- <report>javadoc</report> -->
+            <!-- <report>test-javadoc</report> -->
+            <!-- </reports> -->
+            <!-- </reportSet> -->
+            <!-- </reportSets> -->
+            <!-- </plugin> -->
+            <!-- </plugins> -->
+            <!-- </reporting> -->
             <build>
                 <plugins>
                     <!-- Generates Javadoc -->
@@ -598,9 +598,9 @@
                 <property>
                     <name>lunifera.build.release</name>
                 </property>
-<!--                 <file> -->
-<!--                     <exists>.lunifera.releng.bundle</exists> -->
-<!--                 </file> -->
+                <!-- <file> -->
+                <!-- <exists>.lunifera.releng.bundle</exists> -->
+                <!-- </file> -->
             </activation>
             <build>
                 <plugins>
@@ -643,7 +643,7 @@
             <id>run-its</id>
             <activation>
                 <property>
-                    <name>lunifera.test.coverage</name>
+                    <name>lunifera.build.test.coverage</name>
                 </property>
             </activation>
             <build>
@@ -665,7 +665,7 @@
                     <missing>.lunifera.releng.root</missing>
                 </file>
                 <property>
-                    <name>lunifera.test.coverage</name>
+                    <name>lunifera.build.test.coverage</name>
                 </property>
             </activation>
             <build>
@@ -734,6 +734,14 @@
                     </plugins>
                 </pluginManagement>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.codehaus.sonar-plugins.java</groupId>
+                    <artifactId>sonar-jacoco-listeners</artifactId>
+                    <version>${sonar-jacoco-listeners.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
