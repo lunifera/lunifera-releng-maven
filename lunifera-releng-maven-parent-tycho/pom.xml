@@ -215,6 +215,58 @@
         </profile>
 
         <profile>
+            <!-- profile used to setup integration 
+                tests projects based on Tycho-Surefire -->
+            <!-- it is activated only when the project contains a .lunifera.releng.itests 
+                file.
+            -->
+            <id>whenIsIntegrationTestsProject</id>
+            <activation>
+                <file>
+                    <exists>.lunifera.releng.itests</exists>
+                </file>
+            </activation>
+            <properties>
+                <argLine>-Xmx1024m</argLine>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+<!--                     <dependency> -->
+<!--                         <groupId>org.lunifera.releng.maven</groupId> -->
+<!--                         <artifactId>lunifera-releng-maven-fpom-node</artifactId> -->
+<!--                         <version>${lunifera.releng.version}</version> -->
+<!--                         <scope>import</scope> -->
+<!--                         <type>pom</type> -->
+<!--                     </dependency> -->
+                    <dependency>
+                        <groupId>org.lunifera.releng.maven</groupId>
+                        <artifactId>lunifera-releng-maven-fpom-itests-tycho</artifactId>
+                        <version>${lunifera.releng.version}</version>
+                        <scope>import</scope>
+                        <type>pom</type>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.lunifera.releng.maven</groupId>
+                    <artifactId>lunifera-releng-maven-fpom-itests-tycho</artifactId>
+                    <version>${lunifera.releng.version}</version>
+                    <type>pom</type>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
             <id>whenIsRepositoryP2Project.stage.p2</id>
             <activation>
                 <file>
@@ -858,24 +910,7 @@
                 </pluginManagement>
             </build>
         </profile>
-
-        <profile>
-            <id>run-its</id>
-            <activation>
-                <property>
-                    <name>lunifera.build.test.coverage</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+     </profiles>
 
     <repositories>
         <repository>

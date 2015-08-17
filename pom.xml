@@ -29,6 +29,7 @@
         <module>lunifera-releng-maven-fpom-logging</module>
         <module>lunifera-releng-maven-fpom-utests</module>
         <module>lunifera-releng-maven-fpom-itests</module>
+        <module>lunifera-releng-maven-fpom-itests-tycho</module>
         <module>lunifera-releng-maven-fpom-node</module>
         <module>lunifera-releng-maven-fpom-mplugin</module>
         <module>lunifera-releng-maven-fpom-equinox-mars</module>
@@ -1049,27 +1050,12 @@
                                                     <goal>add-third-party</goal>
                                                     <goal>update-project-license</goal>
                                                     <goal>update-file-header</goal>
-                                                </goals>
-                                            </pluginExecutionFilter>
-                                            <action>
-                                                <execute>
-                                                    <ignore />
-                                                </execute>
-                                            </action>
-                                        </pluginExecution>
-                                        <pluginExecution>
-                                            <pluginExecutionFilter>
-                                                <groupId>org.codehaus.mojo</groupId>
-                                                <artifactId>license-maven-plugin</artifactId>
-                                                <versionRange>[1.7,)</versionRange>
-                                                <goals>
                                                     <goal>check-file-header</goal>
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
                                                 <execute>
-                                                    <runOnIncremental>false</runOnIncremental>
-                                                    <runOnConfiguration>true</runOnConfiguration>
+                                                    <ignore />
                                                 </execute>
                                             </action>
                                         </pluginExecution>
