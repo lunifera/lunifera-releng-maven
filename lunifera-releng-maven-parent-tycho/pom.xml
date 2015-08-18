@@ -88,7 +88,7 @@
             </activation>
             <properties>
                 <lunifera.build.platform.name>luna</lunifera.build.platform.name>
-                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna</lunifera.build.eclipse.platform.p2.url>
+                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna/201502271000/</lunifera.build.eclipse.platform.p2.url>
             </properties>
         </profile>
 
