@@ -874,6 +874,9 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <properties>
+                <license.skipCheckLicense>true</license.skipCheckLicense>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
