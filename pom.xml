@@ -187,7 +187,7 @@
         <lunifera.report.short>false</lunifera.report.short>
 
         <!-- MAVEN PLUGINS -->
-        <takari.version>1.11.9</takari.version>
+        <takari.version>1.11.10</takari.version>
         <eclipse.aether.version>1.0.0.v20140518</eclipse.aether.version>
         <maven.site.version>3.4</maven.site.version>
         <maven.source.version>2.4</maven.source.version>
@@ -221,7 +221,7 @@
 
         <!-- OSGI -->
         <osgi.core.version>6.0.0</osgi.core.version>
-        <osgi.compendium.version>5.0.0</osgi.compendium.version>
+        <osgi.compendium.version>6.0.0</osgi.compendium.version>
 
         <!-- REPORTING -->
         <report.taglist.version>2.4</report.taglist.version>
@@ -1350,12 +1350,12 @@
                         <additionalDependencies>
                             <additionalDependency>
                                 <groupId>org.osgi</groupId>
-                                <artifactId>org.osgi.core</artifactId>
+                                <artifactId>osgi.core</artifactId>
                                 <version>${osgi.core.version}</version>
                             </additionalDependency>
                             <additionalDependency>
                                 <groupId>org.osgi</groupId>
-                                <artifactId>org.osgi.annotation</artifactId>
+                                <artifactId>osgi.annotation</artifactId>
                                 <version>${osgi.core.version}</version>
                             </additionalDependency>
                         </additionalDependencies>
@@ -1481,19 +1481,19 @@
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.annotation</artifactId>
+                <artifactId>osgi.annotation</artifactId>
                 <version>${osgi.core.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.core</artifactId>
+                <artifactId>osgi.core</artifactId>
                 <version>${osgi.core.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.compendium</artifactId>
+                <artifactId>osgi.cmpn</artifactId>
                 <version>${osgi.compendium.version}</version>
                 <scope>provided</scope>
             </dependency>
