@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -21,8 +21,8 @@
     </parent>
 
     <artifactId>lunifera-releng-maven-fpom-node</artifactId>
-    <name>Fragment POM for dependencies of a Lunifera Node.</name>
-    <description>A fragment POM that groups common dependencies needed by a node with Lunifera OSGi Subsystems. 
+    <name>Fragment POM for dependencies of a Lunifera Kernel Node.</name>
+    <description>A fragment POM that groups common dependencies needed by a node with Lunifera OSGi Subsystems.
     It is aimed to be imported by integration tests or distribution projects POMs.</description>
     <packaging>pom</packaging>
 
@@ -33,12 +33,14 @@
     </scm>
 
     <properties>
-        <aries.subsystems.api.version>2.0.2</aries.subsystems.api.version>
-        <aries.subsystems.core.version>2.0.2</aries.subsystems.core.version>
+        <aries.subsystems.api.version>2.0.8</aries.subsystems.api.version>
+        <aries.subsystems.core.version>2.0.8</aries.subsystems.core.version>
         <aries.util.version>1.1.1</aries.util.version>
-        <ecf.version>3.9.0</ecf.version>
+        <aries.spifly.version>1.0.8</aries.spifly.version>
         <equinox.region.version>1.2.100.v20141023-1537</equinox.region.version>
-        <paxurl.version>2.4.1</paxurl.version>
+        <paxurl.version>${pax.url.assembly.version}</paxurl.version>
+        <apache.mina.version>2.0.9</apache.mina.version>
+        <apache.sshd.version>1.0.0</apache.sshd.version>
     </properties>
 
     <build>
@@ -77,6 +79,11 @@
                 <type>pom</type>
             </dependency>
             <dependency>
+                <groupId>org.apache.aries.spifly</groupId>
+                <artifactId>org.apache.aries.spifly.dynamic.bundle</artifactId>
+                <version>${aries.spifly.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.aries.subsystem</groupId>
                 <artifactId>org.apache.aries.subsystem.core</artifactId>
                 <version>${aries.subsystems.core.version}</version>
@@ -103,11 +110,17 @@
                 <groupId>org.apache.aries.subsystem</groupId>
                 <artifactId>org.apache.aries.subsystem.api</artifactId>
                 <version>${aries.subsystems.api.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>org.osgi.annotation</artifactId>
+                        <groupId>org.osgi</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>javax.persistence</artifactId>
-                <version>2.1.0</version>
+                <version>2.1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.aries</groupId>
@@ -115,98 +128,16 @@
                 <version>${aries.util.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.lunifera.osgi</groupId>
-                <artifactId>org.eclipse.equinox.region</artifactId>
-                <version>${equinox.region.version}</version>
+                <groupId>org.apache.mina</groupId>
+                <artifactId>mina-core</artifactId>
+                <version>${apache.mina.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-core</artifactId>
+                <version>${apache.sshd.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.lunifera.releng.maven</groupId>
-            <artifactId>lunifera-releng-maven-fpom-logging</artifactId>
-            <version>${lunifera.releng.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.command</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.shell</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.bundlerepository</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.url</groupId>
-            <artifactId>pax-url-aether</artifactId>
-            <version>${paxurl.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Common Dependencies -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
-        <!-- SUBSYSTEM DEPENDENCIES -->
-        <dependency>
-            <groupId>org.lunifera.osgi</groupId>
-            <artifactId>org.eclipse.equinox.region</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.aries.subsystem</groupId>
-            <artifactId>org.apache.aries.subsystem.core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>org.apache.aries.util</artifactId>
-                    <groupId>org.apache.aries</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.aries.subsystem</groupId>
-            <artifactId>org.apache.aries.subsystem.api</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>org.apache.aries.util</artifactId>
-                    <groupId>org.apache.aries</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.osgi.annotation</artifactId>
-                    <groupId>org.osgi</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.aries</groupId>
-            <artifactId>org.apache.aries.util</artifactId>
-        </dependency>
-    </dependencies>
 </project>
