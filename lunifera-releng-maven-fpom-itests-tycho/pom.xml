@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -22,7 +22,7 @@
 
     <artifactId>lunifera-releng-maven-fpom-itests-tycho</artifactId>
     <name>Fragment POM for Tycho based Integration Tests.</name>
-    <description>A fragment POM that groups dependencies needed by integration tests projects using Tycho-Surefire-PLugin. 
+    <description>A fragment POM that groups dependencies needed by integration tests projects using Tycho-Surefire-PLugin.
     It is aimed to be imported by other integration tests projects POMs.</description>
     <packaging>pom</packaging>
 
@@ -135,10 +135,6 @@
         <dependency>
             <groupId>de.twentyeleven.skysail</groupId>
             <artifactId>org.hamcrest.hamcrest-all-osgi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>osgi-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
