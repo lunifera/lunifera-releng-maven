@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -25,15 +25,14 @@
         <module>lunifera-releng-maven-licenses</module>
         <module>lunifera-releng-maven-parent-mbp</module>
         <module>lunifera-releng-maven-parent-tycho</module>
-        <module>lunifera-releng-maven-fpom-felix</module>
         <module>lunifera-releng-maven-fpom-logging</module>
         <module>lunifera-releng-maven-fpom-utests</module>
         <module>lunifera-releng-maven-fpom-itests</module>
         <module>lunifera-releng-maven-fpom-itests-tycho</module>
-        <module>lunifera-releng-maven-fpom-node</module>
         <module>lunifera-releng-maven-fpom-mplugin</module>
-        <module>lunifera-releng-maven-fpom-equinox-mars</module>
-        <module>lunifera-releng-maven-fpom-equinox-luna</module>
+        <module>lunifera-releng-maven-fpom-felix</module>
+        <module>lunifera-releng-maven-fpom-node</module>
+        <module>lunifera-releng-maven-fpom-equinox</module>
     </modules>
 
     <inceptionYear>2012</inceptionYear>
@@ -49,13 +48,11 @@
 
     <issueManagement>
         <system>Jira</system>
-        <!-- convention is to create jira's components using the same name 
-            as the aggregator projects -->
-        <url>https://lunifera.atlassian.net/browse/LS?pid=10400</url>
+        <url>https://github.com/lunifera/lunifera-issues</url>
     </issueManagement>
 
-    <!-- ciManagement, distributionManagement(Site) and scm should be duplicated 
-        for every git repository (parent pom) and in most cases for each aggregator 
+    <!-- ciManagement, distributionManagement(Site) and scm should be duplicated
+        for every git repository (parent pom) and in most cases for each aggregator
         due the fact that its modules uses different parents. -->
 
     <ciManagement>
@@ -82,7 +79,7 @@
         </site>
     </distributionManagement>
     <scm>
-        <!-- connection and developerConnection must be added in children 
+        <!-- connection and developerConnection must be added in children
             in order to use with git -->
         <connection>${lunifera.scm.connection}</connection>
         <developerConnection>${lunifera.scm.connection.dev}</developerConnection>
@@ -100,6 +97,7 @@
     </licenses>
 
     <properties>
+        <java.version>1.8</java.version>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <lunifera.site.skip>false</lunifera.site.skip>
         <lunifera.deploy.skip>false</lunifera.deploy.skip>
@@ -139,7 +137,7 @@
         <lunifera.site.repository.url>${lunifera.site.root.url}${file.separator}${lunifera.gitrepo.name}</lunifera.site.repository.url>
 
         <!-- the complete url (to be use with distribution site settings) -->
-        <!-- default behavior is maven to append /${project.artifactId} in 
+        <!-- default behavior is maven to append /${project.artifactId} in
             the end -->
         <distribution.site.url>${lunifera.site.protocol}${lunifera.site.repository.url}</distribution.site.url>
 
@@ -156,7 +154,7 @@
         <bundle.short.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</bundle.short.version>
         <bundle.full.version>${bundle.short.version}.${osgi-version-qualifier}</bundle.full.version>
 
-        <!-- this properties must be set in settings.xml or using -Dlunifera.developer.home 
+        <!-- this properties must be set in settings.xml or using -Dlunifera.developer.home
             in command line. it defaults to the current user home -->
         <lunifera.developer.home>${user.dir}${file.separator}</lunifera.developer.home>
 
@@ -169,8 +167,8 @@
         <!-- this properties must be unique for the entire system -->
         <lunifera.federated.repository.label>lunifera</lunifera.federated.repository.label>
 
-        <!-- the branch used in the build of the project. this determines 
-            the behavior of some steps and its properties. (branch latest head, milestone, 
+        <!-- the branch used in the build of the project. this determines
+            the behavior of some steps and its properties. (branch latest head, milestone,
             release) -->
         <lunifera.build.branch>head</lunifera.build.branch>
 
@@ -178,36 +176,40 @@
 
         <lunifera.stage.repository.local.dir>${lunifera.stage.repository.root}${project.artifactId}${file.separator}${bundle.full.version}${file.separator}</lunifera.stage.repository.local.dir>
 
-        <!-- this indicates whether an old p2 published should be kept or 
+        <!-- this indicates whether an old p2 published should be kept or
             not. this should be determined by the builder.brach being used. -->
         <lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
 
-        <!-- in order to generate a short version of reports for testing 
+        <!-- in order to generate a short version of reports for testing
             purposes -->
         <lunifera.report.short>false</lunifera.report.short>
 
         <!-- MAVEN PLUGINS -->
-        <takari.version>1.11.10</takari.version>
+        <takari.version>1.11.12</takari.version>
         <eclipse.aether.version>1.0.0.v20140518</eclipse.aether.version>
         <maven.site.version>3.4</maven.site.version>
         <maven.source.version>2.4</maven.source.version>
         <maven.install.version>2.5.2</maven.install.version>
-        <maven.compile.version>3.3</maven.compile.version>
+        <maven.compile.version>3.5.1</maven.compile.version>
         <maven.resources.version>2.7</maven.resources.version>
         <maven.jar.version>2.6</maven.jar.version>
-        <maven.clean.version>2.6.1</maven.clean.version>
+        <maven.clean.version>3.0.0</maven.clean.version>
         <maven.antrun.version>1.8</maven.antrun.version>
-        <maven.checkstyle.version>2.16</maven.checkstyle.version>
+        <maven.checkstyle.version>2.17</maven.checkstyle.version>
+        <maven.assembly.version>2.6</maven.assembly.version>
         <maven.jarsigner.version>1.4</maven.jarsigner.version>
         <maven.deploy.version>2.8.2</maven.deploy.version>
         <maven.gpg.version>1.6</maven.gpg.version>
-        <maven.enforcer.version>1.4</maven.enforcer.version>
+        <maven.enforcer.version>1.4.1</maven.enforcer.version>
         <maven.animalsniffer.version>1.14</maven.animalsniffer.version>
-        <maven.surefire.version>2.18.1</maven.surefire.version>
+        <maven.surefire.version>2.19.1</maven.surefire.version>
+        <maven.projectinfo.version>2.8.1</maven.projectinfo.version>
+        <maven.build.helper.plugin>1.10</maven.build.helper.plugin>
+        <maven.findbugs.plugin>3.0.3</maven.findbugs.plugin>
+        <maven.dependency.version>2.10</maven.dependency.version>
+        <maven.property.version>1.0.0</maven.property.version>
 
         <!-- DEPENDENCIES VERSIONS -->
-        <build.helper.plugin>1.9.1</build.helper.plugin>
-        <findbugs.plugin>3.0.1</findbugs.plugin>
         <wagon.ssh.version>2.9</wagon.ssh.version>
         <wagon.git.version>2.0.3</wagon.git.version>
 
@@ -222,6 +224,13 @@
         <!-- OSGI -->
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>6.0.0</osgi.compendium.version>
+        <osgi.annotation.version>6.0.1</osgi.annotation.version>
+        <pax.url.assembly.version>2.4.5</pax.url.assembly.version>
+        <pax.url.reference.version>2.4.5</pax.url.reference.version>
+
+        <!-- LOGGING AND MONITORING -->
+        <slf4j.version>1.7.12</slf4j.version>
+        <logback.version>1.1.3</logback.version>
 
         <!-- REPORTING -->
         <report.taglist.version>2.4</report.taglist.version>
@@ -230,8 +239,7 @@
         <report.version.version>2.2</report.version.version>
         <report.surefire.version>${maven.surefire.version}</report.surefire.version>
         <report.jxr.version>2.5</report.jxr.version>
-        <report.project-info.version>2.8</report.project-info.version>
-        <maven.doxia.module.markdown.version>1.6</maven.doxia.module.markdown.version>
+        <maven.doxia.module.markdown.version>1.7</maven.doxia.module.markdown.version>
         <maven.fluido.skin.version>1.4</maven.fluido.skin.version>
 
 
@@ -243,13 +251,18 @@
         <!-- ************************ -->
         <!-- TESTING -->
         <!-- JACOCO and Sonar/Reporting settings -->
-        <sonar.maven.version>2.6</sonar.maven.version>
+        <sonar.maven.version>2.7.1</sonar.maven.version>
         <jacoco.version>0.7.5.201505241946</jacoco.version>
         <report.sonar.version>0.1</report.sonar.version>
+        <paxexam.version>4.8.0</paxexam.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>1.10.19</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <powermock.version>1.6.2</powermock.version>
 
-        <!-- The Sonar Jacoco Listener for JUnit to extract coverage details 
+        <!-- The Sonar Jacoco Listener for JUnit to extract coverage details
             per test -->
-        <sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
+        <sonar-jacoco-listeners.version>3.8</sonar-jacoco-listeners.version>
 
         <!-- the base for CI URL -->
         <lunifera.ci.server.url>http://jenkins.lunifera.org:8083/job/</lunifera.ci.server.url>
@@ -260,7 +273,7 @@
     <profiles>
         <profile>
             <!-- profile used to setup a snapshot release -->
-            <!-- it must be activated when there isn't lunifera.build.branch 
+            <!-- it must be activated when there isn't lunifera.build.branch
                 defined. -->
             <id>latest</id>
             <activation>
@@ -271,7 +284,7 @@
             <properties>
                 <lunifera.build.branch>latest</lunifera.build.branch>
                 <lunifera.stage.artifact.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${osgi-version-qualifier}</lunifera.stage.artifact.version>
-                <!-- is used to request that repositories that was generated 
+                <!-- is used to request that repositories that was generated
                     and exported by old buildings do not be touched. -->
                 <lunifera.stage.repository.keep.old>false</lunifera.stage.repository.keep.old>
             </properties>
@@ -310,8 +323,8 @@
         </profile>
 
         <profile>
-            <!-- profile used to setup a root project. A root project is 
-                the parent of a multiple projects in a git repository and normally contain 
+            <!-- profile used to setup a root project. A root project is
+                the parent of a multiple projects in a git repository and normally contain
                 children -->
             <id>whenIsRootProject</id>
             <activation>
@@ -387,9 +400,9 @@
                         <reportSets>
                             <reportSet>
                                 <reports>
-                                    <!-- distribution-management, index, 
-                                        dependencies, help, issue-tracking, plugins, cim, license, dependency-management, 
-                                        mailing-list, project-team, dependency-convergence, scm, plugin-management, 
+                                    <!-- distribution-management, index,
+                                        dependencies, help, issue-tracking, plugins, cim, license, dependency-management,
+                                        mailing-list, project-team, dependency-convergence, scm, plugin-management,
                                         modules, summary -->
                                     <report>index</report>
                                     <report>summary</report>
@@ -406,7 +419,7 @@
         </profile>
 
         <profile>
-            <!-- profile used to add reports to generated maven site when 
+            <!-- profile used to add reports to generated maven site when
                 releasing for non-root modules -->
             <id>full-project-info-report</id>
             <activation>
@@ -489,6 +502,8 @@
                         <artifactId>license-maven-plugin</artifactId>
                         <version>${report.license.version}</version>
                         <configuration>
+                            <verbose>false</verbose>
+                            <quiet>true</quiet>
                             <skipThirdPartyReport>${lunifera.skip.reports}</skipThirdPartyReport>
                         </configuration>
                         <reportSets>
@@ -513,9 +528,9 @@
                         <reportSets>
                             <reportSet>
                                 <reports>
-                                    <!-- distribution-management, index, 
-                                        dependencies, help, issue-tracking, plugins, cim, license, dependency-management, 
-                                        mailing-list, project-team, dependency-convergence, scm, plugin-management, 
+                                    <!-- distribution-management, index,
+                                        dependencies, help, issue-tracking, plugins, cim, license, dependency-management,
+                                        mailing-list, project-team, dependency-convergence, scm, plugin-management,
                                         modules, summary -->
                                     <report>index</report>
                                     <report>cim</report>
@@ -539,7 +554,7 @@
         </profile>
 
         <profile>
-            <!-- Just in case the developer has forgotten to set lunifera.developer.home 
+            <!-- Just in case the developer has forgotten to set lunifera.developer.home
                 in settings.xml -->
             <id>set.workspace.location</id>
             <activation>
@@ -555,7 +570,7 @@
         </profile>
 
         <profile>
-            <id>setup-release</id>
+            <id>prepare-for-release</id>
             <activation>
                 <property>
                     <name>lunifera.build.release</name>
@@ -570,6 +585,7 @@
                         <configuration>
                             <failFast>true</failFast>
                             <fail>true</fail>
+                            <ignoreCache>true</ignoreCache>
                         </configuration>
                         <executions>
                             <execution>
@@ -588,24 +604,10 @@
                                                 <!--<file>changelog.txt</file> -->
                                             </files>
                                         </requireFilesExist>
-                                        <requireProperty>
-                                            <property>lunifera.build.release</property>
-                                            <property>lunifera.build.test.coverage</property>
-                                        </requireProperty>
                                     </rules>
-                                    <ignoreCache>true</ignoreCache>
-                                    <failFast>true</failFast>
-                                    <fail>true</fail>
                                 </configuration>
                             </execution>
                         </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>extra-enforcer-rules</artifactId>
-                                <version>1.0-beta-3</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                     <plugin>
                         <!-- plugin used to clean the latest snapshot build -->
@@ -619,9 +621,10 @@
                                     <goal>remove-project-artifact</goal>
                                 </goals>
                                 <configuration>
-                                    <removeAll>false</removeAll><!-- When 
-                                        true, remove all built artifacts including all versions. When false, remove 
-                                        all built artifacts of this project version -->
+                                    <removeAll>false</removeAll>
+                                    <!-- When true, remove all built artifacts
+                                        including all versions. When false, remove all built artifacts of this project
+                                        version -->
                                 </configuration>
                             </execution>
                         </executions>
@@ -631,83 +634,31 @@
         </profile>
 
         <profile>
-            <id>SetTestCodeCoverageInsideJenkins</id>
+            <id>setTestCodeCoverageInsideJenkins</id>
             <activation>
                 <property>
                     <name>env.WORKSPACE</name>
                 </property>
-                <file>
-                    <missing>.lunifera.releng.root</missing>
-                </file>
             </activation>
             <properties>
                 <jacoco.outputDir>${env.WORKSPACE}/target/jacoco</jacoco.outputDir>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo>Setting up jacoco to work
-                                            inside Jenkins</echo>
-                                        <echo>[jacoco.outputDir]:${jacoco.outputDir}</echo>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
-            <id>SetTestCodeCoverageOutJenkins</id>
+            <id>setTestCodeCoverageOutJenkins</id>
             <activation>
                 <property>
                     <name>!env.WORKSPACE</name>
                 </property>
-                <file>
-                    <missing>.lunifera.releng.root</missing>
-                </file>
             </activation>
             <properties>
                 <jacoco.outputDir>${project.basedir}/../target/jacoco</jacoco.outputDir>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo>Setting up jacoco to work
-                                            outside of Jenkins</echo>
-                                        <echo>[jacoco.outputDir]:${jacoco.outputDir}</echo>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
-            <!-- profile added in order to bypass the issues cause by new 
+            <!-- profile added in order to bypass the issues cause by new
                 jdk 1.8 javadoc lint -->
             <id>doclint-java8-disable</id>
             <activation>
@@ -719,17 +670,14 @@
         </profile>
 
         <profile>
-            <!-- This profile is used to setup a code coverage using Jacoco 
-                that will be sent for Sonar. -->
-            <!-- Sonar/Jacoco integration. The sonar.host.url must be defined 
-                in a profile inside setting.xml. Note that you need to call both profiles 
-                when to execute sonar using: 'mvn sonar:sonar -Dlunifera.build.test.coverage'. 
+            <!-- This profile is used to setup a code coverage using Jacoco
+                that will be sent for SonarQube. -->
+            <!-- Sonar/Jacoco integration. The sonar.host.url must be defined
+                in a profile inside setting.xml. Note that you need to call both profiles
+                when to execute sonar using: 'mvn sonar:sonar -Dlunifera.build.test.coverage'.
                 <sonar.host.url>http://localhost:9000/</sonar.host.url> -->
             <id>withTestCodeCoverage</id>
             <activation>
-                <file>
-                    <missing>.lunifera.releng.root</missing>
-                </file>
                 <property>
                     <name>lunifera.build.test.coverage</name>
                 </property>
@@ -742,41 +690,117 @@
                 <!-- Tells Sonar to use jacoco for coverage results -->
                 <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
-                <!-- Don't let Sonar execute tests. We will ask it to Maven -->
-                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                <!-- Tells Sonar where the Jacoco coverage result file is
+                    located for Integration Tests -->
+                <sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
+
+                <sonar.language>java</sonar.language>
+
+                <sonar.report.export.path>issues</sonar.report.export.path>
+
+                <sonar.verbose>false</sonar.verbose>
+
+                <sonar.jacoco.reportMissing.force.zero>true</sonar.jacoco.reportMissing.force.zero>
 
                 <!-- Jacoco output file for UTs -->
                 <jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 
-                <!-- Tells Sonar where the Jacoco coverage result file is 
+                <!-- Tells Sonar where the Jacoco coverage result file is
                     located for Unit Tests -->
                 <sonar.jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</sonar.jacoco.reportPath>
 
                 <!-- Jacoco output file for ITs -->
                 <jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
 
-                <!-- Tells Sonar where the Jacoco coverage result file is 
-                    located for Integration Tests -->
-                <sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
+                <!-- where sonar will find the junit reports -->
+                <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+                <sonar.junit.itReportsPath>target/failsafe-reports</sonar.junit.itReportsPath>
 
-                <sonar.language>java</sonar.language>
-                <sonar.jacoco.reportMissing.force.zero>true</sonar.jacoco.reportMissing.force.zero>
             </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- Setup jacoco -->
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>${jacoco.version}</version>
+                            <configuration>
+                                <append>true</append>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <!-- Enabling use of jacoco -->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <!-- Prepares a variable, jacoco.agent.ut.arg,
+                                that contains the info to be passed to the JVM hosting the code being tested. -->
+                            <execution>
+                                <id>prepare-ut-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <phase>process-test-classes</phase>
+                                <configuration>
+                                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- Prepares a variable, jacoco.agent.it.arg,
+                                    that contains the info to be passed to the JVM hosting the code being tested. -->
+                                <id>prepare-it-agent</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <destFile>${sonar.jacoco.itReportPath}</destFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report-itest</id>
+                                <goals>
+                                    <goal>report-integration</goal>
+                                </goals>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <dataFile>${sonar.jacoco.itReportPath}</dataFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
             <reporting>
                 <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.sonar-plugins</groupId>
-                        <artifactId>maven-report</artifactId>
-                        <version>${report.sonar.version}</version>
-                        <configuration>
-                            <sonar.host.url>${sonar.host.url}</sonar.host.url>
-                        </configuration>
-                    </plugin>
+                    <!-- <plugin> -->
+                    <!-- <groupId>org.codehaus.sonar-plugins</groupId> -->
+                    <!-- <artifactId>maven-report</artifactId> -->
+                    <!-- <version>${report.sonar.version}</version> -->
+                    <!-- <configuration> -->
+                    <!-- <sonar.host.url>${sonar.host.url}</sonar.host.url> -->
+                    <!-- </configuration> -->
+                    <!-- </plugin> -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-report-plugin</artifactId>
                         <version>${report.surefire.version}</version>
-                        <inherited>false</inherited>
+                        <inherited>true</inherited>
                         <reportSets>
                             <reportSet>
                                 <id>tests</id>
@@ -794,85 +818,14 @@
                     </plugin>
                 </plugins>
             </reporting>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <!-- Setup jacoco -->
-                        <plugin>
-                            <groupId>org.jacoco</groupId>
-                            <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>${jacoco.version}</version>
-                            <configuration>
-                                <skip>${jacoco.skip}</skip>
-                                <append>true</append>
-                            </configuration>
-                            <executions>
-                                <!-- Prepares a variable, jacoco.agent.ut.arg, 
-                                    that contains the info to be passed to the JVM hosting the code being tested. -->
-                                <execution>
-                                    <id>prepare-ut-agent</id>
-                                    <goals>
-                                        <goal>prepare-agent</goal>
-                                    </goals>
-                                    <phase>process-test-classes</phase>
-                                    <configuration>
-                                        <destFile>${sonar.jacoco.reportPath}</destFile>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>post-test</id>
-                                    <goals>
-                                        <goal>report</goal>
-                                    </goals>
-                                    <configuration>
-                                        <dataFile>${sonar.jacoco.reportPath}</dataFile>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <!-- Prepares a variable, jacoco.agent.it.arg, 
-                                        that contains the info to be passed to the JVM hosting the code being tested. -->
-                                    <id>prepare-it-agent</id>
-                                    <goals>
-                                        <goal>prepare-agent-integration</goal>
-                                    </goals>
-                                    <configuration>
-                                        <destFile>${sonar.jacoco.itReportPath}</destFile>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>post-itest</id>
-                                    <goals>
-                                        <goal>report-integration</goal>
-                                    </goals>
-                                    <configuration>
-                                        <dataFile>${sonar.jacoco.itReportPath}</dataFile>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <plugins>
-                    <!-- Enabling use of jacoco -->
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>sonar-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
-            <!-- profile used to update the license and header information 
-                of artifacts in the projects -->
-            <!-- how to use: mvn clean process-source -Pupdate-headers -->
-            <id>update-headers</id>
+            <id>update-licenses</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>lunifera.build.test.coverage</name>
+                </property>
             </activation>
             <properties>
                 <license.skipCheckLicense>true</license.skipCheckLicense>
@@ -892,14 +845,8 @@
                             <failIfWarning>true</failIfWarning>
                             <useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:${lunifera.releng.license.repo}</useAsMissingFileRepository>
                             <skipUpdateProjectLicense>false</skipUpdateProjectLicense>
-                            <quiet>false</quiet>
-                            <canUpdateCopyright>true</canUpdateCopyright>
-                            <canUpdateDescription>true</canUpdateDescription>
+                            <generateBundle>true</generateBundle>
                             <copyrightOwners>${license.copyrightOwners}</copyrightOwners>
-                            <roots>
-                                <root>src/main/java</root>
-                                <root>src/test/java</root>
-                            </roots>
                         </configuration>
                         <executions>
                             <execution>
@@ -910,20 +857,6 @@
                                     <goal>add-third-party</goal>
                                 </goals>
                             </execution>
-                            <execution>
-                                <id>update-file-header</id>
-                                <goals>
-                                    <goal>update-file-header</goal>
-                                </goals>
-                                <phase>generate-sources</phase>
-                                <configuration>
-                                    <excludes>
-                                        <exclude>**/THIRD-PARTY.properties</exclude>
-                                        <exclude>**/pom.xml</exclude>
-                                        <exclude>**/LICENSE.txt</exclude>
-                                    </excludes>
-                                </configuration>
-                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
@@ -931,13 +864,12 @@
         </profile>
 
         <profile>
-            <!-- profile used to check the license information in the projects 
-                It will always run unless -DskipCheckLicense is specified -->
+            <!-- profile used to check the license information in the projects
+                It was associate to the -Dlunifera.build.test.coverage property that is used
+                when testing with coverage data. This way developer local builds can be faster. -->
             <id>check-license</id>
             <activation>
-                <property>
-                    <name>!skipCheckLicense</name>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -947,11 +879,11 @@
                         <inherited>true</inherited>
                         <configuration>
                             <verbose>false</verbose>
-                            <quiet>true</quiet>
                             <acceptPomPackaging>true</acceptPomPackaging>
                             <useRepositoryMissingFiles>true</useRepositoryMissingFiles>
                             <useMissingFile>true</useMissingFile>
                             <failIfWarning>true</failIfWarning>
+                            <generateBundle>true</generateBundle>
                             <useAsMissingFileRepository>org.lunifera.releng.maven:lunifera-releng-maven-licenses:${lunifera.releng.license.repo}</useAsMissingFileRepository>
                             <failOnMissingHeader>true</failOnMissingHeader>
                             <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
@@ -972,6 +904,14 @@
                                         <exclude>**/THIRD-PARTY.properties</exclude>
                                     </excludes>
                                 </configuration>
+                            </execution>
+                            <execution>
+                                <id>update-license-files</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>update-project-license</goal>
+                                    <goal>add-third-party</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
@@ -1036,10 +976,11 @@
                                                 </versionRange>
                                                 <goals>
                                                     <goal>prepare-agent</goal>
+                                                    <goal>prepare-agent-integration</goal>
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <!-- m2e doesn't know what 
+                                                <!-- m2e doesn't know what
                                                     to do with jacoco, let's ignore it or annoying error markers appear see http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
                                                 <ignore />
                                             </action>
@@ -1110,18 +1051,26 @@
             </roles>
         </developer>
         <developer>
-            <id>haglo</id>
+            <id>klemens.edler</id>
+            <name>Klemens Edler</name>
+            <email>klemens.edler@gmail.com</email>
+            <timezone>+2</timezone>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
             <name>Hans-George Glöckler</name>
             <email>hans-georg.gloeckler@uni-ulm.de</email>
             <timezone>+2</timezone>
             <roles>
                 <role>Build and release manager</role>
             </roles>
-        </developer>
-    </developers>
-
-    <contributors>
-        <contributor>
         </contributor>
     </contributors>
 
@@ -1161,34 +1110,35 @@
                 </executions>
             </plugin>
             <!-- Checks compatibility with Java API -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <configuration>
-                    <signature>
-                        <groupId>org.codehaus.mojo.signature</groupId>
-                        <artifactId>java17</artifactId>
-                        <version>1.0</version>
-                    </signature>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>enforce-java-api-compatibility</id>
-                        <phase>test</phase>
-                        <inherited>true</inherited>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- not working with java-1.8 -->
+            <!-- <plugin> -->
+            <!-- <groupId>org.codehaus.mojo</groupId> -->
+            <!-- <artifactId>animal-sniffer-maven-plugin</artifactId> -->
+            <!-- <configuration> -->
+            <!-- <signature> -->
+            <!-- <groupId>org.codehaus.mojo.signature</groupId> -->
+            <!-- <artifactId>java17</artifactId> -->
+            <!-- <version>1.0</version> -->
+            <!-- </signature> -->
+            <!-- </configuration> -->
+            <!-- <executions> -->
+            <!-- <execution> -->
+            <!-- <id>enforce-java-api-compatibility</id> -->
+            <!-- <phase>test</phase> -->
+            <!-- <inherited>true</inherited> -->
+            <!-- <goals> -->
+            <!-- <goal>check</goal> -->
+            <!-- </goals> -->
+            <!-- </execution> -->
+            <!-- </executions> -->
+            <!-- </plugin> -->
         </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${build.helper.plugin}</version>
+                    <version>${maven.build.helper.plugin}</version>
                     <executions>
                         <execution>
                             <id>parse-version</id>
@@ -1202,7 +1152,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>${report.project-info.version}</version>
+                    <version>${maven.projectinfo.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1213,8 +1163,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compile.version}</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -1250,7 +1200,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${findbugs.plugin}</version>
+                    <version>${maven.findbugs.plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -1262,6 +1212,13 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${maven.checkstyle.version}</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.assembly.version}</version>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
@@ -1356,7 +1313,7 @@
                             <additionalDependency>
                                 <groupId>org.osgi</groupId>
                                 <artifactId>osgi.annotation</artifactId>
-                                <version>${osgi.core.version}</version>
+                                <version>${osgi.annotation.version}</version>
                             </additionalDependency>
                         </additionalDependencies>
                     </configuration>
@@ -1383,12 +1340,37 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${maven.enforcer.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>extra-enforcer-rules</artifactId>
+                            <version>1.0-beta-4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${report.license.version}</version>
                     <configuration>
+                        <verbose>false</verbose>
+                        <quiet>true</quiet>
+                        <sortArtifactByName>true</sortArtifactByName>
+                        <failIfWarning>true</failIfWarning>
+                        <excludedLicenses>
+                            <excludedLicense>
+                                GNU General Public License
+                                (GPL) version 1.0
+                            </excludedLicense>
+                            <excludedLicense>
+                                GNU General Public License
+                                (GPL) version 2.0
+                            </excludedLicense>
+                            <excludedLicense>
+                                GNU General Public License
+                                (GPL) version 3.0
+                            </excludedLicense>
+                        </excludedLicenses>
                         <licenseMerges>
                             <licenseMerge>
                                 The Apache Software
@@ -1445,11 +1427,43 @@
                                 Software License</licenseMerge>
                         </licenseMerges>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.nuiton.processor</groupId>
+                            <artifactId>nuiton-processor</artifactId>
+                            <version>1.3</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.freemarker</groupId>
+                            <artifactId>freemarker</artifactId>
+                            <version>2.3.23</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.commons</groupId>
+                            <artifactId>commons-lang3</artifactId>
+                            <version>3.4</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>commons-collections</groupId>
+                            <artifactId>commons-collections</artifactId>
+                            <version>3.2.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>commons-io</groupId>
+                            <artifactId>commons-io</artifactId>
+                            <version>2.4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>com.github.danielflower.mavenplugins</groupId>
                     <artifactId>multi-module-maven-release-plugin</artifactId>
-                    <version>1.4.0</version>
+                    <version>1.4.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -1460,7 +1474,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.3</version>
+                <version>1.10</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -1482,20 +1496,18 @@
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>osgi.annotation</artifactId>
-                <version>${osgi.core.version}</version>
+                <version>${osgi.annotation.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>osgi.core</artifactId>
                 <version>${osgi.core.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>osgi.cmpn</artifactId>
                 <version>${osgi.compendium.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>javax.inject</groupId>
@@ -1506,13 +1518,13 @@
                 <!-- add support for ssh/scp -->
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh</artifactId>
-                <version>2.9</version>
+                <version>2.10</version>
             </dependency>
             <!-- support to github pages deployment http://site.trajano.net/wagon-git/ -->
             <dependency>
                 <groupId>net.trajano.wagon</groupId>
                 <artifactId>wagon-git</artifactId>
-                <version>2.0.3</version>
+                <version>2.0.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.skins</groupId>

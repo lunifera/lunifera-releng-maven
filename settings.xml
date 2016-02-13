@@ -15,6 +15,7 @@
         <pluginGroup>org.sonatype.plugins</pluginGroup>
     </pluginGroups>
     <profiles>
+
         <profile>
             <!-- Required for dependencies of Xtend module -->
             <id>xtend</id>
@@ -220,7 +221,8 @@
                     <id>com.springsource.repository.bundles.external
                     </id>
                     <name>SpringSource Enterprise Bundle Repository -
-                        External Bundle Releases</name>
+                        External Bundle Releases
+                    </name>
                     <url>http://repository.springsource.com/maven/bundles/external
                     </url>
                 </repository>
@@ -293,17 +295,17 @@
                         <enabled>false</enabled>
                     </snapshots>
                 </repository>
-<!--                 <repository> -->
-<!--                     <id>lunifera-vaadin-371</id> -->
-<!--                     <url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731 -->
-<!--                     </url> -->
-<!--                     <releases> -->
-<!--                         <enabled>true</enabled> -->
-<!--                     </releases> -->
-<!--                     <snapshots> -->
-<!--                         <enabled>false</enabled> -->
-<!--                     </snapshots> -->
-<!--                 </repository> -->
+                <!-- <repository> -->
+                <!-- <id>lunifera-vaadin-371</id> -->
+                <!-- <url>http://maven.lunifera.org:8086/nexus/content/repositories/vaadin731 -->
+                <!-- </url> -->
+                <!-- <releases> -->
+                <!-- <enabled>true</enabled> -->
+                <!-- </releases> -->
+                <!-- <snapshots> -->
+                <!-- <enabled>false</enabled> -->
+                <!-- </snapshots> -->
+                <!-- </repository> -->
                 <repository>
                     <id>lunifera-nexus-snapshots</id>
                     <name>Lunifera Nexus Snapshots</name>
