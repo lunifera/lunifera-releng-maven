@@ -855,7 +855,6 @@
                             <Bundle-DocURL>${project.url}</Bundle-DocURL>
                             <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
                             <Bundle-Name>${project.name}</Bundle-Name>
-                            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                             <Bundle-Version>${bundle.full.version}</Bundle-Version>
                             <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
                             <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
