@@ -46,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>org.lunifera.releng.maven</groupId>
-            <artifactId>lunifera-releng-maven-fpom-equinox-mars</artifactId>
+            <artifactId>lunifera-releng-maven-fpom-equinox</artifactId>
             <version>${project.parent.version}</version>
             <scope>provided</scope>
             <type>pom</type>
