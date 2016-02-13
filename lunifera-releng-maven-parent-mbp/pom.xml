@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -26,7 +26,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <mbp.version>2.5.4</mbp.version>
+        <mbp.version>3.0.1</mbp.version>
         <license.copyrightOwners>C4biz Softwares ME, Loetz KG</license.copyrightOwners>
         <lunifera.build.platform.name>maven</lunifera.build.platform.name>
     </properties>
@@ -40,7 +40,7 @@
     <profiles>
         <profile>
             <!-- profile used to setup a maven based bundle development projects -->
-            <!-- it is activated in normal Maven build (not inside eclipse 
+            <!-- it is activated in normal Maven build (not inside eclipse
                 IDE) -->
             <id>when-bundle-out-of-eclipse</id>
             <activation>
@@ -67,26 +67,25 @@
                     <artifactId>hamcrest-library</artifactId>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi.core</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi.cmpn</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi.annotation</artifactId>
+                    <scope>provided</scope>
+                </dependency>
             </dependencies>
             <build>
                 <pluginManagement>
                     <plugins>
-                        <plugin>
-                            <artifactId>maven-clean-plugin</artifactId>
-                            <configuration>
-                                <filesets>
-                                    <fileset>
-                                        <directory>${basedir}</directory>
-                                        <includes>
-                                            <include>*.jar</include>
-                                            <include>META-INF/</include>
-                                            <include>OSGI-INF/</include>
-                                        </includes>
-                                        <followSymlinks>false</followSymlinks>
-                                    </fileset>
-                                </filesets>
-                            </configuration>
-                        </plugin>
                         <plugin>
                             <groupId>org.apache.felix</groupId>
                             <artifactId>maven-bundle-plugin</artifactId>
@@ -94,34 +93,18 @@
                             <inherited>true</inherited>
                             <executions>
                                 <execution>
-                                    <id>bundle-manifest</id>
+                                    <id>gen-bundle-manifest-out-of-eclipse</id>
                                     <goals>
                                         <goal>manifest</goal>
                                     </goals>
                                     <phase>process-classes</phase>
                                     <configuration>
-                                        <unpackBundle>true</unpackBundle>
-                                        <rebuildBundle>true</rebuildBundle>
                                         <obrRepository>NONE</obrRepository>
                                         <instructions>
-                                            <Bundle-DocURL>${project.url}</Bundle-DocURL>
                                             <Permissions>all-permissions</Permissions>
-                                            <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
-                                            <Bundle-Name>${project.name}</Bundle-Name>
-                                            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                                            <Bundle-Version>${bundle.full.version}</Bundle-Version>
-                                            <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-                                            <_snapshot>${osgi-version-qualifier}</_snapshot>
-                                            <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-                                            <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
-                                            <Include-Resource>{maven-resources},META-INF/LICENSE=LICENSE.txt</Include-Resource>
+                                            <Include-Resource>{maven-dependencies},{maven-resources},META-INF/LICENSE=LICENSE.txt</Include-Resource>
                                             <_removeheaders>Include-Resource,Private-Package,Ignore-Package</_removeheaders>
-                                            <_dsannotations>*</_dsannotations>
                                         </instructions>
-                                        <supportedProjectTypes>
-                                            <supportedProjectType>bundle</supportedProjectType>
-                                            <supportedProjectType>takari-jar</supportedProjectType>
-                                        </supportedProjectTypes>
                                     </configuration>
                                 </execution>
                                 <execution>
@@ -136,6 +119,14 @@
                                     </configuration>
                                 </execution>
                             </executions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-jar-plugin</artifactId>
+                            <configuration>
+                                <archive>
+                                    <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                                </archive>
+                            </configuration>
                         </plugin>
                         <plugin>
                             <groupId>io.takari.maven.plugins</groupId>
@@ -153,10 +144,22 @@
                     <plugin>
                         <groupId>org.apache.felix</groupId>
                         <artifactId>maven-bundle-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.takari.maven.plugins</groupId>
-                        <artifactId>takari-lifecycle-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>gen-bundle-manifest-out-of-eclipse</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>manifest</goal>
+                                </goals>
+                                <configuration>
+                                    <instructions>
+                                        <_dsannotations>*</_dsannotations>
+                                        <_metatypeannotations>*</_metatypeannotations>
+                                        <Permissions>all-permissions</Permissions>
+                                    </instructions>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -180,7 +183,7 @@
 
         <profile>
             <!-- profile used to setup a maven based bundle development projects -->
-            <!-- it is activated only when running m2e based build (inside 
+            <!-- it is activated only when running m2e based build (inside
                 eclipse IDE) -->
             <id>when-bundle-inside-eclipse</id>
             <activation>
@@ -196,12 +199,22 @@
             </properties>
             <dependencies>
                 <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi.core</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>osgi.cmpn</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
                 </dependency>
                 <dependency>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -220,10 +233,22 @@
                     <plugin>
                         <groupId>org.apache.felix</groupId>
                         <artifactId>maven-bundle-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.takari.maven.plugins</groupId>
-                        <artifactId>takari-lifecycle-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>gen-bundle-manifest-inside-of-eclipse</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>manifest</goal>
+                                </goals>
+                                <configuration>
+                                    <instructions>
+                                        <_dsannotations>*</_dsannotations>
+                                        <_metatypeannotations>*</_metatypeannotations>
+                                        <Permissions>all-permissions</Permissions>
+                                    </instructions>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
                 <pluginManagement>
@@ -236,32 +261,15 @@
                             <configuration>
                                 <unpackBundle>true</unpackBundle>
                                 <rebuildBundle>true</rebuildBundle>
-                                <obrRepository>NONE</obrRepository>
-                                <instructions>
-                                    <Permissions>all-permissions</Permissions>
-                                    <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
-                                    <Bundle-Name>${project.name}</Bundle-Name>
-                                    <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                                    <Bundle-Version>${bundle.full.version}</Bundle-Version>
-                                    <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-                                    <_snapshot>${osgi-version-qualifier}</_snapshot>
-                                    <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
-                                    <_dsannotations>*</_dsannotations>
-                                </instructions>
-                                <supportedProjectTypes>
-                                    <supportedProjectType>bundle</supportedProjectType>
-                                    <supportedProjectType>takari-jar</supportedProjectType>
-                                </supportedProjectTypes>
                             </configuration>
-                            <executions>
-                                <execution>
-                                    <id>bundle-manifest</id>
-                                    <phase>process-classes</phase>
-                                    <goals>
-                                        <goal>manifest</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-jar-plugin</artifactId>
+                            <configuration>
+                                <archive>
+                                    <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                                </archive>
+                            </configuration>
                         </plugin>
                         <plugin>
                             <groupId>io.takari.maven.plugins</groupId>
@@ -281,8 +289,7 @@
         </profile>
 
         <profile>
-            <!-- profile used to sign artifacts that will be released and 
-                deployed -->
+            <!-- profile used to sign bundles that will be released and deployed -->
             <id>sign-bundle</id>
             <activation>
                 <file>
@@ -294,19 +301,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jarsigner-plugin</artifactId>
@@ -330,45 +324,45 @@
         </profile>
 
         <profile>
-            <!-- profile used to setup projects that are aimed to generate 
-                an OSGi repository -->
-            <!-- it will be activated only when the project holds a .lunifera.releng.repoindex 
-                file -->
-            <id>whenIsOSGiRepository</id>
+            <!-- profile used to sign resources that will be released and
+                deployed -->
+            <id>sign-resources</id>
             <activation>
                 <file>
-                    <exists>.lunifera.releng.repoindex</exists>
+                    <missing>.lunifera.releng.root</missing>
                 </file>
+                <property>
+                    <name>lunifera.build.release</name>
+                </property>
             </activation>
-            <properties>
-                <jacoco.skip>true</jacoco.skip>
-                <license.skipAddThirdParty>true</license.skipAddThirdParty>
-                <license.skipCheckLicense>true</license.skipCheckLicense>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.lunifera.maven</groupId>
-                        <artifactId>repoindex-maven-plugin</artifactId>
-                        <configuration>
-                            <exportSourceDirectory>${project.build.directory}/repository</exportSourceDirectory>
-                            <exportTargetDirectory>${lunifera.stage.repository.local.dir}</exportTargetDirectory>
-                            <includeTransitive>false</includeTransitive>
-                            <buildLogFile>${basedir}/export.log</buildLogFile>
-                            <keepOldBuilds>${lunifera.stage.repository.keep.old}</keepOldBuilds>
-                            <rootDir>${project.build.directory}/repository</rootDir>
-                        </configuration>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>${gpg.keyname}</keyname>
+                                    <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
 
         <profile>
-            <!-- profile used to setup projects for OSGi bundle integration 
+            <!-- profile used to setup projects for OSGi bundle integration
                 tests based on Pax-Exam -->
-            <!-- it is activated only when the project contains a .lunifera.releng.itests 
-                file.
-                It requires that a lunifera.itests.framework property be explicitly 
+            <!-- it is activated only when the project contains a .lunifera.releng.itests
+                file. It requires that a lunifera.itests.framework property be explicitly
                 declared -->
             <id>whenIsIntegrationTestsProject</id>
             <activation>
@@ -442,7 +436,7 @@
                                     <project.version>${project.version}</project.version>
                                     <paxexam.version>${paxexam.version}</paxexam.version>
                                 </systemPropertyVariables>
-                                <!-- Specific to generate mapping between 
+                                <!-- Specific to generate mapping between
                                     tests and covered code -->
                                 <properties>
                                     <property>
@@ -454,9 +448,9 @@
                                         <value>org.sonar.java.jacoco.JUnitListener</value>
                                     </property>
                                 </properties>
-                                <!-- Let's put failsafe reports with surefire 
+                                <!-- Let's put failsafe reports with surefire
                                     to have access to tests failures/success reports in sonar -->
-                                <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                                <!-- <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory> -->
                             </configuration>
                             <executions>
                                 <execution>
@@ -596,9 +590,6 @@
                 <property>
                     <name>lunifera.build.release</name>
                 </property>
-                <!-- <file> -->
-                <!-- <exists>.lunifera.releng.bundle</exists> -->
-                <!-- </file> -->
             </activation>
             <!-- <reporting> -->
             <!-- <plugins> -->
@@ -644,7 +635,7 @@
         </profile>
 
         <profile>
-            <!-- profile used to generate source artifacts for bundles It 
+            <!-- profile used to generate source artifacts for bundles. It
                 is activated only for full buildings -->
             <id>bundle-source</id>
             <activation>
@@ -654,9 +645,6 @@
                 <property>
                     <name>lunifera.build.release</name>
                 </property>
-                <!-- <file> -->
-                <!-- <exists>.lunifera.releng.bundle</exists> -->
-                <!-- </file> -->
             </activation>
             <build>
                 <plugins>
@@ -713,13 +701,10 @@
         </profile>
 
         <profile>
-            <!-- This profile is used to setup a code coverage using Jacoco 
+            <!-- This profile is used to setup a code coverage using Jacoco
                 that will be sent for Sonar. -->
-            <id>codeCoverage-mbp</id>
+            <id>withTestCodeCoverage-mbp</id>
             <activation>
-                <file>
-                    <missing>.lunifera.releng.root</missing>
-                </file>
                 <property>
                     <name>lunifera.build.test.coverage</name>
                 </property>
@@ -750,12 +735,11 @@
                             <configuration>
                                 <failIfNoTests>false</failIfNoTests>
                                 <systemPropertyVariables>
-                                    <!-- <jacoco.agent.it.arg>${jacoco.agent.it.arg}</jacoco.agent.it.arg> -->
                                     <lunifera.itests.framework>${lunifera.itests.framework}</lunifera.itests.framework>
                                     <project.version>${project.version}</project.version>
                                     <paxexam.version>${paxexam.version}</paxexam.version>
                                 </systemPropertyVariables>
-                                <!-- Specific to generate mapping between 
+                                <!-- Specific to generate mapping between
                                     tests and covered code -->
                                 <properties>
                                     <property>
@@ -767,10 +751,6 @@
                                         <value>org.sonar.java.jacoco.JUnitListener</value>
                                     </property>
                                 </properties>
-                                <summaryFile></summaryFile>
-                                <!-- Let's put failsafe reports with surefire 
-                                    to have access to tests failures/success reports in sonar -->
-                                <!-- <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory> -->
                             </configuration>
                             <executions>
                                 <execution>
@@ -792,13 +772,55 @@
             </build>
             <dependencies>
                 <dependency>
-                    <groupId>org.codehaus.sonar-plugins.java</groupId>
+                    <groupId>org.sonarsource.java</groupId>
                     <artifactId>sonar-jacoco-listeners</artifactId>
                     <version>${sonar-jacoco-listeners.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>prepare-bundle-for-release</id>
+            <activation>
+                <property>
+                    <name>lunifera.build.release</name>
+                </property>
+                <file>
+                    <exists>.lunifera.releng.bundle</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <failFast>true</failFast>
+                            <fail>true</fail>
+                            <ignoreCache>true</ignoreCache>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check-required-properties</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <rules>
+                                        <requireProperty>
+                                            <property>lunifera.build.test.coverage</property>
+                                        </requireProperty>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
     <build>
@@ -827,6 +849,25 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>${mbp.version}</version>
                     <extensions>true</extensions>
+                    <configuration>
+                        <obrRepository>NONE</obrRepository>
+                        <instructions>
+                            <Bundle-DocURL>${project.url}</Bundle-DocURL>
+                            <Bundle-Vendor>Lunifera.org</Bundle-Vendor>
+                            <Bundle-Name>${project.name}</Bundle-Name>
+                            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                            <Bundle-Version>${bundle.full.version}</Bundle-Version>
+                            <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+                            <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+                            <_snapshot>${osgi-version-qualifier}</_snapshot>
+                            <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
+                        </instructions>
+                        <supportedProjectTypes>
+                            <supportedProjectType>bundle</supportedProjectType>
+                            <supportedProjectType>jar</supportedProjectType>
+                            <supportedProjectType>takari-jar</supportedProjectType>
+                        </supportedProjectTypes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>io.takari.maven.plugins</groupId>
@@ -835,8 +876,8 @@
                     <version>${takari.version}</version>
                     <configuration>
                         <proc>none</proc>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -844,13 +885,12 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
                     <configuration>
-                        <!-- Skips unit tests if the value of skip.unit.tests 
+                        <!-- Skips unit tests if the value of skip.unit.tests
                             property is true -->
                         <skipTests>${skip.unit.tests}</skipTests>
                         <includes>
                             <include>**/*UnitTest.java</include>
                             <include>**/*UT.java</include>
-                            <include>**/*Test.java</include>
                         </includes>
                         <excludes>
                             <exclude>**/*IntegrationTest.java</exclude>
@@ -863,7 +903,7 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
                     <configuration>
-                        <!-- Skips integration tests if the value of skip.integration.tests 
+                        <!-- Skips integration tests if the value of skip.integration.tests
                             property is true -->
                         <skipTests>${skip.integration.tests}</skipTests>
                         <includes>
