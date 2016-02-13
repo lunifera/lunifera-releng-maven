@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -22,7 +22,7 @@
 
     <artifactId>lunifera-releng-maven-fpom-felix</artifactId>
     <name>Fragment POM for Integration Tests with Felix container</name>
-    <description>A fragment POM that groups bundles provided Apache Felix OSGi container. 
+    <description>A fragment POM that groups bundles provided Apache Felix OSGi container.
     It is aimed to be imported by POMs of a distribution or integration tests projects.</description>
     <packaging>pom</packaging>
 
@@ -33,22 +33,24 @@
     </scm>
 
     <properties>
-        <felix.version>5.0.1</felix.version>
-        <felix.bundlerepository.version>2.0.4</felix.bundlerepository.version>
-        <felix.eventadmin.version>1.4.4</felix.eventadmin.version>
+        <felix.version>5.4.0</felix.version>
+        <felix.bundlerepository.version>2.0.6</felix.bundlerepository.version>
+        <felix.eventadmin.version>1.4.6</felix.eventadmin.version>
         <felix.configadmin.version>1.8.8</felix.configadmin.version>
-        <felix.scr.version>2.0.0</felix.scr.version>
-        <felix.coordinator.version>1.0.0</felix.coordinator.version>
+        <felix.scr.version>2.0.2</felix.scr.version>
+        <felix.coordinator.version>1.0.2</felix.coordinator.version>
         <felix.prefs.version>1.0.6</felix.prefs.version>
-        <felix.metatype.version>1.1.0</felix.metatype.version>
-        <felix.resolver.version>1.4.0</felix.resolver.version>
+        <felix.metatype.version>1.1.2</felix.metatype.version>
+        <felix.resolver.version>1.8.0</felix.resolver.version>
         <felix.log.version>1.0.1</felix.log.version>
-        <felix.fileinstall.version>3.5.0</felix.fileinstall.version>
+        <felix.fileinstall.version>3.5.2</felix.fileinstall.version>
         <felix.gogo.runtime.version>0.16.2</felix.gogo.runtime.version>
-        <felix.gogo.command.version>0.14.0</felix.gogo.command.version>
-        <felix.gogo.shell.version>0.11.0-lunifera</felix.gogo.shell.version>
-
+        <felix.gogo.command.version>0.16.0</felix.gogo.command.version>
+        <felix.gogo.shell.version>0.12.0</felix.gogo.shell.version>
+        <felix.dpadmin.version>0.9.10</felix.dpadmin.version>
+        <felix.dpadmin.conf.version>0.1.8</felix.dpadmin.conf.version>
     </properties>
+
 
     <build>
         <plugins>
@@ -72,6 +74,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.deploymentadmin</artifactId>
+                <version>${felix.dpadmin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.deployment.rp.autoconf</artifactId>
+                <version>${felix.dpadmin.conf.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.main</artifactId>
@@ -101,6 +113,12 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.scr</artifactId>
                 <version>${felix.scr.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>animal-sniffer-annotations</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -115,6 +133,10 @@
                     <exclusion>
                         <artifactId>org.osgi.compendium</artifactId>
                         <groupId>org.apache.felix</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -137,6 +159,12 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.metatype</artifactId>
                 <version>${felix.metatype.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>net.sf.kxml</groupId>
+                        <artifactId>kxml2</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -172,17 +200,14 @@
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.gogo.command</artifactId>
+                <version>${felix.gogo.command.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>
-                        org.apache.felix.gogo.runtime
-                    </artifactId>
+                        <artifactId>org.apache.felix.gogo.runtime</artifactId>
                         <groupId>org.apache.felix</groupId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>
-                        org.apache.felix.bundlerepository
-                    </artifactId>
+                        <artifactId>org.apache.felix.bundlerepository</artifactId>
                         <groupId>org.apache.felix</groupId>
                     </exclusion>
                     <exclusion>
@@ -194,20 +219,11 @@
                         <groupId>org.osgi</groupId>
                     </exclusion>
                 </exclusions>
-                <version>${felix.gogo.command.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.gogo.shell</artifactId>
                 <version>${felix.gogo.shell.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>
-                        org.apache.felix.gogo.runtime
-                    </artifactId>
-                        <groupId>org.apache.felix</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -216,54 +232,6 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.eventadmin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.configadmin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.fileinstall</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.coordinator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.prefs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.log</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.metatype</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.resolver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.bundlerepository</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.command</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.gogo.shell</artifactId>
         </dependency>
     </dependencies>
 </project>
