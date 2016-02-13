@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--#======================================================================= -->
-<!--# Copyright (c) 2012, 2015 Cristiano Gavião, Loetz KG. -->
+<!--# Copyright (c) 2012, 2016 Cristiano Gavião, Loetz KG. -->
 <!--# All rights reserved. This program and the accompanying materials -->
 <!--# are made available under the terms of the Eclipse Public License v1.0 -->
 <!--# which accompanies this distribution, and is available at -->
@@ -26,8 +26,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <tycho-version>0.23.0</tycho-version>
-        <tychoExtrasVersion>0.23.0</tychoExtrasVersion>
+        <tycho-version>0.24.0</tycho-version>
+        <tychoExtrasVersion>0.24.0</tychoExtrasVersion>
+        <xtend.maven.version>2.9.0</xtend.maven.version>
 
         <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit-site>
 
@@ -35,12 +36,13 @@
         <lunifera.build.platform.name>none</lunifera.build.platform.name>
         <lunifera.build.eclipse.platform.p2.url>none</lunifera.build.eclipse.platform.p2.url>
 
-        <!-- these will be set by profiles that deals with the local federated 
+        <!-- these will be set by profiles that deals with the local federated
             stage repository -->
         <lunifera.build.local.federated.p2.dir>${lunifera.stage.repository.root}</lunifera.build.local.federated.p2.dir>
         <lunifera.build.local.federated.p2.url>file://${lunifera.build.local.federated.p2.dir}</lunifera.build.local.federated.p2.url>
         <lunifera.build.remote.federated.p2.url>http://lun.lunifera.org/downloads/p2/lunifera/${lunifera.build.platform.name}${file.separator}${lunifera.build.branch}</lunifera.build.remote.federated.p2.url>
 
+        <rule.check>false</rule.check>
     </properties>
 
     <scm>
@@ -51,34 +53,6 @@
 
     <profiles>
         <profile>
-            <id>platform.default</id>
-            <activation>
-                <property>
-                    <name>!lunifera.build.platform.name</name>
-                    <!-- <value>luna</value> -->
-                </property>
-            </activation>
-            <properties>
-                <lunifera.build.platform.name>luna</lunifera.build.platform.name>
-                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna</lunifera.build.eclipse.platform.p2.url>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>platform.kepler</id>
-            <activation>
-                <property>
-                    <name>lunifera.build.platform.name</name>
-                    <value>kepler</value>
-                </property>
-            </activation>
-            <properties>
-                <lunifera.build.platform.name>kepler</lunifera.build.platform.name>
-                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/kepler</lunifera.build.eclipse.platform.p2.url>
-            </properties>
-        </profile>
-
-        <profile>
             <id>platform.luna</id>
             <activation>
                 <property>
@@ -88,7 +62,7 @@
             </activation>
             <properties>
                 <lunifera.build.platform.name>luna</lunifera.build.platform.name>
-                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/luna/201502271000/</lunifera.build.eclipse.platform.p2.url>
+                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/eclipse/updates/4.4/R-4.4.2-20150204170</lunifera.build.eclipse.platform.p2.url>
             </properties>
         </profile>
 
@@ -102,7 +76,21 @@
             </activation>
             <properties>
                 <lunifera.build.platform.name>mars</lunifera.build.platform.name>
-                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/releases/mars</lunifera.build.eclipse.platform.p2.url>
+                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/eclipse/updates/4.5/R-4.5.1-201509040015</lunifera.build.eclipse.platform.p2.url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>platform.neon</id>
+            <activation>
+                <property>
+                    <name>lunifera.build.platform.name</name>
+                    <value>mars</value>
+                </property>
+            </activation>
+            <properties>
+                <lunifera.build.platform.name>neon</lunifera.build.platform.name>
+                <lunifera.build.eclipse.platform.p2.url>http://download.eclipse.org/eclipse/updates/4.5-M-builds/M-4.5.2RC3-201602031000/</lunifera.build.eclipse.platform.p2.url>
             </properties>
         </profile>
 
@@ -155,9 +143,11 @@
                 <license.skipCheckLicense>true</license.skipCheckLicense>
                 <license.skipCheckLicense>true</license.skipCheckLicense>
 
-                <!-- this properties should be overridden for each repository 
+                <!-- this properties should be overridden for each repository
                     POM -->
                 <lunifera.stage.p2.label>${project.artifactId}</lunifera.stage.p2.label>
+
+                <rule.check>true</rule.check>
             </properties>
             <build>
                 <plugins>
@@ -196,11 +186,10 @@
         </profile>
 
         <profile>
-            <!-- profile used to setup integration 
-                tests projects based on Tycho-Surefire -->
-            <!-- it is activated only when the project contains a .lunifera.releng.itests 
-                file.
-            -->
+            <!-- profile used to setup integration tests projects based on
+                Tycho-Surefire -->
+            <!-- it is activated only when the project contains a .lunifera.releng.itests
+                file. -->
             <id>whenIsIntegrationTestsProject</id>
             <activation>
                 <file>
@@ -209,16 +198,10 @@
             </activation>
             <properties>
                 <argLine>-Xmx1024m</argLine>
+                <rule.check>true</rule.check>
             </properties>
             <dependencyManagement>
                 <dependencies>
-<!--                     <dependency> -->
-<!--                         <groupId>org.lunifera.releng.maven</groupId> -->
-<!--                         <artifactId>lunifera-releng-maven-fpom-node</artifactId> -->
-<!--                         <version>${lunifera.releng.version}</version> -->
-<!--                         <scope>import</scope> -->
-<!--                         <type>pom</type> -->
-<!--                     </dependency> -->
                     <dependency>
                         <groupId>org.lunifera.releng.maven</groupId>
                         <artifactId>lunifera-releng-maven-fpom-itests-tycho</artifactId>
@@ -246,7 +229,7 @@
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>whenIsRepositoryP2Project.stage.p2</id>
             <activation>
@@ -261,32 +244,10 @@
                 <lunifera.stage.p2.log.file.path>${project.basedir}${file.separator}build.${lunifera.stage.p2.label}.${lunifera.build.platform.name}.${lunifera.build.branch}.log.properties</lunifera.stage.p2.log.file.path>
                 <lunifera.stage.p2.origin.dir>${project.build.directory}${file.separator}repository</lunifera.stage.p2.origin.dir>
                 <lunifera.stage.p2.target.dir>${lunifera.stage.repository.local.dir}</lunifera.stage.p2.target.dir>
+                <rule.check>true</rule.check>
             </properties>
             <build>
                 <plugins>
-                <!-- waiting plugin release -->
-<!--                     <plugin> -->
-<!--                         <groupId>org.lunifera.maven</groupId> -->
-<!--                         <artifactId>repoindex-maven-plugin</artifactId> -->
-<!--                         <inherited>true</inherited> -->
-<!--                         <configuration> -->
-<!--                             <repositoryName>${lunifera.stage.p2.label}</repositoryName> -->
-<!--                         </configuration> -->
-<!--                         <executions> -->
-<!--                             <execution> -->
-<!--                                 <id>indexRepository</id> -->
-<!--                                 <goals> -->
-<!--                                     <goal>generateIndexFromFilesets</goal> -->
-<!--                                 </goals> -->
-<!--                                 <phase>package</phase> -->
-<!--                                 <inherited>true</inherited> -->
-<!--                                 <configuration> -->
-<!--                                     <rootDir>${project.build.directory}/repository/</rootDir> -->
-<!--                                     <fileSets>${project.build.directory}/repository/:**/plugins/*.jar</fileSets> -->
-<!--                                 </configuration> -->
-<!--                             </execution> -->
-<!--                         </executions> -->
-<!--                     </plugin> -->
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
@@ -376,22 +337,36 @@
                                         <groovy>
                                             ant.echo "Extracted building templates..."
 
-                                            def separator = "${properties['file.separator']}"
-                                            def directory = "${properties['project.build.directory']}" + separator + "templates" + separator
+                                            def
+                                            separator = "${properties['file.separator']}"
+                                            def directory =
+                                            "${properties['project.build.directory']}" +
+                                            separator +
+                                            "templates" + separator
 
                                             new File(directory).mkdir()
 
-                                            def encodedP2index = "${properties['encoded.p2index']}"
-                                            def encodedCompositeArtifacts = "${properties['encoded.compositeArtifacts']}"
-                                            def encodedCompositeContent = "${properties['encoded.compositeContent']}"
+                                            def
+                                            encodedP2index = "${properties['encoded.p2index']}"
+                                            def
+                                            encodedCompositeArtifacts =
+                                            "${properties['encoded.compositeArtifacts']}"
+                                            def
+                                            encodedCompositeContent =
+                                            "${properties['encoded.compositeContent']}"
 
                                             properties.p2indexFile = directory + "p2.index"
-                                            properties.compositeArtifactsFile = directory + "compositeArtifacts.xml"
-                                            properties.compositeContentFile = directory + "compositeContent.xml"
+                                            properties.compositeArtifactsFile = directory +
+                                            "compositeArtifacts.xml"
+                                            properties.compositeContentFile =
+                                            directory + "compositeContent.xml"
 
-                                            new FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
-                                            new FileOutputStream(properties.compositeArtifactsFile).write(encodedCompositeArtifacts.decodeBase64())
-                                            new FileOutputStream(properties.compositeContentFile).write(encodedCompositeContent.decodeBase64())
+                                            new
+                                            FileOutputStream(properties.p2indexFile).write(encodedP2index.decodeBase64())
+                                            new
+                                            FileOutputStream(properties.compositeArtifactsFile).write(encodedCompositeArtifacts.decodeBase64())
+                                            new
+                                            FileOutputStream(properties.compositeContentFile).write(encodedCompositeContent.decodeBase64())
 
                                         </groovy>
                                         <echo
@@ -462,7 +437,7 @@
                                         </if>
 
                                         <!-- deploy.generated.p2.to.composite.dir.clean -->
-                                        <!-- remove the latest built repository 
+                                        <!-- remove the latest built repository
                                             directory -->
                                         <if>
                                             <equals
@@ -505,7 +480,7 @@
                                                 </if>
                                             </then>
                                         </if>
-                                        <!-- remove an existent repository 
+                                        <!-- remove an existent repository
                                             directory -->
                                         <if>
                                             <available
@@ -525,7 +500,7 @@
                                         </if>
 
                                         <!-- deploy.generated.p2.to.composite.p2 -->
-                                        <!-- create the repository directory 
+                                        <!-- create the repository directory
                                             and copy files from the generated P2 -->
                                         <echo message="COPYING P2" />
                                         <if>
@@ -662,7 +637,7 @@
                                                     destbuffer="bufferCompositeContent">
                                                     <insert
                                                         path="/repository/children">
-						<![CDATA[ <child location='@{child}' /> ]]>
+            <![CDATA[ <child location='@{child}' /> ]]>
                                                     </insert>
                                                 </xmltask>
                                             </sequential>
@@ -698,7 +673,7 @@
                                                     destbuffer="bufferCompositeArtifacts">
                                                     <insert
                                                         path="/repository/children">
-						<![CDATA[ <child location='@{child}' /> ]]>
+            <![CDATA[ <child location='@{child}' /> ]]>
                                                     </insert>
                                                 </xmltask>
                                             </sequential>
@@ -784,65 +759,13 @@
         </profile>
 
         <profile>
-            <id>whenIsProductProject</id>
-            <activation>
-                <file>
-                    <exists>.lunifera.releng.eclipse.rcp</exists>
-                </file>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.eclipse.tycho</groupId>
-                            <artifactId>tycho-p2-director-plugin</artifactId>
-                            <version>${tycho-version}</version>
-                            <executions>
-                                <execution>
-                                    <!-- install the product for all configured 
-                                        os/ws/arch environments using p2 director -->
-                                    <id>materialize-products</id>
-                                    <goals>
-                                        <goal>materialize-products</goal>
-                                    </goals>
-                                </execution>
-                                <execution>
-                                    <!-- (optional) create product zips (one 
-                                        per os/ws/arch) -->
-                                    <id>archive-products</id>
-                                    <goals>
-                                        <goal>archive-products</goal>
-                                    </goals>
-                                    <phase>pre-integration-test</phase>
-                                </execution>
-                            </executions>
-                            <configuration>
-                                <formats>
-                                    <win32>zip</win32>
-                                    <linux>tar.gz</linux>
-                                    <macosx>tar.gz</macosx>
-                                </formats>
-                                <products>
-                                    <product>
-                                        <id>${project.artifactId}</id>
-                                        <!-- <archiveFileName>Equinox-Luna-Standard-Node-${unqualifiedVersion}.${buildQualifier}</archiveFileName> -->
-                                        <!-- (optional) customize the root 
-                                            folder name of the product zip -->
-                                        <!-- <rootFolder>myServer</rootFolder> -->
-                                    </product>
-                                </products>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <profile>
             <id>prepare-for-next-release</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <properties>
+                <rule.check>true</rule.check>
+            </properties>
             <build>
                 <defaultGoal>org.eclipse.tycho:tycho-versions-plugin:set-version</defaultGoal>
                 <plugins>
@@ -866,7 +789,7 @@
             </build>
         </profile>
         <profile>
-            <!-- This profile is used to setup a code coverage using Jacoco 
+            <!-- This profile is used to setup a code coverage using Jacoco
                 that will be sent for Sonar. -->
             <id>codeCoverage-tycho</id>
             <activation>
@@ -879,6 +802,7 @@
             </activation>
             <properties>
                 <argLine>-Xmx1024m</argLine>
+                <rule.check>true</rule.check>
             </properties>
             <build>
                 <pluginManagement>
@@ -893,7 +817,7 @@
                                 <useUIThread>false</useUIThread>
                                 <failIfNoTests>false</failIfNoTests>
                                 <!-- <appArgLine>-Dfile.encoding=UTF-8</appArgLine> -->
-                                <!-- Kill test JVM if tests take more than 
+                                <!-- Kill test JVM if tests take more than
                                     10 minutes (600 seconds) to finish -->
                                 <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
                                 <providerProperties>
@@ -901,7 +825,7 @@
                                 </providerProperties>
                             </configuration>
                             <dependencies>
-                                <!-- TODO - this listener is not a bundle, 
+                                <!-- TODO - this listener is not a bundle,
                                     so it can't run inside the Equinox -->
                                 <!-- <dependency> -->
                                 <!-- <groupId>org.codehaus.sonar-plugins.java</groupId> -->
@@ -914,7 +838,7 @@
                 </pluginManagement>
             </build>
         </profile>
-     </profiles>
+    </profiles>
 
     <repositories>
         <repository>
@@ -933,6 +857,35 @@
         <sourceDirectory>src</sourceDirectory>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-property</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireProperty>
+                                    <property>lunifera.build.platform.name</property>
+                                    <message>You must set a
+                                        lunifera.build.platform.name
+                                        property!</message>
+                                    <regex>(luna|mars|neon)</regex>
+                                    <regexMessage>The
+                                        lunifera.build.platform.name
+                                        property must be
+                                        luna or mars or neon.</regexMessage>
+                                </requireProperty>
+                            </rules>
+                            <fail>${rule.check}</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-maven-plugin</artifactId>
@@ -1005,7 +958,7 @@
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-p2-plugin</artifactId>
                     <version>${tycho-version}</version>
-                </plugin>                
+                </plugin>
                 <plugin>
                     <groupId>org.eclipse.tycho.extras</groupId>
                     <artifactId>tycho-source-feature-plugin</artifactId>
@@ -1028,7 +981,7 @@
                         <useUIHarness>false</useUIHarness>
                         <useUIThread>false</useUIThread>
                         <failIfNoTests>false</failIfNoTests>
-                        <!-- Kill test JVM if tests take more than 10 minutes 
+                        <!-- Kill test JVM if tests take more than 10 minutes
                             (600 seconds) to finish -->
                         <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
                     </configuration>
@@ -1054,14 +1007,9 @@
                     <version>${tychoExtrasVersion}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.lunifera.maven</groupId>
-                    <artifactId>repoindex-maven-plugin</artifactId>
-                    <version>0.2.1-SNAPSHOT</version>
-                </plugin>
-                <plugin>
                     <groupId>org.eclipse.xtend</groupId>
                     <artifactId>xtend-maven-plugin</artifactId>
-                    <version>2.7.3</version>
+                    <version>${xtend.maven.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
